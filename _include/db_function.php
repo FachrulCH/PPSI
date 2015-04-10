@@ -144,6 +144,26 @@ function get_db_param($name){
     return $json;
 }
 
+function seqid_generate($sq){
+    //increment
+    $sqlInc     = "UPDATE tb_seq t SET t.seq_val = t.seq_val+1 where t.seq_name = '{$sq}';";
+    $doInc      = good_query($sqlInc);
+    //ambil value terahir
+    $sqlVal     = "select t.seq_val,t.seq_prefix from tb_seq t where t.seq_name = '{$sq}';";
+    $lastVal    = good_query_assoc($sqlVal);
+    $lastVal    = $lastVal['seq_prefix'] . $lastVal['seq_val'];
+    return $lastVal; 
+}
+
+function seqid_getlast($sq){
+    //ambil value terahir
+    $sqlVal     = "select t.seq_val,t.seq_prefix from tb_seq t where t.seq_name = '{$sq}';";
+    $lastVal    = good_query_assoc($sqlVal);
+    $lastVal    = $lastVal['seq_prefix'] . $lastVal['seq_val'];
+    return $lastVal; 
+}
+
+
 $dbhost='localhost';
 $dbname='db_temanbackpacker';
 $dbuser='root';
