@@ -15,8 +15,18 @@ echo "<hr/>";
 foreach($json->transportasi as $value) {
     echo $value->id . ", " . $value->name . "<br>";
   }*/
-$json = get_db_param('transportasi');
+/*$json = get_db_param('transportasi');
 foreach($json->transportasi as $value) {
         echo $value->id . ", " . $value->name . "<br>";
-    }
+    }*/
+
+/*generate ID*/
+/*echo seqid_getlast('sq_trip')."<br>";
+echo seqid_generate('sq_trip')."<br>";
+echo seqid_getlast('sq_trip')."<br>";
+$i = 0;
+while ($i < 100){
+	echo seqid_generate('sq_trip')."<br>";
+	$i++;
+}*/
 ?>

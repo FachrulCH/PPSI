@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2015 at 05:24 PM
+-- Generation Time: Apr 10, 2015 at 10:08 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
   `parameter_id` int(11) NOT NULL AUTO_INCREMENT,
   `parameter_name` varchar(50) NOT NULL,
   `parameter_desc` text NOT NULL,
-  PRIMARY KEY (`parameter_id`)
+  PRIMARY KEY (`parameter_id`),
+  KEY `parameter_name` (`parameter_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
 --
 
 INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
-(1, 'status_trip', '{"status_trip":[\r\n    {"id":"1", "name":"Open Trip"}, \r\n    {"id":"2", "name":"Share Cost"}, \r\n    {"id":"3", "name":"Travel"}\r\n]}'),
+(1, 'status_trip', '{"status_trip":[\r\n{"id":"1", "name":"Wisata Kota"}, \r\n{"id":"2", "name":"Wisata Alam"}, \r\n{"id":"3", "name":"Wisata Kuliner"},\r\n{"id":"4", "name":"Wisata Sejarah"},\r\n{"id":"5", "name":"Backpacking"}\r\n]}'),
 (2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
 
 -- --------------------------------------------------------
@@ -69,7 +70,9 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
   `pengalaman_judul` varchar(150) DEFAULT NULL,
   `pengalaman_detail` varchar(150) DEFAULT NULL,
   `pengalaman_galeri` tinyint(4) DEFAULT NULL,
-  `pengalaman_status` char(1) DEFAULT NULL
+  `pengalaman_status` char(1) DEFAULT NULL,
+  KEY `FK_pengalaman_user` (`pengalaman_user_id`),
+  KEY `Idx_pengalaman_id` (`pengalaman_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -82,8 +85,32 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman_komentar` (
   `koment_pengalaman_id` int(11) DEFAULT NULL,
   `koment_user_id` int(11) DEFAULT NULL,
   `koment_date` int(11) DEFAULT NULL,
-  `koment_isi` int(11) DEFAULT NULL
+  `koment_isi` int(11) DEFAULT NULL,
+  KEY `FK_pengalaman_id` (`koment_pengalaman_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_seq`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_seq` (
+  `seq_id` int(11) NOT NULL,
+  `seq_name` varchar(50) NOT NULL,
+  `seq_prefix` int(11) NOT NULL,
+  `seq_val` int(11) NOT NULL,
+  PRIMARY KEY (`seq_id`),
+  KEY `seq_name` (`seq_name`),
+  KEY `seq_name_2` (`seq_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_seq`
+--
+
+INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
+(1, 'sq_trip', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -181,7 +208,20 @@ INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `u
 -- Constraints for table `tb_chat`
 --
 ALTER TABLE `tb_chat`
+  ADD CONSTRAINT `FK_chat_trip` FOREIGN KEY (`chat_trip_id`) REFERENCES `tb_trip` (`trip_id`),
   ADD CONSTRAINT `FK_tb_chat_tb_user` FOREIGN KEY (`chat_sender`) REFERENCES `tb_user` (`user_id`);
+
+--
+-- Constraints for table `tb_pengalaman`
+--
+ALTER TABLE `tb_pengalaman`
+  ADD CONSTRAINT `FK_pengalaman_user` FOREIGN KEY (`pengalaman_user_id`) REFERENCES `tb_user` (`user_id`);
+
+--
+-- Constraints for table `tb_pengalaman_komentar`
+--
+ALTER TABLE `tb_pengalaman_komentar`
+  ADD CONSTRAINT `FK_pengalaman_id` FOREIGN KEY (`koment_pengalaman_id`) REFERENCES `tb_pengalaman` (`pengalaman_id`);
 
 --
 -- Constraints for table `tb_trip`
@@ -199,6 +239,7 @@ ALTER TABLE `tb_trip_galeri`
 -- Constraints for table `tb_trip_member`
 --
 ALTER TABLE `tb_trip_member`
+  ADD CONSTRAINT `FK_tb_trip` FOREIGN KEY (`member_trip_id`) REFERENCES `tb_trip` (`trip_id`),
   ADD CONSTRAINT `FK_tb_trip_member_tb_user` FOREIGN KEY (`member_user_id`) REFERENCES `tb_user` (`user_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
