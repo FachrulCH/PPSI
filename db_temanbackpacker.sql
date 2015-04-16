@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2015 at 10:08 PM
+-- Generation Time: Apr 16, 2015 at 08:20 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_temanbackpacker`
 --
+DROP DATABASE `db_temanbackpacker`;
+CREATE DATABASE `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `db_temanbackpacker`;
 
 -- --------------------------------------------------------
 
@@ -26,6 +29,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `tb_chat`
 --
 
+DROP TABLE IF EXISTS `tb_chat`;
 CREATE TABLE IF NOT EXISTS `tb_chat` (
   `chat_trip_id` int(11) NOT NULL,
   `chat_sender` int(11) NOT NULL,
@@ -42,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `tb_chat` (
 -- Table structure for table `tb_parameter`
 --
 
+DROP TABLE IF EXISTS `tb_parameter`;
 CREATE TABLE IF NOT EXISTS `tb_parameter` (
   `parameter_id` int(11) NOT NULL AUTO_INCREMENT,
   `parameter_name` varchar(50) NOT NULL,
@@ -54,9 +59,8 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
 -- Dumping data for table `tb_parameter`
 --
 
-INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
-(1, 'status_trip', '{"status_trip":[\r\n{"id":"1", "name":"Wisata Kota"}, \r\n{"id":"2", "name":"Wisata Alam"}, \r\n{"id":"3", "name":"Wisata Kuliner"},\r\n{"id":"4", "name":"Wisata Sejarah"},\r\n{"id":"5", "name":"Backpacking"}\r\n]}'),
-(2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
+INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES(1, 'status_trip', '{"status_trip":[\r\n{"id":"1", "name":"Wisata Kota"}, \r\n{"id":"2", "name":"Wisata Alam"}, \r\n{"id":"3", "name":"Wisata Kuliner"},\r\n{"id":"4", "name":"Wisata Sejarah"},\r\n{"id":"5", "name":"Backpacking"}\r\n]}');
+INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES(2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
 
 -- --------------------------------------------------------
 
@@ -64,6 +68,7 @@ INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) 
 -- Table structure for table `tb_pengalaman`
 --
 
+DROP TABLE IF EXISTS `tb_pengalaman`;
 CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
   `pengalaman_id` int(11) DEFAULT NULL,
   `pengalaman_user_id` int(11) DEFAULT NULL,
@@ -81,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
 -- Table structure for table `tb_pengalaman_komentar`
 --
 
+DROP TABLE IF EXISTS `tb_pengalaman_komentar`;
 CREATE TABLE IF NOT EXISTS `tb_pengalaman_komentar` (
   `koment_pengalaman_id` int(11) DEFAULT NULL,
   `koment_user_id` int(11) DEFAULT NULL,
@@ -95,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman_komentar` (
 -- Table structure for table `tb_seq`
 --
 
+DROP TABLE IF EXISTS `tb_seq`;
 CREATE TABLE IF NOT EXISTS `tb_seq` (
   `seq_id` int(11) NOT NULL,
   `seq_name` varchar(50) NOT NULL,
@@ -109,8 +116,7 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
 -- Dumping data for table `tb_seq`
 --
 
-INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-(1, 'sq_trip', 1, 1);
+INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES(1, 'sq_trip', 1, 13);
 
 -- --------------------------------------------------------
 
@@ -118,8 +124,9 @@ INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
 -- Table structure for table `tb_trip`
 --
 
+DROP TABLE IF EXISTS `tb_trip`;
 CREATE TABLE IF NOT EXISTS `tb_trip` (
-  `trip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `trip_id` int(11) NOT NULL,
   `trip_user_id` int(11) NOT NULL,
   `trip_judul` varchar(50) DEFAULT NULL,
   `trip_tujuan` varchar(100) DEFAULT NULL,
@@ -134,7 +141,14 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_meeting_point` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`trip_id`),
   KEY `FK_tb_trip_tb_user` (`trip_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_trip`
+--
+
+INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`) VALUES(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, 'kategori', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt');
+INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`) VALUES(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', -6.258244, 106.977183, '2', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta');
 
 -- --------------------------------------------------------
 
@@ -142,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
 -- Table structure for table `tb_trip_galeri`
 --
 
+DROP TABLE IF EXISTS `tb_trip_galeri`;
 CREATE TABLE IF NOT EXISTS `tb_trip_galeri` (
   `galeri_trip_id` int(11) NOT NULL,
   `galeri_foto_url` varchar(100) DEFAULT NULL,
@@ -156,13 +171,20 @@ CREATE TABLE IF NOT EXISTS `tb_trip_galeri` (
 -- Table structure for table `tb_trip_member`
 --
 
+DROP TABLE IF EXISTS `tb_trip_member`;
 CREATE TABLE IF NOT EXISTS `tb_trip_member` (
   `member_trip_id` int(11) NOT NULL,
-  `member_user_id` int(11) DEFAULT NULL COMMENT 'a: ijin join | b: telah join | c: batal |  d: kabur',
-  `member_status` char(1) DEFAULT NULL,
+  `member_user_id` int(11) DEFAULT NULL,
+  `member_status` char(1) DEFAULT NULL COMMENT 'A: host | B: ijin join | C: udah join |  D: cancel | E: kabur',
   PRIMARY KEY (`member_trip_id`),
   KEY `FK_tb_trip_member_tb_user` (`member_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_trip_member`
+--
+
+INSERT INTO `tb_trip_member` (`member_trip_id`, `member_user_id`, `member_status`) VALUES(110, 1, 'A');
 
 -- --------------------------------------------------------
 
@@ -170,6 +192,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
 -- Table structure for table `tb_user`
 --
 
+DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE IF NOT EXISTS `tb_user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
@@ -197,8 +220,7 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_cover`, `user_fb`, `user_twitter`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_lastlogin`, `user_ip`) VALUES
-(1, 'FachrulCH', 'fachrul.fch@gmail.com', 'fachrul', 'Jakarta', 'L', '2015-04-06', 'user1.jpg', 'cover1.jpg', 'fachrul.fch', 'fachrulCH', '2015-04-06 03:07:29', 'Info si ALu', -6.2170638, 106.82639139999999, NULL, NULL);
+INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_cover`, `user_fb`, `user_twitter`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_lastlogin`, `user_ip`) VALUES(1, 'FachrulCH', 'fachrul.fch@gmail.com', 'fachrul', 'Jakarta', 'L', '2015-04-06', 'user1.jpg', 'cover1.jpg', 'fachrul.fch', 'fachrulCH', '2015-04-06 03:07:29', 'Info si ALu', -6.2170638, 106.82639139999999, NULL, NULL);
 
 --
 -- Constraints for dumped tables

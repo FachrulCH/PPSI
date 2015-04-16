@@ -3,6 +3,10 @@
 include_once "_include/db_function.php";
 include_once "_include/template.php";
 
+
+seqid_generate('sq_trip');
+$trip_id = seqid_getlast('sq_trip');
+$_SESSION['trip_id'] = $trip_id;
 ?>
 <!doctype html>
 <html>
@@ -41,9 +45,11 @@ include_once "_include/template.php";
 
           $("#t_tujuan").geocomplete({
 			details: "#hasil"
-
         	});
+          	var lokasi = $("#lokasi").html();
+			$("#lokasi2").val(lokasi);
       });
+
   	</script>
 
 
@@ -56,10 +62,7 @@ include_once "_include/template.php";
 			font-size: 10px;
 			margin: -15px 0px 5px 0px;
 		}
-		#lokasi{
-			font-size: 11px;
-		}
-
+		
 	</style>
 	<script src="js/jquery.ui.datepicker.js"></script>
     <script id="mobile-datepicker" src="js/jquery.mobile.datepicker.js"></script>
@@ -81,7 +84,7 @@ include_once "_include/template.php";
 		<h3>Buat Rencana Perjalanan</h3>
 		</div>
 		<div class="ui-body ui-body-a">
-		<form action="save_perjalanan.php" method="post" data-ajax="false">
+		<form action="perjalanan_simpan.php" method="post" data-ajax="false">
 			<ul data-role="listview" data-inset="true">
 				<li class="ui-field-contain">
 				<label for="t_judul">Judul Trip:</label>
@@ -92,16 +95,18 @@ include_once "_include/template.php";
 				<label for="t_tujuan">Kota Tujuan:</label>
 					<input type="text" name="t_tujuan" id="t_tujuan" value="" data-clear-btn="true">
 				</li>
-				<li>
+				<li class="ui-field-contain">
+				<label for="lokasi">Provinsi:</label>
 				<div id="hasil"> 
 					<input name="location" type="hidden" value="">
-					<span name="formatted_address" id="lokasi"></span>
+					<input name="formatted_address" type="hidden" value="" id="lokasi2">
+					<span name="administrative_area_level_1" id="lokasi"></span>
 				</div>	
 				</li>
 				
 				<li class="ui-field-contain">
 				
-				<label for="s_status_trip">Jenis Trip:</label>
+				<label for="s_status_trip">Kategori Trip:</label>
 				<select name="s_status_trip" id="s_status_trip" data-mini="true">
 					<option value=""></option>
 <?php

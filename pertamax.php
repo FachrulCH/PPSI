@@ -1,5 +1,37 @@
 <?php
 include_once "_include/db_function.php";
+include_once "_include/trip.php";
+
+// tes join parameter
+/* $json = get_db_param('transportasi');
+echo "<pre>";
+	print_r($json->transportasi[0]->name);
+echo "</pre>"; */
+
+/* foreach($json->transportasi as $value) {
+	echo "<option value='".$value->id."'>" . $value->name . "</option>";
+} */
+
+// Tes trip_cek_status_user
+//print_r (trip_cek_status_user(1));
+
+// tes fungsi
+/* $_SESSION['user_id'] = 'joko';
+unset($_SESSION['user_id']);
+echo trip_cek_status_user();
+ */
+/* $var = ' ';
+echo nullkah($var);
+echo is_null($var); */
+// cara menampilkan data trip
+/* $row = trip_get_by_id(110);
+print_r($row);
+
+echo "<hr/>";
+echo "trip_judul :=> ".$row['trip_judul'];
+ */
+
+
 /*$sql = "SELECT * FROM tb_parameter WHERE parameter_id = 2";
 $doSql = good_query_assoc($sql);
 $json = json_decode($doSql["parameter_desc"]);
@@ -29,4 +61,11 @@ while ($i < 100){
 	echo seqid_generate('sq_trip')."<br>";
 	$i++;
 }*/
+
+/* $lokasi = '-6.23827,106.975573';
+$lokasi = explode(',', $lokasi);
+
+print_r($lokasi);
+ */
+
 ?>

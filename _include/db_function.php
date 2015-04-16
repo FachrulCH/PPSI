@@ -1,4 +1,6 @@
 <?php
+include_once 'fungsi.php';
+
 function good_query($string, $debug=0)
 {
     if ($debug == 1)
@@ -69,7 +71,6 @@ function good_query_table($sql, $debug=0)
     mysql_free_result($result);
     return $table;
 }
-
 
 // mysql connecting and disconnecting 
 function good_connect($host, $user, $pwd, $db)
@@ -163,6 +164,15 @@ function seqid_getlast($sq){
     return $lastVal; 
 }
 
+function amankan($input){
+	$input = htmlspecialchars($input);
+	$input = mysql_real_escape_string($input);
+	return $input;
+}
+
+function session_cek(){
+	if (!isset($_SESSION)) { session_start(); }
+}
 
 $dbhost='localhost';
 $dbname='db_temanbackpacker';
@@ -170,6 +180,8 @@ $dbuser='root';
 $dbpass='';
 
 $db = good_connect($dbhost,$dbuser,$dbpass,$dbname);
-$statuskoneksi = "Bisa konek ke DB";
+$statuskoneksi = "connected"; 
+
+session_cek();
 
 ?>
