@@ -1,7 +1,12 @@
 <?php
 include_once "_include/db_function.php";
 include_once "_include/trip.php";
+include_once '_include/template.php';
 
+$trip_id = '110';
+Tmplt_comment_trip1($trip_id);
+
+//echo URLSITUS;
 // tes join parameter
 /* $json = get_db_param('transportasi');
 echo "<pre>";
@@ -69,3 +74,13 @@ print_r($lokasi);
  */
 
 ?>
+
+<?php 
+/* //Testing chat save tanya
+$_SESSION['user_id'] = 1;
+ */?>
+<!-- <form action ="ajax.php?do=tanya" method="post">
+<input type="text" name="i">
+<input type="text" name="pertanyaan">
+<input type="submit">
+</form> -->

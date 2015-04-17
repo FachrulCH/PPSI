@@ -1,5 +1,9 @@
 <?php
+// template di include di bawah:
+//db_function.php -> trip.php
+
 function get_meta($title=null){
+echo "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>";
 echo '
 	<title>'.$title.'</title>
 	<meta charset="utf-8">
@@ -59,5 +63,50 @@ function get_footer(){
 	</div><!-- /footer -->
 
 	';
+}
+
+function Tmplt_button_user($user_status){
+	if ($user_status == 'A'){
+		// Klo user nya adalah host
+		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="#" class="ui-btn ui-icon-user ui-btn-icon-right">Diskusi</a>
+			<a href="#" class="ui-btn ui-icon-gear ui-btn-icon-right">Manage member</a>';
+	}elseif ($user_status == 'B'){
+		// Status B => Ijin join
+		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Tanya</a>
+			<a href="#" class="ui-btn ui-icon-plus ui-btn-icon-right">Ijin Gabung</a>';
+	}elseif ($user_status == 'C'){
+		// Status user C => udah join
+		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="#" class="ui-btn ui-icon-user ui-btn-icon-right">Diskusi</a>
+			<a href="#" class="ui-btn ui-icon-minus ui-btn-icon-right">Batal Gabung</a>';
+	}else{
+		// Selain semuanya, alias member umum
+		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Tanya</a>
+			<a href="#" class="ui-btn ui-icon-plus ui-btn-icon-right">Ijin Gabung</a>';
+	}
+		
+}
+
+function Tmplt_comment_trip1($trip_id){
+	$data = Trip_get_tanya($trip_id);
+	while ($d = mysql_fetch_array($data)){
+	echo'<li>
+			<img src="_gambar/user/3.jpg">
+			<strong>'.$d['user_name'].'</strong>
+			<hr/>
+			<p>'.$d['chat_mesej'].'</p>
+			<p class="ui-li-aside">'.$d['chat_date'].'</p>
+		</li>';
+	}
+	/* foreach ($data as $d) {
+			echo'<li>
+			<img src="_gambar/user/3.jpg">
+			<strong>'.$d['user_name'].'</strong>
+			<hr/>
+			<p>'.$d['chat_mesej'].'</p>
+			<p class="ui-li-aside">'.$d['chat_date'].'</p>
+		</li>';
+	} */
 }
 ?>

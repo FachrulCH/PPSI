@@ -4,4 +4,11 @@ function nvl($var,$rep){
 	$var =  isset($var) ? $var : $rep;
 	return $var;
 }
+
+function html_price($num) {
+
+	$output = "Rp ".number_format($num, 0, '', '.').",-";
+
+	return $output;
+}
 ?>

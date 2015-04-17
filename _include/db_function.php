@@ -130,12 +130,6 @@ function good_affected($notused = 0)
     return mysql_affected_rows();
 }
 
-function html_price($num) {
-
-    $output = "Rp ".number_format($num, 0, '', '.').",-";
-    
-    return $output;
-}
 
 function get_db_param($name){
     $sql = "SELECT * FROM tb_parameter WHERE parameter_name ='{$name}'";
@@ -174,12 +168,19 @@ function session_cek(){
 	if (!isset($_SESSION)) { session_start(); }
 }
 
-$dbhost='localhost';
+define("URLSITUS", "http://localhost:8080/PPSI/"); // ==> URL web nya, buat <a href> 
+
+define("DBHOST", "localhost");
+define("DBNAME", "db_temanbackpacker");
+define("DBUSER", "root");
+define("DBPASS", "");
+
+/* $dbhost='localhost';
 $dbname='db_temanbackpacker';
 $dbuser='root';
-$dbpass='';
+$dbpass=''; */
 
-$db = good_connect($dbhost,$dbuser,$dbpass,$dbname);
+$db = good_connect(DBHOST,DBUSER,DBPASS,DBNAME);
 $statuskoneksi = "connected"; 
 
 session_cek();

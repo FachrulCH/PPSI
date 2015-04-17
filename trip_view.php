@@ -100,7 +100,7 @@ $user_id = $_SESSION['user_id'];
 		<!-- End Carousel -->
 		<fieldset data-role="controlgroup" data-type="horizontal" class="ketengah">
 <?php 
-		Trip_button_user($user_id);
+		Tmplt_button_user(Trip_cek_status_user($user_id));
 ?>
 		</fieldset>
 		
@@ -134,10 +134,16 @@ $user_id = $_SESSION['user_id'];
 		</div>
 		
 		<div class="ui-body ui-body-a">
-			<textarea cols="40" rows="8" name="textarea" id="Ttanya"></textarea>
-			<button class="ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-edit">Tanya</button>
+			<form id="tanyajawab">
+				<textarea cols="40" rows="8" name="t_tanya" id="Ttanya"></textarea>
+				<button class="ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-edit" id="btn_tanya">Tanya</button>
+			</form>
 		<ul data-role="listview" data-inset="true">
-	    <li>
+<?php 
+		Tmplt_comment_trip1($trip_id);
+
+?>
+		<!-- <li>
 			<img src="_gambar/user/3.jpg">
 			<strong>Orang 1</strong>
 			<hr/>
@@ -162,13 +168,13 @@ $user_id = $_SESSION['user_id'];
 			<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
 			Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
 			<p class="ui-li-aside">Kemarin, <strong>16:10</strong></p>
-		</li>
+		</li> -->
 		</ul>
 		
 		<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ketengah">
-		    <a href="#" class="ui-shadow ui-btn ui-btn-icon-">1</a>
-			<a href="#" class="ui-shadow ui-btn ui-btn-icon-">2</a>
-		    <a href="#" class="ui-shadow ui-btn ui-btn-icon-">3</a>
+		    <a href="#" class="ui-btn">1</a>
+			<a href="#" class="ui-btn">2</a>
+		    <a href="#" class="ui-btn">3</a>
 		</div>
 		
 		</div>
@@ -180,6 +186,48 @@ $user_id = $_SESSION['user_id'];
 		<div class="ui-body ui-body-a">
 			<img src="_gambar/user/3.jpg" width="80px"> <img src="_gambar/user/3.jpg" width="80px"> <img src="_gambar/user/3.jpg" width="80px"> <img src="_gambar/user/3.jpg" width="80px"> <img src="_gambar/user/3.jpg" width="80px"> 
 		</div>
+		<script type="text/javascript">
+	        $('#btn_tanya').on('click', function(){
+		        var pertanyaan 	= $('#Ttanya').val();
+		        //console.log(pertanyaan);
+		    if (pertanyaan.length > 0){ 
+		        $.ajax({
+		        	type: 'post',
+			        url: 'ajax.php?do=tanya',
+			        data: 'i='+<?= $trip_id ?>+'&pertanyaan='+pertanyaan, // data yg dikirimkan
+			        async: 'true',
+			        dataType: 'json',
+			        beforeSend: function() {
+	                // menampilkan loading spiner sebelum data dikirim
+	                    $.mobile.loading( "show", {text: "Mohon tunggu",textVisible: true}); 
+	                },
+	                complete: function() {
+	                // menyembunyikan loading spiner sebelum data dikirim
+	                    $.mobile.loading("hide");
+	                },
+			        success: function(result){
+						if (result.status){
+	        				alert(result.pesan);
+	        				console.log(result.v);
+						}else{
+							alert('error dikit');
+						}
+			        	console.log(result);
+			        },
+			        error: function (request,error) {
+	                	// This callback function will trigger on unsuccessful action                
+	                	alert('Network bermasalah, silahkan coba lagi!');
+	                	console.log(error)
+	                }
+	
+			        });
+		    }else{
+	        	alert('Isikan komentar anda');
+		    }
+		    return false; // cancel original event to prevent form submitting
+	        });
+	        
+        </script>
 	</article><!-- /content -->
 	<?php
 		get_footer();

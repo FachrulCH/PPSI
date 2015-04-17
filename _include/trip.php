@@ -37,7 +37,9 @@ function trip_get_by_id($trip_id){
 	// escape html and real escape
 	$trip_id = amankan($trip_id);
 	
-	$sql = "SELECT * FROM tb_trip WHERE trip_id = '{$trip_id}' LIMIT 1";
+	$sql = "SELECT * 
+			FROM tb_trip 
+			WHERE trip_id = '{$trip_id}' LIMIT 1";
 	$data = good_query_assoc($sql);
 	return $data;
 }
@@ -55,7 +57,7 @@ function Trip_cek_status_user($id){
 	return $sqlStatus;
 }
 
-function Trip_button_user($id){
+/*function Trip_button_user($id){
 	$user_status = Trip_cek_status_user($id);
 	
 	if ($user_status == 'A'){
@@ -78,7 +80,7 @@ function Trip_button_user($id){
 			<a href="#" class="ui-btn ui-icon-plus ui-btn-icon-right">Ijin Gabung</a>';
 	}
 		
-}
+}*/
 
 function Trip_count_member_joined($trip_id){
 	$sql = "SELECT count(1) as jumlah
@@ -92,5 +94,18 @@ function Trip_count_member_joined($trip_id){
 function Trip_kategori_view($id){
 	$json = get_db_param('status_trip');
 	return $json->status_trip[$id]->name;	
+}
+
+function Trip_get_tanya($trip_id){
+	$trip_id = (int) $trip_id;
+	
+	$sql = "SELECT B.user_name, A.chat_mesej, A.chat_date, B.user_foto
+			FROM tb_chat A, tb_user B
+			WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
+			ORDER BY A.chat_date DESC
+			LIMIT 0,5";
+	
+	$sqlSelect = good_query($sql);
+	return $sqlSelect;
 }
 ?>
