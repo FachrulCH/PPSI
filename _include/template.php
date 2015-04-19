@@ -110,7 +110,7 @@ function Tmplt_comment_trip1($trip_id){
 		<img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
 	<div class="usr">'.$d['user_name'].'</div>
 	<div>
-		<span class="usrHdr">'.$d['chat_date'].'</span>';
+		<span class="usrHdr"><abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
 	// klo user login yg punya post, user itu bisa edit
 	if ($d['chat_sender'] == @$_SESSION['user_id']){
 	echo '<span class="usrHdr" style="float: right;"><a href="#">edit</a> | <a href="#">delete</a></span>';

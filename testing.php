@@ -3,8 +3,8 @@ include_once "_include/db_function.php";
 include_once "_include/trip.php";
 include_once '_include/template.php';
 
-$trip_id = '110';
-Tmplt_comment_trip1($trip_id);
+//$trip_id = '110';
+//Tmplt_comment_trip1($trip_id);
 
 //echo URLSITUS;
 // tes join parameter
@@ -84,3 +84,51 @@ $_SESSION['user_id'] = 1;
 <input type="text" name="pertanyaan">
 <input type="submit">
 </form> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!-- validator -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<!-- validator -->
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="js/jquery.timeago.js"></script>
+	
+</head>
+<body>
+<abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>
+<hr/>
+<form name="myform" id="myform" action="" method="POST">  
+<input type="hidden" value="" name="id_soal">
+<input type="text" name="asoy">
+<input type="hidden" value="" name="soal">
+<!-- The Name form field -->
+	<input type="radio" name="name" checked="checked" value=""/><br>
+	<br><input type="submit" name="submit" value="Submit"> 
+</form>
+<script type="text/javascript">
+		$.validator.setDefaults({
+			submitHandler: function() {
+				alert("submitted!");
+				}
+			});
+		$("#myform").validate({
+			debug: false,
+			rules: {
+				name: "required",
+				asoy: "required"
+			},
+			messages: {
+				name: "Pilih pilihan anda.",
+			}
+
+
+		});
+</script> 
+<script type="text/javascript">
+		 jQuery("abbr.timeago").timeago();
+	</script>
+</body>
+</html>

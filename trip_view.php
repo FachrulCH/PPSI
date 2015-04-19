@@ -24,6 +24,7 @@ $user_id = @$_SESSION['user_id'];
 	  <!-- <script src="js/modernizr.js"></script> -->
 	  <!-- FlexSlider -->
 	  <script defer src="js/jquery.flexslider.js"></script>
+	  <script type="text/javascript" src="js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
 	  <script type="text/javascript">
 	    $(function(){
 	      SyntaxHighlighter.all();
@@ -196,7 +197,7 @@ $user_id = @$_SESSION['user_id'];
 			<a href="#" class="ui-btn">2</a>
 		    <a href="#" class="ui-btn">3</a>
 		</div> -->
-		
+		<div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
 		<a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>
 		
 		</div>
@@ -213,6 +214,7 @@ $user_id = @$_SESSION['user_id'];
 		</div>
 		<script type="text/javascript">
 		(function($) {
+			jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
 				$('#btn_tanya').on('click', function(){
 					var pertanyaan 	= $('#Ttanya').val();
 					var kirim = 'i='+<?= $trip_id ?>+'&pertanyaan='+pertanyaan+'&id='+<?= $user_id ?>;
@@ -245,7 +247,8 @@ $user_id = @$_SESSION['user_id'];
 						} */
 						$("#Ttanya").val(''); 				// kotak pertanyaan di kosongin
 						$("#listTanya").html(result);		// hasil pencarian di masukin ke ID
-						console.log("hasilnya: "+result);
+						//console.log("hasilnya: "+result);
+						jQuery("abbr.timeago").timeago(); 	/*refresh konversi ke waktu relative*/
 					},
 					error: function (request,error) {
 	                	// This callback function will trigger on unsuccessful action                

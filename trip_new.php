@@ -33,9 +33,11 @@ $_SESSION['trip_id'] = $trip_id;
   	<!-- Peta -->
   	<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 	<script src="js/jquery.geocomplete.min.js"></script>
-	<!-- uploader -->
-	<script type="text/javascript" src="js/plupload.full.min.js"></script>
   	<!-- End Peta -->
+  	<!-- uploader -->
+	<script type="text/javascript" src="js/plupload.full.min.js"></script>
+	<!-- validator -->
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script>
       $(function(){
           $('#t_rencana').editable({inlineMode: false, 
@@ -64,9 +66,7 @@ $_SESSION['trip_id'] = $trip_id;
 		}
 		
 	</style>
-	<script src="js/jquery.ui.datepicker.js"></script>
-    <script id="mobile-datepicker" src="js/jquery.mobile.datepicker.js"></script>
-	<link rel="stylesheet" href="css/jquery.mobile.datepicker.css">
+	
 </head>
 <body>
 <section data-role="page" id="home">
@@ -84,7 +84,7 @@ $_SESSION['trip_id'] = $trip_id;
 		<h3>Buat Rencana Perjalanan</h3>
 		</div>
 		<div class="ui-body ui-body-a">
-		<form action="perjalanan_simpan.php" method="post" data-ajax="false">
+		<form action="perjalanan_simpan.php" method="post" data-ajax="false" id="newTrip">
 			<ul data-role="listview" data-inset="true">
 				<li class="ui-field-contain">
 				<label for="t_judul">Judul Trip:</label>
@@ -125,12 +125,12 @@ $_SESSION['trip_id'] = $trip_id;
 				
 				<li class="ui-field-contain">
 				<label for="t_tgl1">Tgl berangkat:</label>
-					<input type="text" data-role="date" id="t_tgl1" name="t_tgl1">
+					<input type="date" data-role="date" id="t_tgl1" name="t_tgl1">
 				</li>
 				
 				<li class="ui-field-contain">
 				<label for="t_tgl2">Tgl pulang:</label>
-					<input type="text" data-role="date" id="t_tgl2" name="t_tgl2">
+					<input type="date" data-role="date" id="t_tgl2" name="t_tgl2">
 				</li>
 				
 				<li class="ui-field-contain">
@@ -163,54 +163,85 @@ $_SESSION['trip_id'] = $trip_id;
     					<div class="ui-block-b"><a id="uploadfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-action ui-btn-icon-left">Unggah foto</a> </div>
     				</div>
     				<pre id="console"></pre>
-    				  	<script type="text/javascript">
-						// Custom example logic
+<script type="text/javascript">
+		$.validator.setDefaults({
+			submitHandler: function() {
+				alert("submitted!");
+				}
+			});
+		$("#newTrip").validate({
+			debug: false,
+			rules: {
+				t_judul: {
+					required: true,
+					maxlength: 10
+				},
+				t_tujuan: "required",
+				t_tgl1: "date",
+				t_tgl2: "date",
+				s_status_trip: {
+					required: "#s_status_trip option:selected"
+				},
+			},
+			messages: {
+				t_judul: {
+					required: "Judul trip kamu wajib diisi",
+					maxlength: "Panjang maksimum judul adalah 100 karakter"
+				},
+				t_tgl1: "Format tanggal salah",
+				t_tgl2: "Format tanggal salah",
+				s_status_trip: "Kategori Trip wajib diisi"
+			}
 
-						var uploader = new plupload.Uploader({
-							runtimes : 'html5,flash,silverlight,html4',
-							browse_button : 'pickfiles', // you can pass in id...
-							container: document.getElementById('unggah'), // ... or DOM Element itself
-							url : '_gambar/upload.php',
-							flash_swf_url : 'js/Moxie.swf',
-							silverlight_xap_url : 'js/Moxie.xap',
-							
-							filters : {
-								max_file_size : '10mb',
-								mime_types: [
-									{title : "Image files", extensions : "jpg,gif,png"},
-									{title : "Zip files", extensions : "zip"}
-								]
-							},
 
-							init: {
-								PostInit: function() {
-									document.getElementById('filelist').innerHTML = '';
+		});
+</script> 
+<script type="text/javascript">
+var uploader = new plupload.Uploader({
+	runtimes : 'html5,flash,silverlight,html4',
+	browse_button : 'pickfiles', // you can pass in id...
+	container: document.getElementById('unggah'), // ... or DOM Element itself
+	url : '_gambar/upload.php',
+	flash_swf_url : 'js/Moxie.swf',
+	silverlight_xap_url : 'js/Moxie.xap',
+	
+	filters : {
+		max_file_size : '10mb',
+		mime_types: [
+			{title : "Image files", extensions : "jpg,gif,png"},
+			{title : "Zip files", extensions : "zip"}
+		]
+	},
 
-									document.getElementById('uploadfiles').onclick = function() {
-										uploader.start();
-										return false;
-									};
-								},
+	init: {
+		PostInit: function() {
+			document.getElementById('filelist').innerHTML = '';
 
-								FilesAdded: function(up, files) {
-									plupload.each(files, function(file) {
-										document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
-									});
-								},
+			document.getElementById('uploadfiles').onclick = function() {
+				uploader.start();
+				return false;
+			};
+		},
 
-								UploadProgress: function(up, file) {
-									document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-								},
+		FilesAdded: function(up, files) {
+			plupload.each(files, function(file) {
+				document.getElementById('filelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+			});
+		},
 
-								Error: function(up, err) {
-									document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-								}
-							}
-						});
+		UploadProgress: function(up, file) {
+			document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+		},
 
-						uploader.init();
+		Error: function(up, err) {
+			document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+		}
+	}
+});
 
-						</script>
+uploader.init();
+
+</script>
 
     			</li>
 				<li class="ui-field-contain">
