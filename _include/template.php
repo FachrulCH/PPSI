@@ -1,6 +1,6 @@
 <?php
 // template di include di bawah:
-//db_function.php -> trip.php
+// db_function.php -> trip.php
 
 function get_meta($title=null){
 echo "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>";
@@ -59,7 +59,7 @@ function get_footer(){
 				<li><a href="#">Report bug</a></li>
 			</ul>
 		</div><!-- /navbar -->
-	    <small>© 2015 TemanBackpacker.com</small>
+	<small>© 2015 TemanBackpacker.com</small>
 	</div><!-- /footer -->
 
 	';
@@ -68,45 +68,69 @@ function get_footer(){
 function Tmplt_button_user($user_status){
 	if ($user_status == 'A'){
 		// Klo user nya adalah host
-		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
-			<a href="#" class="ui-btn ui-icon-user ui-btn-icon-right">Diskusi</a>
-			<a href="#" class="ui-btn ui-icon-gear ui-btn-icon-right">Manage member</a>';
+		echo '
+			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-gear ui-btn-icon-right">Manage member</a>';
 	}elseif ($user_status == 'B'){
 		// Status B => Ijin join
-		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Tanya</a>
-			<a href="#" class="ui-btn ui-icon-plus ui-btn-icon-right">Ijin Gabung</a>';
+		echo '
+			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Tanya</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" id="ijinGabung">Ijin Gabung</a>';
 	}elseif ($user_status == 'C'){
 		// Status user C => udah join
-		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
-			<a href="#" class="ui-btn ui-icon-user ui-btn-icon-right">Diskusi</a>
-			<a href="#" class="ui-btn ui-icon-minus ui-btn-icon-right">Batal Gabung</a>';
+		echo '
+			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-minus ui-btn-icon-right">Batal Gabung</a>';
 	}else{
 		// Selain semuanya, alias member umum
-		echo '<a href="#tanyajawab" class="ui-btn ui-icon-comment ui-btn-icon-right">Tanya</a>
-			<a href="#" class="ui-btn ui-icon-plus ui-btn-icon-right">Ijin Gabung</a>';
+		echo '<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Tanya</a>
+			<a href="#" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" id="ijinGabung">Ijin Gabung</a>';
 	}
 		
 }
 
 function Tmplt_comment_trip1($trip_id){
+	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
+	// return mysql query
 	$data = Trip_get_tanya($trip_id);
+	
 	while ($d = mysql_fetch_array($data)){
-	echo'<li>
+	/* echo'<li>
 			<img src="_gambar/user/3.jpg">
 			<strong>'.$d['user_name'].'</strong>
 			<hr/>
 			<p>'.$d['chat_mesej'].'</p>
 			<p class="ui-li-aside">'.$d['chat_date'].'</p>
-		</li>';
+		</li>'; */
+	// Looping data tanya 
+	echo '
+	<hr/>
+		<img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
+	<div class="usr">'.$d['user_name'].'</div>
+	<div>
+		<span class="usrHdr">'.$d['chat_date'].'</span>';
+	// klo user login yg punya post, user itu bisa edit
+	if ($d['chat_sender'] == @$_SESSION['user_id']){
+	echo '<span class="usrHdr" style="float: right;"><a href="#">edit</a> | <a href="#">delete</a></span>';
 	}
-	/* foreach ($data as $d) {
-			echo'<li>
-			<img src="_gambar/user/3.jpg">
-			<strong>'.$d['user_name'].'</strong>
-			<hr/>
-			<p>'.$d['chat_mesej'].'</p>
-			<p class="ui-li-aside">'.$d['chat_date'].'</p>
-		</li>';
-	} */
+	echo '</div>
+	<hr/>
+		<div class="usrDtl less">
+		<p>'.$d['chat_mesej'].'</p>
+	</div>';
+	}
+
 }
+
+function Tmplt_trip_member_join($trip_id){
+	$data = Trip_member_join($trip_id);
+	while ($d = mysql_fetch_array($data)){
+		echo'
+			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
+			';
+	}
+}
+
 ?>

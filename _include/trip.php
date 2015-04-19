@@ -97,9 +97,10 @@ function Trip_kategori_view($id){
 }
 
 function Trip_get_tanya($trip_id){
+	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	$trip_id = (int) $trip_id;
 	
-	$sql = "SELECT B.user_name, A.chat_mesej, A.chat_date, B.user_foto
+	$sql = "SELECT A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, B.user_foto
 			FROM tb_chat A, tb_user B
 			WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
 			ORDER BY A.chat_date DESC
@@ -108,4 +109,15 @@ function Trip_get_tanya($trip_id){
 	$sqlSelect = good_query($sql);
 	return $sqlSelect;
 }
+function Trip_member_join($trip_id){
+	$trip_id = (int) $trip_id;
+	$sql = "SELECT A.member_user_id, B.user_name, B.user_foto
+  			FROM tb_trip_member A, tb_user B
+ 			WHERE A.member_user_id = B.user_id
+       		AND A.member_status IN ('A', 'C')
+       		AND A.member_trip_id = '{$trip_id}' ;";
+	$sqlSelect = good_query($sql);
+	return $sqlSelect;
+}
+
 ?>

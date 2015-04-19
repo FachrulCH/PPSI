@@ -13,8 +13,9 @@ function good_query($string, $debug=0)
 
     if ($result == false)
     {
+    	// harus di remark ini biar ga tampil di web
         error_log("SQL error: ".mysql_error()."\n\nOriginal query: $string\n");
-	// Remove following line from production servers 
+		// Remove following line from production servers 
         die("SQL error: ".mysql_error()."\b<br>\n<br>Original query: $string \n<br>\n<br>");
     }
     return $result;
