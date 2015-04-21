@@ -7,7 +7,7 @@ include_once "_include/trip.php";
 $trip_id = 110;
 $trip_id_rahasia = enkripsi($trip_id);
 $db_trip = trip_get_by_id($trip_id);
-$_SESSION['user_id'] = 1;
+$_SESSION['user_id'] = 2;
 $user_id = $_SESSION['user_id'];
 $user_id_rahasia = enkripsi($user_id);
 ?>
@@ -23,7 +23,6 @@ $user_id_rahasia = enkripsi($user_id);
         <!-- Carousel -->
         <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
         <script defer src="js/jquery.flexslider.js"></script>
-        <script type="text/javascript" src="js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
         <script type="text/javascript">
             $(function () {
                 SyntaxHighlighter.all();
@@ -165,42 +164,6 @@ $user_id_rahasia = enkripsi($user_id);
                         Tmplt_comment_trip1($trip_id);
                         ?>
                     </div>
-                    <!--<hr/>
-                            <img class="thumb"src="_gambar/user/3.jpg">
-                            <div class="usr">Nama</div>
-                    <div>
-                            <span class="usrHdr">Kemarin, 04:13</span><span class="usrHdr" style="float: right;">#10</span>
-                    </div>
-                    <hr/>
-                    <div class="usrDtl">
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>
-                    </div>
-    
-                    <!-- <li>
-                            <img src="_gambar/user/3.jpg">
-                            <strong>Orang 2</strong>
-                            <hr/>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. </p>
-                            <p>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-                            </p>
-                            <p class="ui-li-aside">Kemarin, <strong>16:20</strong></p>
-                    </li>
-            
-                    <li>
-                            <img src="_gambar/user/3.jpg">
-                            <strong>Orang 3</strong>
-                            <hr/>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
-                            Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.
-                            <p class="ui-li-aside">Kemarin, <strong>16:10</strong></p>
-                    </li>
-                    </ul> -->
-
-                    <!-- <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ketengah">
-                    <a href="#" class="ui-btn">1</a>
-                            <a href="#" class="ui-btn">2</a>
-                    <a href="#" class="ui-btn">3</a>
-                    </div> -->
                     <div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
                     <a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>
 
@@ -216,40 +179,10 @@ $user_id_rahasia = enkripsi($user_id);
                         <?php Tmplt_trip_member_join($trip_id) ?>
                     </div>
                 </div>
-                <script src="js/main.js" type="text/javascript"></script>
+                <script type="text/javascript" src="js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
+                <script type="text/javascript" src="js/main.js" ></script>
                 <script type="text/javascript">
                     (function ($) {
-                        
-                        function customAjax(u, d, theCallbackStuff) {
-                            $.ajax({
-                              type: "post",
-                              url: u,
-                              data: d,
-                              async: true,
-                              dataType: 'json',
-                              beforeSend: function () {
-                                // menampilkan loading spiner sebelum data dikirim
-                                $.mobile.loading("show", {text: "Mohon tunggu", textVisible: true});
-                                },
-                              success: function (result) {
-                                $.mobile.loading("hide");
-                                if (result.status == '1'){
-                                    dialogin(result.pesan);
-                                    $("#listTanya").html(result.data);
-                                    }else{
-                                    dialogin(result.pesan);
-                                    } 
-                                    //dialogin("Pertanyaan kamu berhasil tersimpan");
-                                    $("#Ttanya").val(''); 				// kotak pertanyaan di kosongin
-                                    jQuery("abbr.timeago").timeago(); 	/*refresh konversi ke waktu relative*/
-                                    },
-                              error: function (request, error) {
-                              // This callback function will trigger on unsuccessful action                
-                              dialogin('Network bermasalah, silahkan coba lagi!');
-                              }
-                            });
-                          }
-                          
                         jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
                         
                         $('#btn_tanya').on('click', function () {
@@ -259,58 +192,26 @@ $user_id_rahasia = enkripsi($user_id);
                             //var kirim = $("#tanyajawab").serialize();
                             console.log(kirim);
                             if (pertanyaan.length > 0) {
-                                $.ajax({
-                                    type: 'post',
-                                    url: 'ajax.php?do=tanya',
-                                    data: kirim, // data yg dikirimkan
-                                    async: true,
-                                    dataType: 'json',
-                                    beforeSend: function () {
-                                        // menampilkan loading spiner sebelum data dikirim
-                                        $.mobile.loading("show", {text: "Mohon tunggu", textVisible: true});
-                                    },
-                                    /* complete: function() {
-                                     // menyembunyikan loading spiner sebelum data dikirim
-                                     $.mobile.loading("hide");
-                                     }, */
-                                    success: function (result) {
-                                        $.mobile.loading("hide");
-                                        if (result.status == '1'){
-                                            dialogin(result.pesan);
-                                         //alert(result.pesan);
-                                         //console.log(result.v);
-                                         //load data tanya terbaru ke dalam DIV
-                                         //$("#listTanya").load("view.php","m=listTanya&id="+$trip_id);
-                                         //$("#Ttanya").val('');
-                                         $("#listTanya").html(result.data);
-                                         }else{
-                                            dialogin(result.pesan);
-                                         } 
-                                            //dialogin("Pertanyaan kamu berhasil tersimpan");
-                                        $("#Ttanya").val(''); 				// kotak pertanyaan di kosongin
-                                        //$("#listTanya").html(result);		// hasil pencarian di masukin ke ID
-                                        //console.log("hasilnya: "+result);
-                                        jQuery("abbr.timeago").timeago(); 	/*refresh konversi ke waktu relative*/
-                                    },
-                                    error: function (request, error) {
-                                        // This callback function will trigger on unsuccessful action                
-                                        dialogin('Network bermasalah, silahkan coba lagi!');
-                                        //console.log(error);
-                                        //console.log(request);
-                                    }
+                                
+//                                Menggunakan fungsi sendiri untuk memanggil ajax
+//                                format argumen adalah (URL,DATA,Callcack function)
 
-                                });
+                                customAjax('<?= URLSITUS ?>ajax.php?do=tanya',kirim,function (data) {
+                                    $("#listTanya").html(data);         // refrest list
+                                    $("#Ttanya").val(''); 		// kotak pertanyaan di kosongin
+                                    jQuery("abbr.timeago").timeago();   // refrest keterangan waktu
+                                 });
                             } else {
-                                alert('Isikan komentar anda');
+                                dialogin('Isikan komentar anda');
                             }
                             return false; // cancel original event to prevent form submitting
                         });
 
                         $('#ijinGabung').on('click', function () {
-                            console.log("button di klik");
+                            //console.log("button di klik");
                             $.ajax({
                                 type: 'post',
-                                url: 'ajax.php?do=ijingabung',
+                                url: '<?= URLSITUS ?>ajax.php?do=ijingabung',
                                 data: "maugabung", // data yg dikirimkan
                                 async: 'true',
                                 dataType: 'json',
