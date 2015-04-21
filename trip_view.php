@@ -219,7 +219,39 @@ $user_id_rahasia = enkripsi($user_id);
                 <script src="js/main.js" type="text/javascript"></script>
                 <script type="text/javascript">
                     (function ($) {
+                        
+                        function customAjax(u, d, theCallbackStuff) {
+                            $.ajax({
+                              type: "post",
+                              url: u,
+                              data: d,
+                              async: true,
+                              dataType: 'json',
+                              beforeSend: function () {
+                                // menampilkan loading spiner sebelum data dikirim
+                                $.mobile.loading("show", {text: "Mohon tunggu", textVisible: true});
+                                },
+                              success: function (result) {
+                                $.mobile.loading("hide");
+                                if (result.status == '1'){
+                                    dialogin(result.pesan);
+                                    $("#listTanya").html(result.data);
+                                    }else{
+                                    dialogin(result.pesan);
+                                    } 
+                                    //dialogin("Pertanyaan kamu berhasil tersimpan");
+                                    $("#Ttanya").val(''); 				// kotak pertanyaan di kosongin
+                                    jQuery("abbr.timeago").timeago(); 	/*refresh konversi ke waktu relative*/
+                                    },
+                              error: function (request, error) {
+                              // This callback function will trigger on unsuccessful action                
+                              dialogin('Network bermasalah, silahkan coba lagi!');
+                              }
+                            });
+                          }
+                          
                         jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
+                        
                         $('#btn_tanya').on('click', function () {
                             var pertanyaan = $('#Ttanya').val();
                             var kirim = 'id=<?= $user_id_rahasia ?>&i=<?= $trip_id ?>&pertanyaan='+ pertanyaan  ;
