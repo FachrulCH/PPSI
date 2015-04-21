@@ -96,101 +96,43 @@ function Tmplt_comment_trip1($trip_id){
 	// return mysql query
 	$data = Trip_get_tanya($trip_id);
 	
-//	while ($d = mysqli_fetch_array($data)){
-//	/* echo'<li>
-//			<img src="_gambar/user/3.jpg">
-//			<strong>'.$d['user_name'].'</strong>
-//			<hr/>
-//			<p>'.$d['chat_mesej'].'</p>
-//			<p class="ui-li-aside">'.$d['chat_date'].'</p>
-//		</li>'; */
-//	// Looping data tanya 
-//	echo '
-//	<div class="dataPertanyaan">
-//	<hr/>
-//		<img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
-//	<div class="usr">'.$d['user_name'].'</div>
-//	<div>
-//		<span class="usrHdr"><abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
-//	// klo user login yg punya post, user itu bisa edit
-//	if ($d['chat_sender'] == @$_SESSION['user_id']){
-//	echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
-//	}
-//	echo '</div>
-//	<hr/>
-//		<div class="usrDtl">
-//		<p>'.$d['chat_mesej'].'</p>
-//	</div>
-//	</div>';
-//	}
-        
-        foreach ($data as $d) {
-            echo '
-            <div class="dataPertanyaan">
-                <hr/>
-                <img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
-                <div class="usr">'.$d['user_name'].'</div>
-                <div><span class="usrHdr">
-                    <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
-
-                // klo user login yg punya post, user itu bisa edit
-                if ($d['chat_sender'] == @$_SESSION['user_id']){
-                    echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
-                }
-                
-                echo '
-                </div>
-                <hr/>
-                <div class="usrDtl">
-                    <p>'.$d['chat_mesej'].'</p>
-                </div>
-            </div>';
-        }
-
-}
-
-function Tmplt_comment_trip2($trip_id){
-	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
-	// return mysql query
-	$data = Trip_get_tanya($trip_id);
-        $listTanya = "";
-        foreach ($data as $d) {
-            $listTanya .= '
-            <div class="dataPertanyaan">
-                <hr/>
-                <img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
-                <div class="usr">'.$d['user_name'].'</div>
-                <div><span class="usrHdr">
-                    <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
-
-                // klo user login yg punya post, user itu bisa edit
-                if ($d['chat_sender'] == @$_SESSION['user_id']){
-                    $listTanya .= '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
-                }
-                
-                $listTanya .= '
-                </div>
-                <hr/>
-                <div class="usrDtl">
-                    <p>'.$d['chat_mesej'].'</p>
-                </div>
-            </div>';
-        }
-        return $listTanya;
+	while ($d = mysql_fetch_array($data)){
+	/* echo'<li>
+			<img src="_gambar/user/3.jpg">
+			<strong>'.$d['user_name'].'</strong>
+			<hr/>
+			<p>'.$d['chat_mesej'].'</p>
+			<p class="ui-li-aside">'.$d['chat_date'].'</p>
+		</li>'; */
+	// Looping data tanya 
+	echo '
+	<div class="dataPertanyaan">
+	<hr/>
+		<img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
+	<div class="usr">'.$d['user_name'].'</div>
+	<div>
+		<span class="usrHdr"><abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
+	// klo user login yg punya post, user itu bisa edit
+	if ($d['chat_sender'] == @$_SESSION['user_id']){
+	echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
+	}
+	echo '</div>
+	<hr/>
+		<div class="usrDtl">
+		<p>'.$d['chat_mesej'].'</p>
+	</div>
+	</div>';
+	}
 
 }
 
 function Tmplt_trip_member_join($trip_id){
-    $data = Trip_member_join($trip_id);
-//	while ($d = mysqli_fetch_array($data)){
-//		echo'
-//			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
-//			';
-//	}
-        
-    foreach ($data as $d) {
-        echo'<img src="_gambar/user/'.$d['user_foto'].'" width="80px">';
-    }
+	$data = Trip_member_join($trip_id);
+	while ($d = mysql_fetch_array($data)){
+		echo'
+			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
+			';
+	}
 }
 
 ?>

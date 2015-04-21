@@ -25,7 +25,6 @@ function cleanInput($input) {
     return $output;
   }
 function sanitize($input) {
-    global $db;
     if (is_array($input)) {
         foreach($input as $var=>$val) {
             $output[$var] = sanitize($val);
@@ -36,7 +35,7 @@ function sanitize($input) {
             $input = stripslashes($input);
         }
         $input  = cleanInput($input);
-        $output = $db->real_escape_string($input);
+        $output = mysql_real_escape_string($input);
     }
     return $output;
 }
@@ -47,17 +46,13 @@ function make_seo_name($title) {
 }
 
 function enkripsi($string){
-    $string = "12345678".$string;             //tambah prefix TEMAN biar panjang enkripsi ga kependekan
+    $string = "T3M4N".$string;             //tambah prefix TEMAN biar panjang enkripsi ga kependekan
 	$data   = bin2hex($string);
 	return $data;
 }
 
 function dekripsi($string){
 	$enkripsi =  pack("H*" , $string);
-    return substr($enkripsi,8);         // ilangin prefix TEMAN (5 char)
-}
-
-function potong($string,$max){
-    return substr($string,0,$max);
+    return substr($enkripsi,5);         // ilangin prefix TEMAN (5 char)
 }
 ?>

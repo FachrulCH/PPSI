@@ -7,9 +7,10 @@ require_once '_include/template.php';
 $do = $_GET['do'];
 
 if ($do == 'tanya'){
-	$status 		= false; 				// inisiasi value default
-	$pesan			= "Error mengambil informasi dari database";	// inisiasi value default
-	$user_id		= $_POST['id'];
+	$status 	= false; 				// inisiasi value default
+        $hasil          = "";
+	$pesan		= "Error mengambil informasi dari database";	// inisiasi value default
+	$user_id	= (int) dekripsi($_POST['id']);
 	$chat_trip_id 	= $_POST['i'];
 	$chat_mesej 	= $_POST['pertanyaan'];
 	$chat_sender	= @$_SESSION['user_id'];
@@ -25,7 +26,7 @@ if ($do == 'tanya'){
 		$pesan = "Kamu harus login dulu";
 		$status = false;
 	}elseif ($user_id != $chat_sender){
-		$pesan = "Kamu tidak bisa memposting pertanyaan";
+		$pesan = "Kamu tidak bisa memposting pertanyaan ";
 	}else{
 		// return True kalo berhasil di save
 		$insertTanya = Chat_save_tanya($chat_trip_id, $chat_sender, $chat_mesej);
@@ -42,12 +43,17 @@ if ($do == 'tanya'){
 	
 	//diganti kembalian berupa file tanya yg udah di reload pake data baru
 	if ($status == true){
-		Tmplt_comment_trip1($chat_trip_id);
+            $hasil = Tmplt_comment_trip2($chat_trip_id);
 	}else{
 		//$hasil = array('status' => $status, 'pesan' => $pesan);
 		//echo json_encode($hasil);
-		echo "<br/>".$pesan;
+		//echo "<br/>".$pesan;
+            $hasil = "error terjadi";
 	}
+        
+        $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+        
+        echo json_encode($result);
 	
 }elseif ($do == 'ijingabung'){
 	$status = true;

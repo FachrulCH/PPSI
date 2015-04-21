@@ -98,13 +98,26 @@ $_SESSION['user_id'] = 1;
 	
 </head>
 <body>
+
+<?php
+$d = "3";
+$d = enkripsi($d);
+$e = dekripsi($d);
+//
+echo "enkripsi => $d <br/>";
+echo "dekripsi => $e <br/>";
+$data = Trip_get_tanya(110);
+echo "<pre>";
+print_r($data);
+
+?>
+<!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>
 <hr/>
 <form name="myform" id="myform" action="" method="POST">  
 <input type="hidden" value="" name="id_soal">
 <input type="text" name="asoy">
 <input type="hidden" value="" name="soal">
-<!-- The Name form field -->
 	<input type="radio" name="name" checked="checked" value=""/><br>
 	<br><input type="submit" name="submit" value="Submit"> 
 </form>
@@ -130,5 +143,6 @@ $_SESSION['user_id'] = 1;
 <script type="text/javascript">
 		 jQuery("abbr.timeago").timeago();
 	</script>
+ -->
 </body>
 </html>

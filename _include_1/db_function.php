@@ -1,14 +1,8 @@
 <?php
-include_once 'config.php';
 include_once 'fungsi.php';
-
-$database = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
-$db =& $database;
 
 function good_query($string, $debug=0)
 {
-    global $db;
-    
     if ($debug == 1) {
         print $string;
     }
@@ -17,14 +11,14 @@ function good_query($string, $debug=0)
         error_log($string);
     }
 
-    $result = $db->query($string);
+    $result = mysql_query($string);
 
     if ($result == false)
     {
     	// harus di remark ini biar ga tampil di web
-        error_log("SQL error: ".mysqli_error($db)."\n\nOriginal query: $string\n");
+        error_log("SQL error: ".mysql_error()."\n\nOriginal query: $string\n");
 		// Remove following line from production servers 
-        die("SQL error: ".mysqli_error($db)."\b<br>\n<br>Original query: $string \n<br>\n<br>");
+        die("SQL error: ".mysql_error()."\b<br>\n<br>Original query: $string \n<br>\n<br>");
     }
     return $result;
 }
@@ -34,12 +28,12 @@ function good_query_list($sql, $debug=0)
     // this function require presence of good_query() function
     $result = good_query($sql, $debug);
 	
-    if($lst = $db->fetch_row($result))
+    if($lst = mysql_fetch_row($result))
     {
-	$db->free_result($result);
+	mysql_free_result($result);
 	return $lst;
     }
-    $db->free_result($result);
+    mysql_free_result($result);
     return false;
 }
 
@@ -48,19 +42,43 @@ function good_query_assoc($sql, $debug=0)
     // this function require presence of good_query() function
     $result = good_query($sql, $debug);
 	
-    if($lst = $result->fetch_assoc())
+    if($lst = mysql_fetch_assoc($result))
     {
-	$result->free_result();
+	mysql_free_result($result);
 	return $lst;
     }
-    $result->free_result();
+    mysql_free_result($result);
     return false;
 }
 
+// mysql connecting and disconnecting 
+function good_connect($host, $user, $pwd, $db)
+{
+	$link = @mysql_connect($host, $user, $pwd);
+	if (!$link) {
+		die('Can\'t connect to database server (check $host, $user, $pwd)');
+		error_log('Can\'t connect to database server (check $host, $user, $pwd)');
+	}
+	
+	$has_db = mysql_select_db($db);
+	if (!$has_db)
+	{
+		die('Can\'t select database (check $db)');
+		error_log('Can\'t select database (check $db)');
+	}
+        return $link;
+}
+
+function good_close()
+{
+	mysql_close();
+}
+
+
 function get_db_param($name){
-    $sql    = "SELECT * FROM tb_parameter WHERE parameter_name ='{$name}'";
-    $doSql  = good_query_assoc($sql);
-    $json   = json_decode($doSql["parameter_desc"]);
+    $sql = "SELECT * FROM tb_parameter WHERE parameter_name ='{$name}'";
+    $doSql = good_query_assoc($sql);
+    $json = json_decode($doSql["parameter_desc"]);
     // balikan berupa array dari json object
     return $json;
 }
@@ -86,13 +104,16 @@ function seqid_getlast($sq){
 
 function amankan($input){
 	$input = htmlspecialchars($input);
-	//$input = $db->real_escape_string($input);
+	$input = mysql_real_escape_string($input);
 	return $input;
 }
 
 function session_cek(){
 	if (!isset($_SESSION)) { session_start(); }
 }
+
+$db = good_connect(DBHOST,DBUSER,DBPASS,DBNAME);
+$statuskoneksi = "connected"; 
 
 session_cek();
 

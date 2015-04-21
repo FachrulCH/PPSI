@@ -53,8 +53,8 @@ function trip_get_by_id($trip_id){
 	$trip_id = (int) amankan($trip_id);
 	
 	$sql = "SELECT * 
-                FROM tb_trip 
-		WHERE trip_id = '{$trip_id}' LIMIT 1";
+			FROM tb_trip 
+			WHERE trip_id = '{$trip_id}' LIMIT 1";
 	$data = good_query_assoc($sql);
 	return $data;
 }
@@ -99,23 +99,17 @@ function Trip_get_tanya($trip_id){
 			LIMIT 0,10"; // 10 item pertanyaan
 	
 	$sqlSelect = good_query($sql);
-	//return $sqlSelect;
-        return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
+	return $sqlSelect;
 }
 function Trip_member_join($trip_id){
 	$trip_id = (int) $trip_id;
 	$sql = "SELECT A.member_user_id, B.user_name, B.user_foto
-  		FROM tb_trip_member A, tb_user B
- 		WHERE A.member_user_id = B.user_id
+  			FROM tb_trip_member A, tb_user B
+ 			WHERE A.member_user_id = B.user_id
        		AND A.member_status IN ('A', 'C')
        		AND A.member_trip_id = '{$trip_id}' ;";
 	$sqlSelect = good_query($sql);
-        //return $sqlSelect;
-        
-        // Fetch all
-        return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
-        //$sqlSelect = mysqli_fetch_assoc($sqlSelect);
-	
+	return $sqlSelect;
 }
 
 ?>
