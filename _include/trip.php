@@ -141,4 +141,9 @@ function Trip_member_join($trip_id){
 	
 }
 
+function Trip_load_new()
+{
+    
+}
+
 ?>

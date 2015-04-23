@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2015 at 05:42 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Generation Time: Apr 23, 2015 at 07:00 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Database: `db_temanbackpacker`
 --
 DROP DATABASE `db_temanbackpacker`;
-CREATE DATABASE `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `db_temanbackpacker`;
 
 -- --------------------------------------------------------
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `tb_chat` (
   PRIMARY KEY (`chat_id`),
   KEY `FK_chat_trip` (`chat_trip_id`),
   KEY `FK_chat_user` (`chat_sender`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
 
 --
 -- Dumping data for table `tb_chat`
@@ -67,7 +67,102 @@ INSERT INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `c
 (26, 110, 3, '2', '2015-04-19 15:28:25', 'ini bahur', 0),
 (27, 110, 3, '2', '2015-04-19 15:38:21', 'asem', 0),
 (28, 110, 3, '2', '2015-04-19 15:38:22', 'asem', 0),
-(29, 110, 3, '2', '2015-04-19 15:39:21', 'tanya donk bro', 0);
+(29, 110, 3, '2', '2015-04-19 15:39:21', 'tanya donk bro', 0),
+(30, 110, 3, '2', '2015-04-19 17:42:13', 'tes waktu', 0),
+(31, 110, 3, '2', '2015-04-19 17:43:31', 'cek lagi', 0),
+(32, 110, 3, '2', '2015-04-19 17:54:45', 'cek waktu', 0),
+(33, 110, 3, '2', '2015-04-19 18:05:04', 'tes waktu', 0),
+(34, 110, 3, '2', '2015-04-20 14:38:36', 'Rikson ini dia', 0),
+(35, 110, 3, '2', '2015-04-20 14:40:31', 'asoy geboy', 0),
+(36, 110, 3, '2', '2015-04-20 14:41:05', 'coba lagi aaah', 0),
+(37, 110, 3, '2', '2015-04-20 22:10:28', 'duaaar', 0),
+(38, 110, 3, '2', '2015-04-21 08:58:56', 'asoy', 0),
+(39, 110, 3, '2', '2015-04-21 14:23:05', 'peningkatan', 0),
+(42, 110, 3, '2', '2015-04-21 14:50:47', 'masih eror ternyata', 0),
+(43, 110, 3, '2', '2015-04-21 14:54:47', 'avenger', 0),
+(44, 110, 3, '2', '2015-04-21 14:55:16', '"tanya '' ku''tip" ', 0),
+(45, 110, 3, '2', '2015-04-21 14:56:00', '', 0),
+(46, 110, 3, '2', '2015-04-21 14:57:59', 'masa sih bro?', 0),
+(47, 0, 3, '2', '2015-04-21 15:41:07', 'bs?', 0),
+(48, 0, 3, '2', '2015-04-21 15:43:54', 'sadadasda', 0),
+(49, 110, 3, '2', '2015-04-21 16:19:49', 'sadada', 0),
+(50, 110, 3, '2', '2015-04-21 16:26:56', 'return baru', 0),
+(51, 110, 3, '2', '2015-04-21 16:32:15', 'list', 0),
+(52, 110, 3, '2', '2015-04-21 16:38:36', 'jebraw', 0),
+(53, 110, 3, '2', '2015-04-21 16:40:03', 'mamam', 0),
+(54, 110, 3, '2', '2015-04-21 16:41:18', 'andaiiii', 0),
+(55, 110, 3, '2', '2015-04-21 16:41:49', 'sadada', 0),
+(56, 110, 3, '2', '2015-04-21 16:49:26', 'Json mode', 0),
+(57, 110, 3, '2', '2015-04-21 16:50:30', 'Json lagi', 0),
+(58, 110, 3, '2', '2015-04-21 16:50:44', 'HOREEEEEEEEEE berhasil', 0),
+(59, 110, 1, '2', '2015-04-21 16:51:52', 'Mantap kan', 0),
+(60, 110, 1, '2', '2015-04-21 16:56:22', 'Setelah ini mau diedit', 0),
+(61, 110, 1, '2', '2015-04-21 17:00:35', 'ut A String To A Specified Length With PHP\n\nThursday, April 17, 2008 - 09:54\n\nCutting a string to a specified length is accomplished with the substr() function. For example, the following string variable, which we will cut to a maximum of 30 char', 0),
+(62, 110, 1, '2', '2015-04-21 17:31:10', 'new jquery ajax', 0),
+(63, 110, 1, '2', '2015-04-21 17:31:52', 'masa sih', 0),
+(64, 110, 1, '2', '2015-04-21 17:34:15', 'asoy', 0),
+(65, 110, 1, '2', '2015-04-21 17:40:07', 'Chelsea', 0),
+(66, 110, 1, '2', '2015-04-21 17:41:15', 'Hazard', 0),
+(67, 110, 1, '2', '2015-04-21 17:42:52', 'ajax di pindahin ke luar', 0),
+(68, 110, 1, '2', '2015-04-21 17:44:52', 'Cukup untuk hari ini yaaa', 0),
+(69, 110, 2, '2', '2015-04-21 17:50:52', 'Oke Baiklah', 0),
+(70, 110, 2, '2', '2015-04-22 22:30:25', 'cek brow', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_galeri`
+--
+
+DROP TABLE IF EXISTS `tb_galeri`;
+CREATE TABLE IF NOT EXISTS `tb_galeri` (
+  `galeri_id` int(11) NOT NULL AUTO_INCREMENT,
+  `galeri_trip_id` int(11) NOT NULL,
+  `galeri_foto_url` varchar(100) DEFAULT NULL,
+  `galeri_foto_judul` varchar(100) DEFAULT NULL,
+  `galeri_date` timestamp NULL DEFAULT NULL,
+  KEY `galeri_id` (`galeri_id`),
+  KEY `idx_galeri_trip` (`galeri_trip_id`),
+  KEY `galeri_trip_id` (`galeri_trip_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `tb_galeri`
+--
+
+INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
+(5, 110, 'kitchen_adventurer_caramel.jpg', 'kitchen_adventurer_caramel', '2015-04-22 17:00:00'),
+(6, 110, 'kitchen_adventurer_donut.jpg', 'kitchen_adventurer_donut', '2015-04-22 17:00:00'),
+(7, 110, 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-22 17:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_param`
+--
+
+DROP TABLE IF EXISTS `tb_param`;
+CREATE TABLE IF NOT EXISTS `tb_param` (
+  `param_id` int(11) NOT NULL AUTO_INCREMENT,
+  `param_parent` int(11) DEFAULT NULL,
+  `param_key` int(11) NOT NULL,
+  `param_value` int(11) DEFAULT NULL,
+  `param_name` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`param_id`),
+  UNIQUE KEY `param_id` (`param_id`),
+  KEY `idx_param` (`param_key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `tb_param`
+--
+
+INSERT INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_value`, `param_name`) VALUES
+(2, 0, 2, 1, 'Wisata Kota'),
+(3, 0, 2, 2, 'Wisata Alam'),
+(4, 0, 2, 3, 'Wisata Kuliner'),
+(5, 0, 2, 4, 'Wisata Sejarah'),
+(6, 0, 2, 5, 'Backpacking');
 
 -- --------------------------------------------------------
 
@@ -89,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
 --
 
 INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
-(1, 'status_trip', '{"status_trip":[\r\n{"id":"1", "name":"Wisata Kota"}, \r\n{"id":"2", "name":"Wisata Alam"}, \r\n{"id":"3", "name":"Wisata Kuliner"},\r\n{"id":"4", "name":"Wisata Sejarah"},\r\n{"id":"5", "name":"Backpacking"}\r\n]}'),
+(1, 'status_trip', '{"status_trip":[\n{"id":"1", "name":"Wisata Kota"}, \n{"id":"2", "name":"Wisata Alam"}, \n{"id":"3", "name":"Wisata Kuliner"},\n{"id":"4", "name":"Wisata Sejarah"},\n{"id":"5", "name":"Backpacking"}\n]}'),
 (2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
 
 -- --------------------------------------------------------
@@ -147,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
 --
 
 INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-(1, 'sq_trip', 1, 16),
+(1, 'sq_trip', 1, 102),
 (2, 'seq_tanya', 2, 0),
 (3, 'seq_diskusi', 3, 0);
 
@@ -163,6 +258,8 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_user_id` int(11) NOT NULL,
   `trip_judul` varchar(50) DEFAULT NULL,
   `trip_tujuan` varchar(100) DEFAULT NULL,
+  `trip_tujuan_provinsi` varchar(250) NOT NULL,
+  `trip_tujuan_kota` varchar(100) NOT NULL,
   `trip_tujuan_geolat` double DEFAULT NULL,
   `trip_tujuan_geolng` double DEFAULT NULL,
   `trip_kategori` varchar(100) DEFAULT NULL,
@@ -172,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_info` text,
   `trip_transport` varchar(100) DEFAULT NULL,
   `trip_meeting_point` varchar(50) DEFAULT NULL,
+  `trip_created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`trip_id`),
   KEY `FK_tb_trip_tb_user` (`trip_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -180,24 +278,13 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
 -- Dumping data for table `tb_trip`
 --
 
-INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`) VALUES
-(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, 'kategori', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt'),
-(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', -6.258244, 106.977183, '2', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_trip_galeri`
---
-
-DROP TABLE IF EXISTS `tb_trip_galeri`;
-CREATE TABLE IF NOT EXISTS `tb_trip_galeri` (
-  `galeri_trip_id` int(11) NOT NULL,
-  `galeri_foto_url` varchar(100) DEFAULT NULL,
-  `galeri_foto_judul` varchar(100) DEFAULT NULL,
-  `galeri_date` int(11) DEFAULT NULL,
-  KEY `FK_tb_trip_galeri_tb_trip` (`galeri_trip_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_provinsi`, `trip_tujuan_kota`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`, `trip_created_date`) VALUES
+(0, 1, 'ini judul', 'ini tujuan', '', '', 892349328, 984010, 'kategori', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt', '2015-04-23 16:04:21'),
+(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', '', '', -6.258244, 106.977183, '2', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta', '2015-04-23 16:04:21'),
+(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', '', '', 0, 6, '2', 6, '0000-00-00', '0000-00-00', '', '2', 'di stasiiun kranji', '2015-04-23 16:04:21'),
+(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', '', '', 0, 6, '2', 14, '2015-04-30', '2015-04-30', '', '2', 'stasiun', '2015-04-23 16:04:21'),
+(195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', '', '', -7.333333, 108.2, '2', 12, '0000-00-00', '0000-00-00', '', '3', 'alun alun', '2015-04-23 16:04:21'),
+(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', 'Jawa Barat', 'Kabupaten Bandung Barat', -6.865221, 107.491977, '2', 13, '2015-04-23', '2015-04-25', '', '3', 'meetingpoin', '2015-04-23 16:04:21');
 
 -- --------------------------------------------------------
 
@@ -213,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
   `member_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`member_id`),
   KEY `FK_tb_trip_member_tb_user` (`member_user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `tb_trip_member`
@@ -221,7 +308,11 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
 
 INSERT INTO `tb_trip_member` (`member_trip_id`, `member_user_id`, `member_status`, `member_id`) VALUES
 (110, 1, 'A', 1),
-(110, 2, 'C', 2);
+(110, 2, 'C', 2),
+(193, 2, 'A', 3),
+(194, 2, 'A', 4),
+(195, 2, 'A', 5),
+(1100, 2, 'A', 6);
 
 -- --------------------------------------------------------
 
@@ -262,6 +353,29 @@ INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `u
 (2, 'Karta', 'karta@email.com', 'karta', 'Bekasi', 'L', '2015-04-19', '4.jpg', 'cover2.jpg', 'fbkarta', 'twiterkarta', '2015-04-19 00:00:00', 'gw adalah anak bekasi', NULL, NULL, NULL, NULL),
 (3, 'bahur', 'bahur@email.com', 'bahur', 'padang', 'L', '2015-04-19', '1.jpg', NULL, NULL, NULL, NULL, 'ini bahur', NULL, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `trip_list`
+--
+DROP VIEW IF EXISTS `trip_list`;
+CREATE TABLE IF NOT EXISTS `trip_list` (
+`trip_id` int(11)
+,`trip_judul` varchar(50)
+,`trip_tujuan_provinsi` varchar(250)
+,`param_name` varchar(20)
+,`trip_created_date` timestamp
+,`Name_exp_6` varchar(100)
+);
+-- --------------------------------------------------------
+
+--
+-- Structure for view `trip_list`
+--
+DROP TABLE IF EXISTS `trip_list`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `trip_list` AS select `a`.`trip_id` AS `trip_id`,`a`.`trip_judul` AS `trip_judul`,`a`.`trip_tujuan_provinsi` AS `trip_tujuan_provinsi`,`b`.`param_name` AS `param_name`,`a`.`trip_created_date` AS `trip_created_date`,(select `c`.`galeri_foto_url` from `tb_galeri` `c` where (`c`.`galeri_trip_id` = `a`.`trip_id`) order by rand() limit 0,1) AS `Name_exp_6` from (`tb_trip` `a` join `tb_param` `b`) where ((`a`.`trip_kategori` = `b`.`param_value`) and (`b`.`param_key` = '2')) order by `a`.`trip_created_date` desc;
+
 --
 -- Constraints for dumped tables
 --
@@ -290,12 +404,6 @@ ALTER TABLE `tb_pengalaman_komentar`
 --
 ALTER TABLE `tb_trip`
   ADD CONSTRAINT `FK_tb_trip_tb_user` FOREIGN KEY (`trip_user_id`) REFERENCES `tb_user` (`user_id`);
-
---
--- Constraints for table `tb_trip_galeri`
---
-ALTER TABLE `tb_trip_galeri`
-  ADD CONSTRAINT `FK_tb_trip_galeri_tb_trip` FOREIGN KEY (`galeri_trip_id`) REFERENCES `tb_trip` (`trip_id`);
 
 --
 -- Constraints for table `tb_trip_member`

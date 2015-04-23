@@ -7,7 +7,7 @@ defined('DBUSER') ? null : define("DBUSER", "root");
 defined('DBPASS') ? null : define("DBPASS", "");
 defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
 
-defined("URLSITUS") ? null : define("URLSITUS", "http://localhost:8080/PPSIoop/"); // ==> URL web nya, buat <a href> 
+defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); // ==> URL web nya, buat <a href> 
 
 
 
@@ -94,13 +94,13 @@ function seqid_getlast($sq){
 }
 
 function amankan($input){
-	$input = htmlspecialchars($input);
-	//$input = $db->real_escape_string($input);
-	return $input;
+    $input = htmlspecialchars($input);
+    //$input = $db->real_escape_string($input);
+    return $input;
 }
 
 function session_cek(){
-	if (!isset($_SESSION)) { session_start(); }
+    if (!isset($_SESSION)) { session_start(); }
 }
 
 session_cek();
