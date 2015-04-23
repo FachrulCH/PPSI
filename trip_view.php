@@ -86,15 +86,14 @@ $user_id_rahasia = enkripsi($user_id);
     </head>
     <body>
         <section data-role="page" id="home">
-            <?php
+<?php
             // Memanggil fungsi untuk generate panel samping
             get_panel();
-            ?>
-            <?php
+
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
             get_header('Trip');
-            ?>
+?>
             <article role="main" class="ui-content">
                 <h3 class="ui-bar ui-bar-a"><?= $db_trip['trip_judul'] ?></h3>
                 <!-- Carousel -->
@@ -118,9 +117,9 @@ $user_id_rahasia = enkripsi($user_id);
                 </section>
                 <!-- End Carousel -->
                 <fieldset data-role="controlgroup" data-type="horizontal" class="ketengah">
-                    <?php
-                    Tmplt_button_user(Trip_cek_status_user($user_id));
-                    ?>
+<?php
+                Tmplt_button_user(Trip_cek_status_user($user_id));
+?>
                 </fieldset>
 
                 <br/>
@@ -160,13 +159,19 @@ $user_id_rahasia = enkripsi($user_id);
                         <button class="ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-edit" id="btn_tanya">Tanya</button>
                     </form>
                     <div id="listTanya">
-                        <?php
-                        Tmplt_comment_trip1($trip_id);
-                        ?>
+<?php
+                    $kosong = true;                 // list tanya default nya kosong
+                    Tmplt_comment_trip1($trip_id);  // tampilan list pertanyaan
+?>
                     </div>
+<?php
+                    if ($kosong != true){           // Kalo list tanya tidak kosong maka muncul berikut
+?>
                     <div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
                     <a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>
-
+<?php
+}
+?>
                 </div>
                 <br/>
 
@@ -176,7 +181,9 @@ $user_id_rahasia = enkripsi($user_id);
                     </div>
 
                     <div class="ui-body ui-body-a">
-                        <?php Tmplt_trip_member_join($trip_id) ?>
+<?php 
+                    Tmplt_trip_member_join($trip_id) 
+?>
                     </div>
                 </div>
                 <script type="text/javascript" src="js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->

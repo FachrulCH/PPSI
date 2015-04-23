@@ -1,5 +1,6 @@
 <?php
-//fungsi template ada di sini
+if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
+include_once "_include/db_function.php";
 include_once "_include/template.php";
 
 ?>
@@ -35,12 +36,13 @@ include_once "_include/template.php";
 		get_header('Defaultin');
 	?>
 	<article role="main" class="ui-content">
-		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>
-		<a href="#next" class="ui-btn" style="margin-bottom:20px">next</a>
-		<ul data-role="listview">
-			<li><a href="#">item1</a></li>
-			<li><a href="#">item2</a></li>
-			<li><a href="#">item3</a></li>
+		<ul data-role="listview" data-inset="true" data-divider-theme="a">
+		<li data-role="list-divider">Trip Terbaru</li>
+			<li><a href="#">Inbox</a></li>
+			<li><a href="#">Outbox</a></li>
+			<li data-role="list-divider">Contacts</li>
+			<li><a href="#">Friends</a></li>
+			<li><a href="#">Work</a></li>
 		</ul>
 	</article><!-- /content -->
 	<?php
@@ -50,3 +52,4 @@ include_once "_include/template.php";
 
 </body>
 </html>
+<? ob_flush(); ?>

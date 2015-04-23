@@ -3,7 +3,7 @@ include_once '_include/db_function.php';
 include_once '_include/trip.php';
 
 $judul 	= amankan ( $_POST ['t_judul'] );
-$tujuan = amankan ( $_POST ['t_tujuan'] );
+$tujuan = amankan ( $_POST ['formatted_address'] );
 $lokasi = amankan ( $_POST ['location'] );
 $lokasi = explode(',', $lokasi);
 $kota 	= amankan ( $_POST ['administrative_area_level_2'] );

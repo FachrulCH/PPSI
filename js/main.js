@@ -43,4 +43,37 @@ function dialogin(pesan) {
     }).popup("open");
 }
 
+function customAjax(u, d, callback) {
+    $.ajax({
+        type: "post",
+        url: u,
+        data: d,
+        async: true,
+        dataType: 'json',
+        beforeSend: function () {
+            // menampilkan loading spiner sebelum data dikirim
+            $.mobile.loading("show", {text: "Mohon tunggu", textVisible: true});
+        },
+        success: function (result) {
+            $.mobile.loading("hide");
+            if (result.status == '1') {
+                dialogin(result.pesan);
+                if (typeof callback == 'function') {
+                    callback(result.data);
+                }
+            } else {
+                dialogin(result.pesan);
+            }
+        },
+        error: function (request, error) {
+            // This callback function will trigger on unsuccessful action                
+            dialogin('Network bermasalah, silahkan coba lagi!');
+            $.mobile.loading("hide");
+            console.log(error);
+            console.log(request);
+                                    
+        }
+    });
+}
+
 

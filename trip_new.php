@@ -1,12 +1,12 @@
 <?php
-//fungsi template ada di sini
+if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
 include_once "_include/db_function.php";
 include_once "_include/template.php";
 
-
-seqid_generate('sq_trip');
-$trip_id = seqid_getlast('sq_trip');
-$_SESSION['trip_id'] = $trip_id;
+seqid_generate('sq_trip');              // Generate ID Trip
+$trip_id = seqid_getlast('sq_trip');    // ambil ID terahir
+$_SESSION['user_id'] = 2;
+$_SESSION['trip_id'] = $trip_id;        // simpan id di session
 ?>
 <!doctype html>
 <html>
@@ -84,7 +84,7 @@ $_SESSION['trip_id'] = $trip_id;
 		<h3>Buat Rencana Perjalanan</h3>
 		</div>
 		<div class="ui-body ui-body-a">
-		<form action="perjalanan_simpan.php" method="post" data-ajax="false" id="newTrip">
+		<form action="#" method="post" data-ajax="false" id="newTrip">
 			<ul data-role="listview" data-inset="true">
 				<li class="ui-field-contain">
 				<label for="t_judul">Judul Trip:</label>
@@ -96,11 +96,13 @@ $_SESSION['trip_id'] = $trip_id;
 					<input type="text" name="t_tujuan" id="t_tujuan" value="" data-clear-btn="true">
 				</li>
 				<li class="ui-field-contain">
-				<label for="lokasi">Provinsi:</label>
+				<label for="lokasi"></label>
 				<div id="hasil"> 
 					<input name="location" type="hidden" value="">
+                                        <input name="administrative_area_level_1" type="hidden" value="">
+                                        <input name="administrative_area_level_2" type="hidden" value="">
 					<input name="formatted_address" type="hidden" value="" id="lokasi2">
-					<span name="administrative_area_level_1" id="lokasi"></span>
+<!--					<span name="administrative_area_level_1" id="lokasi"></span>-->
 				</div>	
 				</li>
 				
@@ -120,19 +122,25 @@ $_SESSION['trip_id'] = $trip_id;
 				</li>
 				<li class="ui-field-contain">					
 				<label for="t_quota">Quota:</label>
-				<input type="range" name="t_quota" id="t_quota" min="0" max="25" data-highlight="true">
+				<input type="range" name="t_quota" id="t_quota" min="0" max="25" data-highlight="true" data-theme="b">
 				</li>
 				
-				<li class="ui-field-contain">
+                                
+                                <li class="ui-field-contain" id="tgl1">
 				<label for="t_tgl1">Tgl berangkat:</label>
 					<input type="date" data-role="date" id="t_tgl1" name="t_tgl1">
 				</li>
 				
-				<li class="ui-field-contain">
+				<li class="ui-field-contain" id="tgl2">
 				<label for="t_tgl2">Tgl pulang:</label>
-					<input type="date" data-role="date" id="t_tgl2" name="t_tgl2">
+				<input type="date" data-role="date" id="t_tgl2" name="t_tgl2">
 				</li>
 				
+                                <li class="ui-field-contain">
+                                <label for="ckTGL">Belum tau kapan, tapi pengen banget kesana (trip impian)</label>
+				<input type="checkbox" name="dreamdestination" id="ckTGL"> 
+				</li>
+                                
 				<li class="ui-field-contain">
 				<label for="t_trans">Transport:</label>
 				<select name="t_trans" id="t_trans" data-mini="true">
@@ -150,23 +158,50 @@ $_SESSION['trip_id'] = $trip_id;
 				<label for="t_meeting">Meeting Poin:</label>
 					<input type="text" name="t_meeting" id="t_meeting" value="" data-clear-btn="true">
 				</li>
-				
 				<li class="ui-field-contain">
-				<label for="t_rencana">Rencana Perjalanan:</label>
-					
-					<div id='t_rencana' style="margin-top: 30px;">
+				<button class="ui-btn ui-icon-edit ui-btn-icon-left" type="submit">Posting</button>
 				</li>
 				<li class="ui-field-contain">
+				<label for="t_rencana">Rencana Perjalanan:</label>
+                                <textarea name="t_rencana"></textarea>
+<!--					<div id='t_rencana' style="margin-top: 30px;">-->
+				</li>
+<!--				<li class="ui-field-contain">
 					<div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
 					<div id="unggah" class="ui-grid-a">
 						<div class="ui-block-a"><a id="pickfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-camera ui-btn-icon-left">Pilih foto galeri</a> </div>
     					<div class="ui-block-b"><a id="uploadfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-action ui-btn-icon-left">Unggah foto</a> </div>
     				</div>
-    				<pre id="console"></pre>
+    				<pre id="console"></pre>-->
+                                </li>
+				
+			</ul>
+		</form>	
+		</div>
+<script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
+    $('#ckTGL').on('change', function() { 
+      if ($(this).prop('checked')) {
+        //alert('is checked');
+        $("input[type=date]").val("");
+        $("#tgl1").hide(300);
+        $("#tgl2").hide(300);
+    } else {
+        $("#tgl1").show(300);
+        $("#tgl2").show(300);
+    }
+});
+    jQuery.validator.addMethod("greaterStart", function (value, element, params) {
+    return this.optional(element) || new Date(value) >= new Date($(params).val());
+    },'Harus lebih besar dari tanggal mulai');
 		$.validator.setDefaults({
 			submitHandler: function() {
-				alert("submitted!");
+				//dialogin("submitted!");
+				var kirim = $("#newTrip").serialize();
+                                console.log(kirim);
+				customAjax('<?= URLSITUS ?>ajax.php?do=trip_save',kirim,function (data) {
+					dialogin(data);
+				});
 				}
 			});
 		$("#newTrip").validate({
@@ -174,11 +209,13 @@ $_SESSION['trip_id'] = $trip_id;
 			rules: {
 				t_judul: {
 					required: true,
-					maxlength: 10
+					maxlength: 100
 				},
 				t_tujuan: "required",
 				t_tgl1: "date",
-				t_tgl2: "date",
+				t_tgl2: {
+                                    greaterStart: "#t_tgl1"
+                                },
 				s_status_trip: {
 					required: "#s_status_trip option:selected"
 				},
@@ -188,13 +225,15 @@ $_SESSION['trip_id'] = $trip_id;
 					required: "Judul trip kamu wajib diisi",
 					maxlength: "Panjang maksimum judul adalah 100 karakter"
 				},
+				t_tujuan: "Masukan tujuan liburanmu",
 				t_tgl1: "Format tanggal salah",
-				t_tgl2: "Format tanggal salah",
 				s_status_trip: "Kategori Trip wajib diisi"
 			}
 
 
 		});
+
+
 </script> 
 <script type="text/javascript">
 var uploader = new plupload.Uploader({
@@ -243,13 +282,7 @@ uploader.init();
 
 </script>
 
-    			</li>
-				<li class="ui-field-contain">
-				<button class="ui-btn ui-icon-edit ui-btn-icon-left" type="submit">Posting</button>
-				</li>
-			</ul>
-		</form>	
-		</div> 
+    			 
 	
 	</article><!-- /content -->
 
@@ -258,3 +291,4 @@ uploader.init();
 
 </body>
 </html>
+<? ob_flush(); ?>

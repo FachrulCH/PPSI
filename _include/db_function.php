@@ -1,6 +1,15 @@
 <?php
-include_once 'config.php';
+//include_once 'config.php';
 include_once 'fungsi.php';
+
+defined('DBHOST') ? null : define("DBHOST", "localhost");
+defined('DBUSER') ? null : define("DBUSER", "root");
+defined('DBPASS') ? null : define("DBPASS", "");
+defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
+
+defined("URLSITUS") ? null : define("URLSITUS", "http://localhost:8080/PPSIoop/"); // ==> URL web nya, buat <a href> 
+
+
 
 $database = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 $db =& $database;

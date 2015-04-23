@@ -4,48 +4,71 @@ if(@$statuskoneksi != 'connected'){
 	require_once 'db_function.php';
 }
 
-function trip_save($trip_user_id, $trip_judul, $trip_tujuan, $trip_tujuan_geolat, $trip_tujuan_geolng, 
+function trip_save($trip_user_id, $trip_judul, $trip_tujuan,$trip_tuj_provinsi,$trip_tuj_kota, $trip_tujuan_geolat, $trip_tujuan_geolng, 
 					$trip_kategori, $trip_quota, $trip_date1, $trip_date2, $trip_info, $trip_transport, $trip_meeting_point)
 {
 
 	// Pembersihan variabel input sebelum masuk database
-	$trip_user_id 			= sanitize($trip_user_id);
-	$trip_judul				= sanitize($trip_judul);
-	$trip_tujuan 			= sanitize($trip_tujuan);
-	$trip_tujuan_geolat 	= sanitize($trip_tujuan_geolat);
-	$trip_tujuan_geolng		= sanitize($trip_tujuan_geolng); 
-	$trip_kategori 			= sanitize($trip_kategori);
-	$trip_quota 			= sanitize($trip_quota);
-	$trip_date1 			= sanitize($trip_date1);
-	$trip_date2 			= sanitize($trip_date2);
-	$trip_info				= sanitize($trip_info);
-	$trip_transport 		= sanitize($trip_transport);
-	$trip_meeting_point		= sanitize($trip_meeting_point);
-	$trip_id 				= $_SESSION['trip_id']; 			// Ambil ID trip nya dari session
+	$trip_user_id       = sanitize($trip_user_id);
+	$trip_judul         = sanitize($trip_judul);
+	$trip_tujuan        = sanitize($trip_tujuan);
+        //$trip_tujuan_lengkap = sanitize($trip_tujuan_lengkap);
+        $trip_tuj_provinsi  = sanitize($trip_tuj_provinsi);
+        $trip_tuj_kota      = sanitize($trip_tuj_kota);
+	$trip_tujuan_geolat = sanitize($trip_tujuan_geolat);
+	$trip_tujuan_geolng = sanitize($trip_tujuan_geolng); 
+	$trip_kategori      = sanitize($trip_kategori);
+	$trip_quota         = sanitize($trip_quota);
+	$trip_date1         = sanitize($trip_date1);
+	$trip_date2         = sanitize($trip_date2);
+	$trip_info          = sanitize($trip_info);
+	$trip_transport     = sanitize($trip_transport);
+	$trip_meeting_point = sanitize($trip_meeting_point);
+	$trip_id            = $_SESSION['trip_id']; 			// Ambil ID trip nya dari session
 	
-	// insert data trip
-	$sql = "INSERT INTO tb_trip (trip_id, trip_user_id, trip_judul, trip_tujuan, trip_tujuan_geolat, trip_tujuan_geolng, trip_kategori, trip_quota, trip_date1, trip_date2, trip_info, trip_transport, trip_meeting_point) 
-			VALUES 	('{$trip_id}', '{$trip_user_id}', '{$trip_judul}', '{$trip_tujuan}', '{$trip_tujuan_geolat}', '{$trip_tujuan_geolng}', '{$trip_kategori}', '{$trip_quota}', '{$trip_date1}', '{$trip_date2}', '{$trip_info}', '{$trip_transport}', '{$trip_meeting_point}');";
+        // turn off auto-commit
+        global $db;
+        mysqli_autocommit($db, FALSE);
+	
+        $hasil = 2;
+        // insert data trip
+	$sql = "INSERT INTO tb_trip 
+                    (trip_id, trip_user_id, 
+                    trip_judul, trip_tujuan, 
+                    trip_tujuan_provinsi, trip_tujuan_kota, 
+                    trip_tujuan_geolat, trip_tujuan_geolng, 
+                    trip_kategori, trip_quota, 
+                    trip_date1, trip_date2, 
+                    trip_info, trip_transport, 
+                    trip_meeting_point) 
+		VALUES 	
+                    ('{$trip_id}', '{$trip_user_id}',
+                    '{$trip_judul}', '{$trip_tujuan}',
+                    '{$trip_tuj_provinsi}','{$trip_tuj_kota}', 
+                    '{$trip_tujuan_geolat}', '{$trip_tujuan_geolng}', 
+                    '{$trip_kategori}', '{$trip_quota}', 
+                    '{$trip_date1}', '{$trip_date2}', 
+                    '{$trip_info}', '{$trip_transport}', 
+                    '{$trip_meeting_point}');";
 	$saveSql = good_query($sql);
 	
+        if ($saveSql !== TRUE) {
+            mysqli_rollback($db);  // if error, roll back transaction
+            $hasil = $hasil-1;
+        }
 	// insert ke trip member, user pembuat dengan status HOST
 	$sqlM = "INSERT INTO tb_trip_member (member_trip_id, member_user_id, member_status) VALUES ('{$trip_id}', '{$trip_user_id}', 'A')";
 	$sqlMdo = good_query($sqlM);
-	
-	if($saveSql && $hasil){
-		$hasil = true;
-	}else{
-		$hasil = false;
-	}
-	
-	if ($hasil == true){
-		$pesan = "Trip kamu berhasil di buat";
-	}else{
-		$pesan = "Ada kesalahan teknis saat membuat trip kamu :( ";
-	}
-	// Pesan untuk hasil proses simpan data dikirim dalam bentuk json
-	$json = json_encode(array('pesan' => $pesan));
-	return $json;
+        
+        if ($sqlMdo !== TRUE) {
+            mysqli_rollback($db);  // if error, roll back transaction
+            $hasil = $hasil-1;
+        }
+        
+        // assuming no errors, commit transaction
+        mysqli_commit($db);
+        
+        return $hasil;
 }
 
 function trip_get_by_id($trip_id){

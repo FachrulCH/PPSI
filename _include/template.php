@@ -2,7 +2,8 @@
 // template di include di bawah:
 // db_function.php -> trip.php
 
-function get_meta($title=null){
+function get_meta($title=null)
+{
 echo "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>";
 echo '
 	<title>'.$title.'</title>
@@ -16,7 +17,8 @@ echo '
 	<script src="js/jquery.mobile-1.4.5.min.js"></script>';
 }
 
-function get_panel(){
+function get_panel()
+{
 echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="profilePic">
@@ -39,7 +41,8 @@ echo '
 	</div><!-- /panel -->';
 }
 
-function get_header($title=null){
+function get_header($title=null)
+{
 	echo '
 	<header data-role="header">
 		<h1>'.$title.'</h1>
@@ -49,7 +52,8 @@ function get_header($title=null){
 	</header><!-- /header -->';
 }
 
-function get_footer(){
+function get_footer()
+{
 	echo '
 	<div data-role="footer" style="overflow:hidden; text-align:center">
 		<div data-role="navbar">
@@ -65,7 +69,8 @@ function get_footer(){
 	';
 }
 
-function Tmplt_button_user($user_status){
+function Tmplt_button_user($user_status)
+{
 	if ($user_status == 'A'){
 		// Klo user nya adalah host
 		echo '
@@ -91,7 +96,9 @@ function Tmplt_button_user($user_status){
 		
 }
 
-function Tmplt_comment_trip1($trip_id){
+function Tmplt_comment_trip1($trip_id)
+{
+	// Muncul default setelah trip di load
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	// return mysql query
 	$data = Trip_get_tanya($trip_id);
@@ -123,8 +130,13 @@ function Tmplt_comment_trip1($trip_id){
 //	</div>
 //	</div>';
 //	}
-        
+        if (count(array_filter($data)) == 0 )
+        {
+        	echo "";
+        	$kosong = true;
+        }else{
         foreach ($data as $d) {
+        	$kosong = false;
             echo '
             <div class="dataPertanyaan">
                 <hr/>
@@ -146,10 +158,13 @@ function Tmplt_comment_trip1($trip_id){
                 </div>
             </div>';
         }
+    }
 
 }
 
-function Tmplt_comment_trip2($trip_id){
+function Tmplt_comment_trip2($trip_id)
+{
+	// fungsi ini di pakai untuk Ajax request dari ajax.php saat tambah pertanyaan
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	// return mysql query
 	$data = Trip_get_tanya($trip_id);
