@@ -100,16 +100,22 @@ $_SESSION['user_id'] = 1;
 <body>
 
 <?php
-$d = "3";
-$d = enkripsi($d);
-$e = dekripsi($d);
-//
-echo "enkripsi => $d <br/>";
-echo "dekripsi => $e <br/>";
-$data = Trip_get_tanya(110);
-echo "<pre>";
-print_r($data);
+//$d = "3";
+//$d = enkripsi($d);
+//$e = dekripsi($d);
+////
+//echo "enkripsi => $d <br/>";
+//echo "dekripsi => $e <br/>";
+//$data = Trip_get_tanya(110);
+//echo "<pre>";
+//print_r($data);
 
+// cek data trip
+$sql = "select * from v_trip_list where trip_id = 110 limit 2;" ;
+echo "<pre>";
+//print_r(Trip_load_new());
+print_r(Trip_load_hot(1,2));
+echo '</pre>';
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>

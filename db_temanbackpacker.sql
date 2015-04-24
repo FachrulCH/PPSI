@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2015 at 07:00 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Generation Time: Apr 24, 2015 at 05:06 PM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Database: `db_temanbackpacker`
 --
 DROP DATABASE `db_temanbackpacker`;
-CREATE DATABASE IF NOT EXISTS `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `db_temanbackpacker`;
 
 -- --------------------------------------------------------
@@ -121,19 +121,22 @@ CREATE TABLE IF NOT EXISTS `tb_galeri` (
   `galeri_foto_url` varchar(100) DEFAULT NULL,
   `galeri_foto_judul` varchar(100) DEFAULT NULL,
   `galeri_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`galeri_id`),
   KEY `galeri_id` (`galeri_id`),
   KEY `idx_galeri_trip` (`galeri_trip_id`),
-  KEY `galeri_trip_id` (`galeri_trip_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  KEY `galeri_trip_id` (`galeri_trip_id`),
+  KEY `galeri_trip_id_2` (`galeri_trip_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `tb_galeri`
 --
 
 INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
-(5, 110, 'kitchen_adventurer_caramel.jpg', 'kitchen_adventurer_caramel', '2015-04-22 17:00:00'),
-(6, 110, 'kitchen_adventurer_donut.jpg', 'kitchen_adventurer_donut', '2015-04-22 17:00:00'),
-(7, 110, 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-22 17:00:00');
+(5, 193, 'kitchen_adventurer_caramel.jpg', 'kitchen_adventurer_caramel', '2015-04-22 17:00:00'),
+(6, 194, 'kitchen_adventurer_donut.jpg', 'kitchen_adventurer_donut', '2015-04-22 17:00:00'),
+(7, 110, 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-22 17:00:00'),
+(9, 1100, 'kitchen_adventurer_lemon.jpg', 'asoy', NULL);
 
 -- --------------------------------------------------------
 
@@ -242,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
 --
 
 INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-(1, 'sq_trip', 1, 102),
+(1, 'sq_trip', 1, 103),
 (2, 'seq_tanya', 2, 0),
 (3, 'seq_diskusi', 3, 0);
 
@@ -262,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_tujuan_kota` varchar(100) NOT NULL,
   `trip_tujuan_geolat` double DEFAULT NULL,
   `trip_tujuan_geolng` double DEFAULT NULL,
-  `trip_kategori` varchar(100) DEFAULT NULL,
+  `trip_kategori` char(1) DEFAULT NULL,
   `trip_quota` tinyint(4) DEFAULT NULL,
   `trip_date1` date DEFAULT NULL,
   `trip_date2` date DEFAULT NULL,
@@ -279,10 +282,10 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
 --
 
 INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_provinsi`, `trip_tujuan_kota`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`, `trip_created_date`) VALUES
-(0, 1, 'ini judul', 'ini tujuan', '', '', 892349328, 984010, 'kategori', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt', '2015-04-23 16:04:21'),
-(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', '', '', -6.258244, 106.977183, '2', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta', '2015-04-23 16:04:21'),
-(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', '', '', 0, 6, '2', 6, '0000-00-00', '0000-00-00', '', '2', 'di stasiiun kranji', '2015-04-23 16:04:21'),
-(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', '', '', 0, 6, '2', 14, '2015-04-30', '2015-04-30', '', '2', 'stasiun', '2015-04-23 16:04:21'),
+(0, 1, 'ini judul', 'ini tujuan', '', '', 892349328, 984010, 'k', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt', '2015-04-01 16:04:21'),
+(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', '', '', -6.258244, 106.977183, '2', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta', '2015-04-02 16:04:21'),
+(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', '', '', 0, 6, '2', 6, '0000-00-00', '0000-00-00', '', '2', 'di stasiiun kranji', '2015-04-03 16:04:21'),
+(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', '', '', 0, 6, '2', 14, '2015-04-30', '2015-04-30', '', '2', 'stasiun', '2015-04-04 16:04:21'),
 (195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', '', '', -7.333333, 108.2, '2', 12, '0000-00-00', '0000-00-00', '', '3', 'alun alun', '2015-04-23 16:04:21'),
 (1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', 'Jawa Barat', 'Kabupaten Bandung Barat', -6.865221, 107.491977, '2', 13, '2015-04-23', '2015-04-25', '', '3', 'meetingpoin', '2015-04-23 16:04:21');
 
@@ -356,25 +359,25 @@ INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `u
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `trip_list`
+-- Stand-in structure for view `v_trip_list`
 --
-DROP VIEW IF EXISTS `trip_list`;
-CREATE TABLE IF NOT EXISTS `trip_list` (
+DROP VIEW IF EXISTS `v_trip_list`;
+CREATE TABLE IF NOT EXISTS `v_trip_list` (
 `trip_id` int(11)
 ,`trip_judul` varchar(50)
 ,`trip_tujuan_provinsi` varchar(250)
 ,`param_name` varchar(20)
 ,`trip_created_date` timestamp
-,`Name_exp_6` varchar(100)
+,`trip_gambar` varchar(100)
 );
 -- --------------------------------------------------------
 
 --
--- Structure for view `trip_list`
+-- Structure for view `v_trip_list`
 --
-DROP TABLE IF EXISTS `trip_list`;
+DROP TABLE IF EXISTS `v_trip_list`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `trip_list` AS select `a`.`trip_id` AS `trip_id`,`a`.`trip_judul` AS `trip_judul`,`a`.`trip_tujuan_provinsi` AS `trip_tujuan_provinsi`,`b`.`param_name` AS `param_name`,`a`.`trip_created_date` AS `trip_created_date`,(select `c`.`galeri_foto_url` from `tb_galeri` `c` where (`c`.`galeri_trip_id` = `a`.`trip_id`) order by rand() limit 0,1) AS `Name_exp_6` from (`tb_trip` `a` join `tb_param` `b`) where ((`a`.`trip_kategori` = `b`.`param_value`) and (`b`.`param_key` = '2')) order by `a`.`trip_created_date` desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_trip_list` AS select `a`.`trip_id` AS `trip_id`,`a`.`trip_judul` AS `trip_judul`,`a`.`trip_tujuan_provinsi` AS `trip_tujuan_provinsi`,`b`.`param_name` AS `param_name`,`a`.`trip_created_date` AS `trip_created_date`,(select `c`.`galeri_foto_url` from `tb_galeri` `c` where (`c`.`galeri_trip_id` = `a`.`trip_id`) order by rand() limit 0,1) AS `trip_gambar` from (`tb_trip` `a` join `tb_param` `b`) where ((`a`.`trip_kategori` = `b`.`param_value`) and (`b`.`param_key` = '2')) order by `a`.`trip_created_date` desc;
 
 --
 -- Constraints for dumped tables

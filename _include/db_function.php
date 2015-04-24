@@ -7,7 +7,7 @@ defined('DBUSER') ? null : define("DBUSER", "root");
 defined('DBPASS') ? null : define("DBPASS", "");
 defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
 
-defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); // ==> URL web nya, buat <a href> 
+defined("URLSITUS") ? null : define("URLSITUS", "http://localhost:8080/PPSIoop/"); // ==> URL web nya, buat <a href> 
 
 
 
@@ -50,6 +50,18 @@ function good_query_list($sql, $debug=0)
     }
     $db->free_result($result);
     return false;
+}
+
+function good_query_all($sql, $debug=0)
+{
+    // this function require presence of good_query() function
+    $result = good_query($sql, $debug);
+    if ($result->num_rows > 0){
+        return mysqli_fetch_all($result,MYSQLI_ASSOC);
+    }else{
+        return false;
+    }
+    
 }
 
 function good_query_assoc($sql, $debug=0)

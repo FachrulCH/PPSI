@@ -10,6 +10,8 @@ echo '
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="shortcut icon" href="css/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="css/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="css/themes/tema-merah.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />

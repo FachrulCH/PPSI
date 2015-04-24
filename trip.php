@@ -5,6 +5,55 @@ else
     ob_start();
 include_once "_include/db_function.php";
 include_once "_include/template.php";
+include_once "_include/trip.php";
+
+$m          = isset($_GET['m'] ) ? $_GET['m'] : 'new';
+$page       = isset($_GET['page'] ) ? (int) $_GET['page'] : 1; // mengambil data trip
+$batas      = 2;                                       // jumlah trip perhalaman
+$jumData    = Trip_total();                             //Jumlah halaman
+$JmlHalaman = ceil($jumData/$batas);                    //ceil digunakan untuk pembulatan keatas
+
+// Validasi biar ga eror kalo masukin halaman yg 
+if ($page > $JmlHalaman){                               
+    $page = $JmlHalaman;
+}
+
+if ($m == 'hot') {
+    // Karena hot trip cuma 10 trip dengan jumlah komentar teratas maka perlu di set default value
+    $page   = 1;
+    $batas  = 10;
+    $trip = Trip_load_hot($page, $batas);
+    $JmlHalaman = 1;
+}else{
+    $trip = Trip_load_new($page, $batas);
+}
+
+//Navigasi ke sebelumnya
+if ($page > 1) {
+    $link = $page - 1;
+    $prev = "<a href='?page=1' class='ui-shadow ui-btn'> << </a>";
+} else {
+    $prev = "";  // Posisi di halaman pertama
+}
+
+//Navigasi nomor
+$nmr = '';
+for ($i = 1; $i <= $JmlHalaman; $i++) {
+
+    if ($i == $page) {
+        $nmr .= "<a href='?page=1' class='ui-shadow ui-btn ui-btn-active'> $i </a>" . " ";
+    } else {
+        $nmr .= "<a href='?page=$i' class='ui-shadow ui-btn'>$i</a> ";
+    }
+}
+
+//Navigasi ke selanjutnya
+if ($page < $JmlHalaman) {
+    $link = $page + 1;
+    $next = " <a href='?page=$JmlHalaman' class='ui-shadow ui-btn'> >> </a>";
+} else {
+    $next = "";
+}
 ?>
 <!doctype html>
 <html>
@@ -183,7 +232,7 @@ include_once "_include/template.php";
         <section data-role="page" id="home" class="trip-grid">
             <?php
             // Memanggil fungsi untuk generate panel samping
-            get_panel();
+            //get_panel();
             ?>
             <?php
             // Membuat menu header, isinya tombol back dan panel
@@ -193,9 +242,9 @@ include_once "_include/template.php";
             <article role="main" class="ui-content" class="ui-content" >
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="#" class="ui-btn-active">New Trip</a></li>
-                        <li><a href="#">Hot Trip</a></li>
-                        <li><a href="#">Search Trip</a></li>
+                        <li><a href="?m=new" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
+                        <li><a href="?m=hot" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
+                        <li><a href="#">Browse Trip</a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <span style="float:left;">
@@ -214,54 +263,33 @@ include_once "_include/template.php";
                 <div style="clear: both;"></div>
                 <hr/>
                 <ul data-role="listview" data-inset="true">
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Bandung</h2>
-                            <p>Wisata Kuliner</p>
-                            <p class="ui-li-aside">Kuliner</p>
+<?php
+                if ($trip == FALSE){
+                    echo 'Data Trip tidak ditemukan';
+                }else{
+                    // Looping data trip terbaru
+                    foreach ($trip as $t){
+?>
+                    <li><a href="<?= URLSITUS ?>trip_view.php?id=<?= $t['trip_id'] ?>" data-ajax="false">
+                            <img src="<?= URLSITUS ?>_gambar/galeri/<?= $t['trip_gambar'] ?>" class="ui-li-thumb">
+                            <h2><?= $t['trip_tujuan_provinsi'] ?></h2>
+                            <p><?= $t['trip_judul'] ?></p>
+                            <p class="ui-li-aside"><?= $t['param_name'] ?></p>
                         </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Jakarta</h2>
-                            <p>Museum Tour di hari pahlawan</p>
-                            <p class="ui-li-aside">Kota</p>
-                        </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Jogja</h2>
-                            <p>Serunya petualangan di desa penuh budaya</p>
-                            <p class="ui-li-aside">Budaya</p>
-                        </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Jakarta</h2>
-                            <p>Pulau Seribu</p>
-                            <p class="ui-li-aside">Alam</p>
-                        </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Nexus 7</h2>
-                            <p>Rumours about new full HD Nexus 7</p>
-                            <p class="ui-li-aside">Android</p>
-                        </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Firefox OS</h2>
-                            <p>ZTE to launch Firefox OS smartphone at MWC</p>
-                            <p class="ui-li-aside">Firefox</p>
-                        </a></li>
-                    <li><a href="#">
-                            <img src="_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Tizen</h2>
-                            <p>First Samsung phones with Tizen can be expected in 2013</p>
-                            <p class="ui-li-aside">Tizen</p>
-                        </a></li>
-                    <li><a href="#">
-                            <h2>Symbian</h2>
-                            <p>Nokia confirms the end of Symbian</p>
-                            <p class="ui-li-aside">Symbian</p>
-                        </a></li>
+<?php
+                    }
+                }
+?>
                 </ul>
+                <div style="text-align: center; clear: both" data-role="controlgroup" data-type="horizontal" data-mini="true">
+<?php
+            if ($JmlHalaman != '1'){
+                // Kalo jumlah halaman ada lebih dari 1, tampil paging
+                // Tampilkan navigasi
+                echo $prev . $nmr . $next;
+            }
+?>
+                </div>
             </article><!-- /content -->
             <?php
             get_footer();

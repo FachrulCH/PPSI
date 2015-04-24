@@ -141,9 +141,33 @@ function Trip_member_join($trip_id){
 	
 }
 
-function Trip_load_new()
+function Trip_total()
 {
-    
+    $sql = "select count(1) as jum from v_trip_list;";
+    $sqlSelect = good_query_assoc($sql);
+    return $sqlSelect['jum'];
 }
+
+function Trip_load_new($page, $batas)
+{
+    $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
+    // mengambil data new trip dari view
+    $sql = "select * 
+            from v_trip_list 
+            limit {$posisi}, {$batas}" ;
+    return good_query_all($sql);
+}
+
+function Trip_load_hot($page, $batas)
+{
+    $posisi = (int) $batas * ( (int) $page-1);    // menentukan offset mulai liat data
+    // mengambil data HOT trip dari view
+    $sql = "select a.*, (select count(1) from tb_chat b where b.chat_trip_id = a.trip_id) as chat 
+            from v_trip_list a 
+            where a.trip_created_date between date_sub(now(),INTERVAL 1 WEEK) and now() 
+            order by chat desc limit {$posisi}, {$batas};";
+    return good_query_all($sql);
+}
+
 
 ?>
