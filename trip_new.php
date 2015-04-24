@@ -201,6 +201,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
                                 console.log(kirim);
 				customAjax('<?= URLSITUS ?>ajax.php?do=trip_save',kirim,function (data) {
 					dialogin(data);
+                                        setTimeout('window.location.href = "<?= URLSITUS ?>trip.php"',3000);
 				});
 				}
 			});

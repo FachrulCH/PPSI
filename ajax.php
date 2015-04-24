@@ -66,7 +66,7 @@ if ($do == 'tanya'){
         $tujuan = $_POST['formatted_address'];
         $tujuan_prov = $_POST['administrative_area_level_1'];
         $tujuan_kota = $_POST['administrative_area_level_2'];
-        $lokasi = explode(',', $_POST['location']);
+        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;;
         $kategori = $_POST['s_status_trip'];
         $quota  = $_POST['t_quota'];
         $tgl1   = $_POST['t_tgl1'];
@@ -92,7 +92,7 @@ if ($do == 'tanya'){
         }else{
             $pesan = "gagal coy tersimpan";
         }
-        $hasil = array('status' => true, 'pesan' => "berhasil masuk ".$simpan, 'data' => $simpan);
+        $hasil = array('status' => true, 'pesan' => "berhasil masuk ", 'data' => $simpan);
 	echo json_encode($hasil);
 	
 }else{
