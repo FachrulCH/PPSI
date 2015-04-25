@@ -120,7 +120,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 ?>
 					</select>
 				</li>
-				<li class="ui-field-contain">					
+                                <li class="ui-field-contain" id="quota">					
 				<label for="t_quota">Quota:</label>
 				<input type="range" name="t_quota" id="t_quota" min="0" max="25" data-highlight="true" data-theme="b">
 				</li>
@@ -154,25 +154,25 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 				</select>
 				</li>
 				
-				<li class="ui-field-contain">
+                                <li class="ui-field-contain" id="mp">
 				<label for="t_meeting">Meeting Poin:</label>
 					<input type="text" name="t_meeting" id="t_meeting" value="" data-clear-btn="true">
 				</li>
 				<li class="ui-field-contain">
-				<button class="ui-btn ui-icon-edit ui-btn-icon-left" type="submit">Posting</button>
-				</li>
-				<li class="ui-field-contain">
-				<label for="t_rencana">Rencana Perjalanan:</label>
-                                <textarea name="t_rencana"></textarea>
-<!--					<div id='t_rencana' style="margin-top: 30px;">-->
-				</li>
-<!--				<li class="ui-field-contain">
-					<div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
-					<div id="unggah" class="ui-grid-a">
-						<div class="ui-block-a"><a id="pickfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-camera ui-btn-icon-left">Pilih foto galeri</a> </div>
-    					<div class="ui-block-b"><a id="uploadfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-action ui-btn-icon-left">Unggah foto</a> </div>
-    				</div>
-    				<pre id="console"></pre>-->
+                                    <label for="t_rencana">Rencana Perjalanan:</label>
+                                    <textarea name="t_rencana"></textarea>
+                                    <!--					<div id='t_rencana' style="margin-top: 30px;">-->
+                                </li>
+                                <li class="ui-field-contain">
+<!--                                    <div id="filelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>-->
+                                    <div id="unggah" class="ui-grid-a">
+                                        <div class="ui-block-a"><a id="pickfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-camera ui-btn-icon-left">Pilih foto galeri</a> </div>
+                                        <div class="ui-block-b"><a id="uploadfiles" href="javascript:;" class="ui-btn ui-mini ui-icon-action ui-btn-icon-left">Unggah foto</a> </div>
+                                    </div>
+                                    <pre id="console"></pre>
+                                </li>
+                                <li class="ui-field-contain">
+                                    <button class="ui-btn ui-icon-edit ui-btn-icon-left" type="submit">Posting</button>
                                 </li>
 				
 			</ul>
@@ -186,9 +186,13 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
         $("input[type=date]").val("");
         $("#tgl1").hide(300);
         $("#tgl2").hide(300);
+        $("#quota").hide(300);
+        $("#mp").hide(300);
     } else {
         $("#tgl1").show(300);
         $("#tgl2").show(300);
+        $("#quota").show(300);
+        $("#mp").show(300);
     }
 });
     jQuery.validator.addMethod("greaterStart", function (value, element, params) {

@@ -91,7 +91,22 @@ if ($page < $JmlHalaman) {
             #brdcmb{
                 position: relative;
                 left: -30px;
-            } 
+            }
+            .blok a:link{
+                text-decoration: none;
+                font-size: .8em;
+                font-weight: 300;
+                line-height: 1.4;
+                margin: .7em 0;
+            }
+            .blok h3{
+                font-size: .9em;
+                font-weight: 300;
+                color: #3eb249;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: .25em;
+                margin: 0 0 .5em;
+            }
 
             /***** start responsive style grid*/
             /* First breakpoint is 48em (768px). 3 column layout. Tiles 250x250 pixels incl. margin at the breakpoint. */
@@ -244,7 +259,7 @@ if ($page < $JmlHalaman) {
                     <ul>
                         <li><a href="?m=new" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
                         <li><a href="?m=hot" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
-                        <li><a href="#">Browse Trip</a></li>
+                        <li><a href="#browse">Browse Trip</a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <span style="float:left;">
@@ -252,7 +267,7 @@ if ($page < $JmlHalaman) {
                         <div id="brdcmb">
                             <ul>
                                 <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php" data-ajax="false">Trip</a></li>
+                                <li><a href="<?= URLSITUS ?>trip.php#home">Trip</a></li>
                             </ul>
                         </div>
                     </div>
@@ -295,7 +310,146 @@ if ($page < $JmlHalaman) {
             get_footer();
             ?>
         </section><!-- /page -->
+        <section data-role="page" id="browse">
+            <?php
+            // Memanggil fungsi untuk generate panel samping
+            //get_panel();
+            ?>
+            <?php
+            // Membuat menu header, isinya tombol back dan panel
+            // Memiliki argumen variabel jugul header
+            get_header('Perjalanan');
+            ?>
+            <article role="main" class="ui-content" class="ui-content" >
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="?m=new" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
+                        <li><a href="?m=hot" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
+                        <li><a href="#browse">Browse Trip</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+                <span style="float:left;">
+                    <div class="breadcrumb">
+                        <div id="brdcmb">
+                            <ul>
+                                <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
+                                <li><a href="<?= URLSITUS ?>trip.php" data-ajax="false">Trip</a></li>
+                                <li><a href="<?= URLSITUS ?>trip.php#browse" data-ajax="false">Browse</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+                <div style="clear: both"></div>
+                <h3 class="ui-bar ui-bar-a ui-corner-all">Provinsi</h3>
+                <div class="ui-body ui-body-a ui-corner-all">
+                    <div class="ui-grid-b">
+                        <div class="ui-block-a">
+                            <div class="blok">
+                                <p><a href="#">Nanggroe Aceh Darussalam</a></p>    
+                                <p><a href="#" data-ajax="false">Sumatera Utara</a></p>
+                                <p><a href="#" data-ajax="false">Bengkulu</a></p>
+                                <p><a href="#" data-ajax="false">Jambi</a></p>
+                                <p><a href="#" data-ajax="false">Riau</a></p>
+                                <p><a href="#" data-ajax="false">Sumatera Barat</a></p>
+                                <p><a href="#" data-ajax="false">Sumatera Selatan</a></p>
+                                <p><a href="#" data-ajax="false">Kepulauan Riau</a></p>
+                                <p><a href="#" data-ajax="false">Lampung</a></p>
+                                <p><a href="#" data-ajax="false">Kepulauan Bangka-Belitung</a></p>
+                                <p><a href="#" data-ajax="false">Kepulauan Riau</a></p>
+                            </div>
+                        </div>
+                        <div class="ui-block-b">
+                            <div class="blok">
+                                <p><a href="#" data-ajax="false">Banten</a></p>    
+                                <p><a href="#" data-ajax="false">Jawa Barat</a></p>
+                                <p><a href="#" data-ajax="false">DKI Jakarta</a></p>
+                                <p><a href="#" data-ajax="false">Jawa Tengah</a></p>
+                                <p><a href="#" data-ajax="false">Jawa Timur</a></p>
+                                <p><a href="#" data-ajax="false">Daerah Istimewa Yogyakarta</a></p>
+                                <p><a href="#" data-ajax="false">Bali</a></p>
+                                <p><a href="#" data-ajax="false">Nusa Tenggara Barat</a></p>
+                                <p><a href="#" data-ajax="false">Nusa Tenggara Timur</a></p>
+                                <p><a href="#" data-ajax="false">Kalimantan Barat</a></p>
+                                <p><a href="#" data-ajax="false">Kalimantan Selatan</a></p>
+                            </div>
+                        </div>
+                        <div class="ui-block-c">
+                            <div class="blok">
+                                <p><a href="#" data-ajax="false">Kalimantan Tengah</a></p>    
+                                <p><a href="#" data-ajax="false">Kalimantan Timur</a></p>
+                                <p><a href="#" data-ajax="false">Gorontalo</a></p>
+                                <p><a href="#" data-ajax="false">Sulawesi Selatan</a></p>
+                                <p><a href="#" data-ajax="false">Sulawesi Tenggara</a></p>
+                                <p><a href="#" data-ajax="false">Sulawesi Tengah</a></p>
+                                <p><a href="#" data-ajax="false">Sulawesi Utara</a></p>
+                                <p><a href="#" data-ajax="false">Sulawesi Barat</a></p>
+                                <p><a href="#" data-ajax="false">Maluku</a></p>
+                                <p><a href="#" data-ajax="false">Maluku Utara</a></p>
+                                <p><a href="#" data-ajax="false">Papua Barat</a></p>
+                                <p><a href="#" data-ajax="false">Papua</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="ui-bar ui-bar-a ui-corner-all">Jenis Kegiatan</h3>
+                <div class="ui-body ui-body-a ui-corner-all">
+                    <div class="ui-grid-c ui-responsive">
+                        <div class="ui-block-a">
+                            <div class="blok">
+                                <h3>Wisata Kota</h3>
+                                <p><a href="#" data-ajax="false">Alun-alun</a></p>    
+                                <p><a href="#" data-ajax="false">Pasar</a></p>
+                                <p><a href="#" data-ajax="false">Taman kota</a></p>
+                                <p><a href="#" data-ajax="false">Peninggalan sejarah</a></p>
+                                <p><a href="#" data-ajax="false">Landmark Kota</a></p>
+                            </div>
+                        </div>
+                        <div class="ui-block-b">
+                            <div class="blok">
+                                <h3>Wisata Budaya</h3>
+                                <p><a href="#" data-ajax="false">Kampung adat</a></p>    
+                                <p><a href="#" data-ajax="false">Suku</a></p>
+                                <p><a href="#" data-ajax="false">Kerajinan</a></p>
+                                <p><a href="#" data-ajax="false">Upacara tradisional</a></p>
+                            </div>
+                        </div>
+                        <div class="ui-block-c">
+                            <div class="blok">
+                                <h3>Wisata Hiburan</h3>
+                                <p><a href="#" data-ajax="false">Taman Bermain</a></p>    
+                                <p><a href="#" data-ajax="false">Festival</a></p>
+                                <p><a href="#" data-ajax="false">Konser Musik</a></p>
+                            </div>
+                        </div>
+                        <div class="ui-block-d">
+                            <div class="blok">
+                                <h3>Wisata Alam</h3>
+                                <p><a href="#" data-ajax="false">Pantai</a></p>    
+                                <p><a href="#" data-ajax="false">Pulau</a></p>
+                                <p><a href="#" data-ajax="false">Gunung</a></p>
+                                <p><a href="#" data-ajax="false">Gua</a></p>
+                                <p><a href="#" data-ajax="false">Air Terjun</a></p>
+                                <p><a href="#" data-ajax="false">Danau</a></p>
+                                <p><a href="#" data-ajax="false">Sungai</a></p>
+                                <p><a href="#" data-ajax="false">Hutan</a></p>
+                                <p><a href="#" data-ajax="false">Kawah</a></p>
+                                <p><a href="#" data-ajax="false">Taman Nasional</a></p>
+                                <p><a href="#" data-ajax="false">Waduk</a></p>
+                                <p><a href="#" data-ajax="false">Rawa</a></p>
+                                <p><a href="#" data-ajax="false">Mata Air</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  
+                </ul>
 
+            </article><!-- /content -->
+            <?php
+            get_footer();
+            ?>
+        </section><!-- /page -->
     </body>
 </html>
 <? ob_flush(); ?>

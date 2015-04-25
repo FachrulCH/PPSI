@@ -4,7 +4,7 @@ include_once "_include/template.php";
 include_once "_include/trip.php";
 
 //ambil data trip dari database, lemparan adalah trip_id
-$trip_id = 110;
+$trip_id = (int) $_GET['id'];
 $trip_id_rahasia = enkripsi($trip_id);
 $db_trip = trip_get_by_id($trip_id);
 $_SESSION['user_id'] = 2;
@@ -100,17 +100,17 @@ $user_id_rahasia = enkripsi($user_id);
                 <section class="slider">
                     <div class="flexslider">
                         <ul class="slides">
-                            <li data-thumb="css/images/kitchen_adventurer_cheesecake_brownie.jpg">
-                                <img src="css/images/kitchen_adventurer_cheesecake_brownie.jpg" />
+                            <li data-thumb="_gambar/galeri/kitchen_adventurer_cheesecake_brownie.jpg">
+                                <img src="_gambar/galeri/kitchen_adventurer_cheesecake_brownie.jpg" />
                             </li>
-                            <li data-thumb="css/images/kitchen_adventurer_lemon.jpg">
-                                <img src="css/images/kitchen_adventurer_lemon.jpg" />
+                            <li data-thumb="_gambar/galeri/kitchen_adventurer_lemon.jpg">
+                                <img src="_gambar/galeri/kitchen_adventurer_lemon.jpg" />
                             </li>
-                            <li data-thumb="css/images/kitchen_adventurer_donut.jpg">
-                                <img src="css/images/kitchen_adventurer_donut.jpg" />
+                            <li data-thumb="_gambar/galeri/kitchen_adventurer_donut.jpg">
+                                <img src="_gambar/galeri/kitchen_adventurer_donut.jpg" />
                             </li>
-                            <li data-thumb="css/images/kitchen_adventurer_caramel.jpg">
-                                <img src="css/images/kitchen_adventurer_caramel.jpg" />
+                            <li data-thumb="_gambar/galeri/kitchen_adventurer_caramel.jpg">
+                                <img src="_gambar/galeri/kitchen_adventurer_caramel.jpg" />
                             </li>
                         </ul>
                     </div>
