@@ -82,7 +82,8 @@ function trip_get_by_id($trip_id){
 	return $data;
 }
 
-function Trip_cek_status_user($id){
+function Trip_cek_status_user($id)
+{
 	$id = (int) $id;
 	$sql = "SELECT B.member_status
 			FROM tb_trip A, tb_trip_member B
@@ -96,7 +97,8 @@ function Trip_cek_status_user($id){
 	return $sqlStatus;
 }
 
-function Trip_count_member_joined($trip_id){
+function Trip_count_member_joined($trip_id)
+{
 	$trip_id = (int) $trip_id;
 	$sql = "SELECT count(1) as jumlah
 			FROM tb_trip_member A
@@ -106,12 +108,14 @@ function Trip_count_member_joined($trip_id){
 	return $sqlCount['jumlah'];
 }
 
-function Trip_kategori_view($id){
+function Trip_kategori_view($id)
+{
 	$json = get_db_param('status_trip');
 	return $json->status_trip[$id]->name;	
 }
 
-function Trip_get_tanya($trip_id){
+function Trip_get_tanya($trip_id)
+{
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	$trip_id = (int) $trip_id;
 	
@@ -125,7 +129,9 @@ function Trip_get_tanya($trip_id){
 	//return $sqlSelect;
         return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
 }
-function Trip_member_join($trip_id){
+
+function Trip_member_join($trip_id)
+{
 	$trip_id = (int) $trip_id;
 	$sql = "SELECT A.member_user_id, B.user_name, B.user_foto
   		FROM tb_trip_member A, tb_user B
