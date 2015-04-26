@@ -42,6 +42,18 @@ echo '
 	</ul>
 	</div><!-- /panel -->';
 }
+function get_panel_search()
+{
+echo '
+	<div data-role="panel" id="panelSearch" data-position="right" data-position-fixed="true" data-display="overlay">
+            <form action="#" method="get">
+                <input type="search" placeholder="Mau jalan jalan kemana?" class="ui-btn-inline">
+                <button class="ui-btn ui-icon-search ui-btn-icon-left ui-mini">Cari</button>
+            </form>
+            <p>Atau coba masuk ke menu pencarian</p>
+            <a href="#" class="ui-btn">Pencarian detail</a>
+	</div><!-- /panel -->';
+}
 
 function get_header($title=null)
 {
@@ -53,6 +65,16 @@ function get_header($title=null)
         <a href="#menuPanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all">Default panel</a>
 	</header><!-- /header -->';
 }
+
+function get_header_index($title=null)
+{
+	echo '
+	<header data-role="header">
+		<h1>'.$title.'</h1>
+        <a href="#panelSearch" class="ui-btn ui-icon-search ui-btn-icon-notext ui-corner-all ui-btn-right">Pencarian</a>
+	</header><!-- /header -->';
+}
+
 
 function get_footer()
 {
