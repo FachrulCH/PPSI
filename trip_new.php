@@ -1,5 +1,5 @@
 <?php
-if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
+//if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
 include_once "_include/db_function.php";
 include_once "_include/template.php";
 
@@ -449,4 +449,4 @@ jQuery(function ($){
 
 </body>
 </html>
-<? ob_flush(); ?>
+<?php //ob_flush(); ?>
