@@ -13,15 +13,12 @@ include_once "_include/template.php";
 		get_meta('TemanBackpacker.com');
 	?>
 	<style type="text/css">
-		.profilePic{
-			text-align: center;
-			height: 150px;
+            .hrfKecil{
+			font-size: .8em;
 		}
-		.hrfKecil{
-			font-size: 10px;
-			margin: -15px 0px 5px 0px;
-		}
-
+                .ketengah{
+                    text-align: center;
+                }
 	</style>
 </head>
 <body>

@@ -1,10 +1,13 @@
 <?php
-echo json_encode($_FILES);
-
+include_once './_include/fungsi.php';
+//echo json_encode($_FILES);
+$nama           = make_image_name($_FILES["filedata"]["name"]);
+echo $nama;
 $target_dir     = "_gambar/galeri/o/";
-$Thumb          = "_gambar/galeri/thumb/". basename($_FILES["filedata"]["name"]);
-$Fit            = "_gambar/galeri/fit/". basename($_FILES["filedata"]["name"]);
-$target_file    = $target_dir . basename($_FILES["filedata"]["name"]);
+$Thumb          = "_gambar/galeri/thumb/". basename($nama);
+$Thumb2         = "_gambar/galeri/thumb2/". basename($nama);
+$Fit            = "_gambar/galeri/fit/". basename($nama);
+$target_file    = $target_dir . basename($nama);
 $upload         = move_uploaded_file($_FILES["filedata"]["tmp_name"], $target_file);
 
 // Setelah berhasil di save, lalu di resize lah
@@ -14,8 +17,9 @@ try {
     $img = new abeautifulsite\SimpleImage($target_file);
     // Shrink the image proportionally to fit inside a box
     $img->best_fit(300, 200)->save($Fit);
+    $img->thumbnail(300, 300)->save($Thumb);
     //$img->flip('x')->rotate(90)->best_fit(320, 200)->sepia()->save('example/result.gif');
-    $img->thumbnail(80, 80)->save($Thumb);
+    $img->thumbnail(80, 80)->save($Thumb2);
     
 } catch(Exception $e) {
     echo 'Error: ' . $e->getMessage();

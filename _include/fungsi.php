@@ -46,6 +46,14 @@ function make_seo_name($title) {
 	return preg_replace('/[^a-z0-9_-]/i', '', strtolower(str_replace(' ', '-', trim($title))));
 }
 
+function make_image_name($name){
+    return preg_replace("/[^a-z0-9.-]/u","", strtolower(str_replace(' ', '-', trim($name))));
+}
+
+function tautan($url,$text){
+    return "<a href=".URLSITUS.$url." data-ajax=\"false\">{$text}</a>";
+}
+
 function enkripsi($string){
     $string = "12345678".$string;             //tambah prefix TEMAN biar panjang enkripsi ga kependekan
 	$data   = bin2hex($string);
