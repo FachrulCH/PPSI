@@ -134,10 +134,10 @@ function Trip_member_join($trip_id){
        		AND A.member_status IN ('A', 'C')
        		AND A.member_trip_id = '{$trip_id}' ;";
 	$sqlSelect = good_query($sql);
-        //return $sqlSelect;
+        return $sqlSelect;
         
         // Fetch all
-        return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
+        //return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
         //$sqlSelect = mysqli_fetch_assoc($sqlSelect);
 	
 }
@@ -168,8 +168,8 @@ function Trip_load_hot($page, $batas)
             from v_trip_list a 
             where a.trip_created_date between date_sub(now(),INTERVAL 1 WEEK) and now() 
             order by chat desc limit {$posisi}, {$batas};";
-    return good_query_all($sql);
-    //return good_query($sql);
+    //return good_query_all($sql);
+    return good_query($sql);
 }
 
 

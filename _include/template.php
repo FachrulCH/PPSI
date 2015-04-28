@@ -225,15 +225,15 @@ function Tmplt_comment_trip2($trip_id)
 
 function Tmplt_trip_member_join($trip_id){
     $data = Trip_member_join($trip_id);
-//	while ($d = mysqli_fetch_array($data)){
-//		echo'
-//			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
-//			';
-//	}
+	while ($d = mysqli_fetch_array($data)){
+		echo'
+			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
+			';
+	}
         
-    foreach ($data as $d) {
-        echo'<img src="_gambar/user/'.$d['user_foto'].'" width="80px">';
-    }
+//    foreach ($data as $d) {
+//        echo'<img src="_gambar/user/'.$d['user_foto'].'" width="80px">';
+//    }
 }
 
 ?>

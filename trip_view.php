@@ -225,6 +225,7 @@ $user_id_rahasia = enkripsi($user_id);
                                     $("#listTanya").html(data);         // refrest list
                                     $("#Ttanya").val(''); 		// kotak pertanyaan di kosongin
                                     jQuery("abbr.timeago").timeago();   // refrest keterangan waktu
+                                    grecaptcha.reset();                 //refresh capcay
                                  });
                             } else {
                                 dialogin('Isikan komentar anda');
