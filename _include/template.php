@@ -23,22 +23,22 @@ function get_panel()
 {
 echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
-		<div class="profilePic">
+		<div class="ketengah">
 			<a href="#"><img src="css/images/profile.jpg" width="100px"></a>
 			<p>Nama Usernya</p>
 			<p class="hrfKecil">"Ini Statusnya"</p>
 		</div>
 	<ul data-role="listview" data-inset="true">
-	<li><a href="index.php" class="ui-icon-home" data-transition="flip">Beranda</a></li>
-	<li><a href="#" class="ui-star" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>
+	<li><a href="index.php" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
+	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>
 	<li data-role="list-divider">Perjalanan</li>
-	<li><a href="#" class="ui-icon-location" data-transition="slidefade">Trip 1</a></li>
-	<li><a href="#" class="ui-icon-location" data-transition="slidefade">Trip 2</a></li>
+	<li><a href="#" class="ui-icon-location hrfKecil" data-transition="slidefade">Trip hopping island Belitung</a></li>
+	<li><a href="#" class="ui-icon-location hrfKecil" data-transition="slidefade">Trip Pendakian puncak gunung Tambora</a></li>
 	<li data-role="list-divider"></li>
-	<li><a href="#" class="ui-icon-search" data-transition="slidefade">Cari</a></li>
-	<li><a href="#" class="ui-icon-gear" data-transition="turn">Pengaturan</a></li>
-	<li><a href="#" class="ui-icon-info" data-transition="fade">Bantuan</a></li>
-	<li><a href="#" class="ui-icon-power" data-transition="slideup">Logout</a></li>
+	<li><a href="#" class="ui-icon-search hrfKecil" data-transition="slidefade">Cari</a></li>
+	<li><a href="#" class="ui-icon-gear hrfKecil" data-transition="turn">Pengaturan</a></li>
+	<li><a href="#" class="ui-icon-info hrfKecil" data-transition="fade">Bantuan</a></li>
+	<li><a href="#" class="ui-icon-power hrfKecil" data-transition="slideup">Logout</a></li>
 	</ul>
 	</div><!-- /panel -->';
 }

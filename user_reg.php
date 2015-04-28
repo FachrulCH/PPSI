@@ -74,7 +74,7 @@ include_once "_include/template.php";
                         Saya menerima ketentuan penggunaan
                     </li>
                     <li class="ui-field-contain">
-                        <label for="name2">Asli?</label>
+                        <label for="name2">Captcha</label>
                         <div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div>
                     </li>
                     

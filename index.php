@@ -23,6 +23,16 @@ include_once "_include/template.php";
                 .ketengah{
                     text-align: center;
                 }
+                .ketengah a:link{
+                    text-decoration: none;
+                }
+                .judul{
+                    font-size: 1.1em; 
+                    font-weight: normal; 
+                    color: #FFFFFF;   
+                    text-shadow: 0 1px 0 #101010;
+                    padding-top: 10px;
+                }
                 .slick-slide{
                     position: relative;
                     margin-right: 5px;
@@ -191,24 +201,27 @@ include_once "_include/template.php";
 	?>
 	<article role="main" class="ui-content">
             <div class="multiple-items">
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/1.jpg" height="200" /><div class="caption">Any HTML here</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/2.jpg" height="200"/><div class="caption">Ini adalah judul perjalanan seru nya</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/3.jpg" height="200"/><div class="caption">Ini adalah judul perjalanan seru nya ajfhkjahfka</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/4.jpg" height="200"/><div class="caption">Ini adalah judul perjalanan seru nya fgdgdfhfgh adjkaskjdhkjfdhkas slkdfkdjasfljal kjfalk</div></a></div>
+                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false" data-transition="flip"><img src="_gambar/galeri/fit/masjid-jawa-tengah.jpg"/><div class="caption">Wisata religi di Jawa Tengah</div></a></div>
+                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false" data-transition="flip"><img src="_gambar/galeri/fit/air-terjun-gitgit-bal.jpg"/><div class="caption">Segarnya Air Terjun</div></a></div>
+                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/anak-band.jpg"/><div class="caption">Festival musik indie heroes 2015</div></a></div>
+                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/badak.jpg"/><div class="caption">Petualangan di rimba Lampung</div></a></div>
             </div>
             <p class="hrfKecil ketengah" style="padding-top: 20px;">
-                Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu, <a href="#">Ayo gabung!</a>
+                Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu, <?= tautan('user_reg.php', 'Ayo gabung!')?></a>
             </p>
-            <p class="ketengah" style="font-size: .6em;">Ada 100 Travelers yang berbagi <?= tautan('trip.php', '1.000 ulasan perjalanan') ?> , dan <?= tautan('galeri.php', '2.000 foto loh') ?></p>
+            <p class="ketengah" style="font-size: .6em;">Ada 100 Travelers yang berbagi <?= tautan('trip.php', '1.000 ulasan perjalanan') ?> , dan <?= tautan('galeri.php', '2.000 foto') ?> loh</p>
             <hr/>
-            <div class="ui-grid-b">
-                <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px">Rencanakan liburan</div></div>
-                <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px">Temukan teman seperjalanan</div></div>
-                <div class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:60px">Bagikan pengalaman</div></div>
+            <div class="ui-grid-b" style="font-family: cursive;">
+                <div class="ui-block-a"><div class="ketengah" style=" background-color: rgb(23, 186, 173); min-height:140px;margin: 5px;">
+                        <a href="<?= URLSITUS ?>trip_new.php" data-ajax="false"><p class="judul">Rencanakan liburanmu</p><img src="css/images/calendar_64px.png"/></a></div></div>
+                <div class="ui-block-b"><div class="ketengah" style=" background-color: rgb(244, 185, 0); min-height:140px;margin: 5px;">
+                        <a href="<?= URLSITUS ?>trip.php" data-ajax="false"><p class="judul">Temukan teman seperjalanan</p><img src="css/images/pin_64px.png"/></a></div></div>
+                <div class="ui-block-c"><div class="ketengah" style=" background-color: rgb(70, 186, 23); min-height:140px;margin: 5px;">
+                        <a href="#"><p class="judul">Berbagi pengalaman</p><img src="css/images/chat_64px.png"/></a></div></div>
             </div><!-- /grid-b -->
             <hr/>
             <br/>
-            <p class="ketengah">Artikel Pilihan</p>
+
             <div data-role="navbar">
                 <ul>
                     <li><a href="#" class="ui-btn-active">Ulasan</a></li>
@@ -218,26 +231,26 @@ include_once "_include/template.php";
             </div><!-- /navbar -->
 
             <ul data-role="listview" data-inset="true">
-                <li><a href="#"><img src="_gambar/galeri/thumb/1.jpg" class="ui-li-thumb"/>
+                <li><a href="#"><img src="_gambar/galeri/thumb/bajak.jpg" class="ui-li-thumb"/>
                         <h3>Judul Trip ini</h3>
                         <p>Bekasi, jawa barat</p>
                         <p class="ui-li-aside">Wisata alam</p>
                     </a></li>
-                <li><a href="#"><img src="_gambar/galeri/thumb/2.jpg" class="ui-li-thumb"/>
-                        <h3>Judul Trip ini</h3>
-                        <p>Tasikmalaya, jawa barat</p>
-                        <p class="ui-li-aside">Wisata Kota</p>
-                    </a></li>
-                <li><a href="#"><img src="_gambar/galeri/thumb/theme_wallpaper.jpg" class="ui-li-thumb"/>
+                <li><a href="#"><img src="_gambar/galeri/thumb/dancer-on-the-stage.jpg" class="ui-li-thumb"/>
                         <h3>Judul Trip ini</h3>
                         <p>Jakarta timur, DKI Jakarta</p>
+                        <p class="ui-li-aside">Wisata Kota</p>
+                    </a></li>
+                <li><a href="#"><img src="_gambar/galeri/thumb/air-terjun-gitgit-bal.jpg" class="ui-li-thumb"/>
+                        <h3>Judul Trip ini</h3>
+                        <p>Bogor, Jawa barat</p>
                         <p class="ui-li-aside">Wisata Hiburan</p>
                     </a></li>
-                <li><a href="#"><img src="_gambar/galeri/thumb/4.jpg" class="ui-li-thumb"/>
+                    <li><a href="#"><img src="_gambar/galeri/thumb/3dloveheart-wide.jpg" class="ui-li-thumb"/>
                         <h3>Judul Trip ini</h3>
                         <p>Tanggerang, Banten</p>
                         <p class="ui-li-aside">Wisata Keluarga</p></a></li>
-                <li><a href="#"><img src="_gambar/galeri/fit/3.jpg" class="ui-li-thumb"/>
+                <li><a href="#"><img src="_gambar/galeri/thumb/wild-poppies.jpg" class="ui-li-thumb"/>
                         <h3>Judul Trip ini</h3>
                         <p>Bekasi, jawa barat</p>
                         <p class="ui-li-aside">Wisata alam</p>

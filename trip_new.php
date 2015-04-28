@@ -17,33 +17,13 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 		// memiliki argumen title halaman
 		get_meta('TemanBackpacker.com');
 ?>
-	<!-- Editor froala -->
-	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="css/froala_editor.min.css" rel="stylesheet" type="text/css">
-  	<link href="css/froala_style.min.css" rel="stylesheet" type="text/css">
-  	<link href="css/themes/red.css" rel="stylesheet" type="text/css">
-  	<script src="js/froala_editor.min.js"></script>
-  	<script src="js/plugins/font_family.min.js"></script>
-	<script src="js/plugins/font_size.min.js"></script>
-	<script src="js/plugins/block_styles.min.js"></script>
-	<!--[if lt IE 9]>
-    <script src="js/froala_editor_ie8.min.js"></script>
-  	<![endif]-->
-  	<!-- End editor froala -->
   	<!-- Peta -->
   	<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 	<script src="js/jquery.geocomplete.min.js"></script>
   	<!-- End Peta -->
-
-	<!-- validator -->
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script>
       $(function(){
-          $('#t_rencana').editable({inlineMode: false, 
-          	theme: 'red', 
-          	placeholder: 'Tuliskan ide perjalananmu...'
-          });
-
           $("#t_tujuan").geocomplete({
 			details: "#hasil"
         	});
@@ -423,8 +403,8 @@ jQuery(function ($){
                                     // crop & resize
                                     //'small': { width: 100, height: 100 }
                                     // resize by max side
-                                    maxWidth: 1366,
-                                    maxHeight: 1366
+                                    maxWidth: 1280,
+                                    maxHeight: 1280
 				},
                                 imageOriginal: false,
 				onFileRemoveCompleted: function (evt, file){

@@ -34,7 +34,16 @@ include_once "_include/template.php";
 	?>
 	<article role="main" class="ui-content">
 
-            <p>Profile User</p>
+            <div class="ketengah">
+                <img src="css/images/profile.jpg" width="100">
+                <p><i><strong>Si Bolang</strong></i></p>
+                <p class="hrfKecil">
+                  Si bocah yang senang berpetualang bersama kawan-kawan  
+                </p>
+            </div>
+            
+            <hr/>
+            
             <div data-role="navbar">
                 <ul>
                     <li><a href="#" class="ui-btn-active">Informasi</a></li>
@@ -100,131 +109,6 @@ include_once "_include/template.php";
 	?>
 </section><!-- /page -->
 
-<section data-role="page" id="privasi">
-	<?php
-		// Memanggil fungsi untuk generate panel samping
-		get_panel();
-	?>
-	<?php
-		// Membuat menu header, isinya tombol back dan panel
-		// Memiliki argumen variabel jugul header
-		get_header('Registrasi');
-	?>
-	<article role="main" class="ui-content">
-
-            <p>Profile User</p>
-            <div data-role="navbar">
-                <ul>
-                    <li><a href="#">Informasi</a></li>
-                    <li><a href="#privasi" class="ui-btn-active">Privasi</a></li>
-                    <li><a href="#akun">Akun</a></li>
-                </ul>
-            </div><!-- /navbar -->
-            
-            <div class="hrfKecil">
-                
-                <form action="user_save.php" method="post" data-ajax="false">
-                <ul data-role="listview" data-inset="true">
-                    <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Profil</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-                    <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Nama Lengkap</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_username">Username</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_email">E-mail</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_katasandi">Jenis Kelamin</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_katasandi2">Tanggal Lahir</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_captcha">Pengalaman trip yg tak terlupakan kamu</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="name2">Akun Sosial media</label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-                    <li class="ui-field-contain">
-                        <label for="name2">Lokasi sekarang </label>
-                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
-                            <option value="belum">Untuk umum</option>
-                            <option value="sedang">Hanya member terdaftar</option>
-                            <option value="selesai">Hanya diri sendiri</option>
-                        </select>
-                    </li>
-                    
-                    <li class="ui-field-contain">
-                        <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Simpan</button>
-                    </li>
-                </ul>
-            </form>
-            </div>
-	</article><!-- /content -->
-	<?php
-		get_footer();
-	?>
-</section><!-- /page -->
-
 <section data-role="page" id="akun">
 	<?php
 		// Memanggil fungsi untuk generate panel samping
@@ -256,6 +140,15 @@ include_once "_include/template.php";
                     </li>
                     <li class="ui-field-contain">
                         <label for="txt_nama_lengkap">Hapus akun</label>
+                        <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Konfirmasi hapus akun</button>
+                    </li>
+                   <li class="ui-field-contain">
+                        <label for="txt_email">Visibilitas</label>
+                        <select name="select-choice-a" data-native-menu="false" data-mini="true">
+                            <option>Terlihat</option>
+                            <option value="0">Untuk umum</option>
+                            <option value="1">Hanya member terdaftar</option>
+                        </select>
                     </li>
                     <li class="ui-field-contain">
                         <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Simpan</button>
