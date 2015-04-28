@@ -123,7 +123,8 @@ function Trip_get_tanya($trip_id){
 	
 	$sqlSelect = good_query($sql);
 	//return $sqlSelect;
-        return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
+        //return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
+        return good_query($sql);
 }
 function Trip_member_join($trip_id){
 	$trip_id = (int) $trip_id;
@@ -155,7 +156,8 @@ function Trip_load_new($page, $batas)
     $sql = "select * 
             from v_trip_list 
             limit {$posisi}, {$batas}" ;
-    return good_query_all($sql);
+    //return good_query_all($sql);
+    return good_query($sql);
 }
 
 function Trip_load_hot($page, $batas)
@@ -167,6 +169,7 @@ function Trip_load_hot($page, $batas)
             where a.trip_created_date between date_sub(now(),INTERVAL 1 WEEK) and now() 
             order by chat desc limit {$posisi}, {$batas};";
     return good_query_all($sql);
+    //return good_query($sql);
 }
 
 

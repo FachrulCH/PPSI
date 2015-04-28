@@ -9,7 +9,7 @@ include_once "_include/trip.php";
 
 $m          = isset($_GET['m'] ) ? $_GET['m'] : 'new';
 $page       = isset($_GET['page'] ) ? (int) $_GET['page'] : 1; // mengambil data trip
-$batas      = 2;                                       // jumlah trip perhalaman
+$batas      = 5;                                       // jumlah trip perhalaman
 $jumData    = Trip_total();                             //Jumlah halaman
 $JmlHalaman = ceil($jumData/$batas);                    //ceil digunakan untuk pembulatan keatas
 
@@ -150,7 +150,8 @@ if ($page < $JmlHalaman) {
                     echo 'Data Trip tidak ditemukan';
                 }else{
                     // Looping data trip terbaru
-                    foreach ($trip as $t){
+                    //foreach (mysqli_fetch_assoc($trip) as $t){
+                    while ($t = mysqli_fetch_assoc($trip)){
 ?>
                     <li><a href="<?= URLSITUS ?>trip_view.php?id=<?= $t['trip_id'] ?>" data-ajax="false">
                             <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $t['trip_gambar'] ?>" class="ui-li-thumb">

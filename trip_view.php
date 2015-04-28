@@ -82,7 +82,16 @@ $user_id_rahasia = enkripsi($user_id);
                 -ms-filter: blur(2px);
                 filter: blur(2px);
             }
+            .carouselWrap{
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .g-recaptcha{
+                float: right;
+            }
         </style>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
         <section data-role="page" id="home">
@@ -97,24 +106,26 @@ $user_id_rahasia = enkripsi($user_id);
             <article role="main" class="ui-content">
                 <h3 class="ui-bar ui-bar-a"><?= $db_trip['trip_judul'] ?></h3>
                 <!-- Carousel -->
-                <section class="slider">
-                    <div class="flexslider">
-                        <ul class="slides">
-                            <li data-thumb="_gambar/galeri/kitchen_adventurer_cheesecake_brownie.jpg">
-                                <img src="_gambar/galeri/kitchen_adventurer_cheesecake_brownie.jpg" />
-                            </li>
-                            <li data-thumb="_gambar/galeri/kitchen_adventurer_lemon.jpg">
-                                <img src="_gambar/galeri/kitchen_adventurer_lemon.jpg" />
-                            </li>
-                            <li data-thumb="_gambar/galeri/kitchen_adventurer_donut.jpg">
-                                <img src="_gambar/galeri/kitchen_adventurer_donut.jpg" />
-                            </li>
-                            <li data-thumb="_gambar/galeri/kitchen_adventurer_caramel.jpg">
-                                <img src="_gambar/galeri/kitchen_adventurer_caramel.jpg" />
-                            </li>
-                        </ul>
-                    </div>
-                </section>
+                <div class="carouselWrap">
+                     <section class="slider">
+                        <div class="flexslider">
+                            <ul class="slides">
+                                <li data-thumb="_gambar/galeri/fit/badak.jpg">
+                                    <img src="_gambar/galeri/fit/badak.jpg" />
+                                </li>
+                                <li data-thumb="_gambar/galeri/fit/kitchenadventurercaramel.jpg">
+                                    <img src="_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
+                                </li>
+                                <li data-thumb="_gambar/galeri/fit/bajak.jpg">
+                                    <img src="_gambar/galeri/fit/bajak.jpg" />
+                                </li>
+                                <li data-thumb="_gambar/galeri/fit/kitchenadventurercaramel.jpg">
+                                    <img src="_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
                 <!-- End Carousel -->
                 <fieldset data-role="controlgroup" data-type="horizontal" class="ketengah">
 <?php
@@ -157,7 +168,9 @@ $user_id_rahasia = enkripsi($user_id);
                         <input type="hidden" value="<?= $user_id ?>" name="uid">
                         <textarea cols="40" rows="8" name="t_tanya" id="Ttanya" maxlength="250"></textarea>
                         <button class="ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-edit" id="btn_tanya">Tanya</button>
+                         <div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div>
                     </form>
+                    <div style="clear: both;"></div>
                     <div id="listTanya">
 <?php
                     $kosong = true;                 // list tanya default nya kosong
@@ -191,10 +204,15 @@ $user_id_rahasia = enkripsi($user_id);
                 <script type="text/javascript">
                     (function ($) {
                         jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
-                        
+                                                
                         $('#btn_tanya').on('click', function () {
+                            if(grecaptcha.getResponse() == ""){
+                                dialogin("Klik captcha dahulu");
+                                return false;
+                            }
                             var pertanyaan = $('#Ttanya').val();
-                            var kirim = 'id=<?= $user_id_rahasia ?>&i=<?= $trip_id ?>&pertanyaan='+ pertanyaan  ;
+                            var capcay = $('#g-recaptcha-response').val();
+                            var kirim = 'id=<?= $user_id_rahasia ?>&i=<?= $trip_id ?>&pertanyaan='+ pertanyaan +'&capcay='+capcay  ;
                             
                             //var kirim = $("#tanyajawab").serialize();
                             console.log(kirim);

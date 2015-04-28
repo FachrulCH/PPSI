@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2015 at 05:06 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Generation Time: Apr 28, 2015 at 07:33 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,9 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_temanbackpacker`
 --
-DROP DATABASE `db_temanbackpacker`;
-CREATE DATABASE `db_temanbackpacker` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `db_temanbackpacker`;
 
 -- --------------------------------------------------------
 
@@ -41,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `tb_chat` (
   PRIMARY KEY (`chat_id`),
   KEY `FK_chat_trip` (`chat_trip_id`),
   KEY `FK_chat_user` (`chat_sender`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
 
 --
 -- Dumping data for table `tb_chat`
@@ -106,7 +103,11 @@ INSERT INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `c
 (67, 110, 1, '2', '2015-04-21 17:42:52', 'ajax di pindahin ke luar', 0),
 (68, 110, 1, '2', '2015-04-21 17:44:52', 'Cukup untuk hari ini yaaa', 0),
 (69, 110, 2, '2', '2015-04-21 17:50:52', 'Oke Baiklah', 0),
-(70, 110, 2, '2', '2015-04-22 22:30:25', 'cek brow', 0);
+(70, 110, 2, '2', '2015-04-22 22:30:25', 'cek brow', 0),
+(71, 1104, 2, '2', '2015-04-25 05:21:51', 'ijin tanya gan', 0),
+(72, 1129, 2, '2', '2015-04-25 11:33:14', 'tanya doonk', 0),
+(73, 1129, 2, '2', '2015-04-25 11:33:21', 'fklsdjalfjlasjflas', 0),
+(74, 1129, 2, '2', '2015-04-28 17:32:31', 'aseeek capcay', 0);
 
 -- --------------------------------------------------------
 
@@ -118,25 +119,31 @@ DROP TABLE IF EXISTS `tb_galeri`;
 CREATE TABLE IF NOT EXISTS `tb_galeri` (
   `galeri_id` int(11) NOT NULL AUTO_INCREMENT,
   `galeri_trip_id` int(11) NOT NULL,
+  `galeri_foto_id` varchar(50) NOT NULL,
   `galeri_foto_url` varchar(100) DEFAULT NULL,
   `galeri_foto_judul` varchar(100) DEFAULT NULL,
-  `galeri_date` timestamp NULL DEFAULT NULL,
+  `galeri_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`galeri_id`),
   KEY `galeri_id` (`galeri_id`),
   KEY `idx_galeri_trip` (`galeri_trip_id`),
   KEY `galeri_trip_id` (`galeri_trip_id`),
-  KEY `galeri_trip_id_2` (`galeri_trip_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+  KEY `galeri_trip_id_2` (`galeri_trip_id`),
+  KEY `galeri_foto_id` (`galeri_foto_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `tb_galeri`
 --
 
-INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
-(5, 193, 'kitchen_adventurer_caramel.jpg', 'kitchen_adventurer_caramel', '2015-04-22 17:00:00'),
-(6, 194, 'kitchen_adventurer_donut.jpg', 'kitchen_adventurer_donut', '2015-04-22 17:00:00'),
-(7, 110, 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-22 17:00:00'),
-(9, 1100, 'kitchen_adventurer_lemon.jpg', 'asoy', NULL);
+INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
+(5, 193, '', 'masjid-jawa-tengah.jpg', 'kitchen_adventurer_caramel', '2015-04-22 17:00:00'),
+(6, 194, '', 'badak.jpg', 'kitchen_adventurer_donut', '2015-04-22 17:00:00'),
+(7, 110, '', 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-22 17:00:00'),
+(9, 1100, '', 'bajak.jpg', 'asoy', NULL),
+(10, 1129, '', 'anak-band.jpg', 'anak-band', '2015-04-28 17:08:01'),
+(11, 1109, '', 'background-blur-1.jpg', 'background-blur', '2015-04-28 17:09:15'),
+(12, 1108, '', 'dancer-on-the-stage.jpg', 'dancer-on-the-stage', '2015-04-28 17:10:00'),
+(13, 1104, '', 'masjid-jawa-tengah.jpg', NULL, '2015-04-28 17:10:27');
 
 -- --------------------------------------------------------
 
@@ -201,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
   `pengalaman_id` int(11) DEFAULT NULL,
   `pengalaman_user_id` int(11) DEFAULT NULL,
   `pengalaman_judul` varchar(150) DEFAULT NULL,
-  `pengalaman_detail` varchar(150) DEFAULT NULL,
+  `pengalaman_detail` text,
   `pengalaman_galeri` tinyint(4) DEFAULT NULL,
   `pengalaman_status` char(1) DEFAULT NULL,
   KEY `FK_pengalaman_user` (`pengalaman_user_id`),
@@ -245,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
 --
 
 INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-(1, 'sq_trip', 1, 103),
+(1, 'sq_trip', 1, 170),
 (2, 'seq_tanya', 2, 0),
 (3, 'seq_diskusi', 3, 0);
 
@@ -287,7 +294,11 @@ INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `
 (193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', '', '', 0, 6, '2', 6, '0000-00-00', '0000-00-00', '', '2', 'di stasiiun kranji', '2015-04-03 16:04:21'),
 (194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', '', '', 0, 6, '2', 14, '2015-04-30', '2015-04-30', '', '2', 'stasiun', '2015-04-04 16:04:21'),
 (195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', '', '', -7.333333, 108.2, '2', 12, '0000-00-00', '0000-00-00', '', '3', 'alun alun', '2015-04-23 16:04:21'),
-(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', 'Jawa Barat', 'Kabupaten Bandung Barat', -6.865221, 107.491977, '2', 13, '2015-04-23', '2015-04-25', '', '3', 'meetingpoin', '2015-04-23 16:04:21');
+(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', 'Jawa Barat', 'Kabupaten Bandung Barat', -6.865221, 107.491977, '2', 13, '2015-04-23', '2015-04-25', '', '3', 'meetingpoin', '2015-04-23 16:04:21'),
+(1104, 2, 'Bambo Rafting Di Loksado', 'Kandangan, Kabupaten Hulu Sungai Selatan, Kalimantan Selatan, Indonesia', 'Kalimantan Selatan', 'Kabupaten Hulu Sungai Selatan', -2.721761, 115.200773, '2', 4, '2015-05-29', '2015-05-31', 'Bambo rafting adalah Sebuah alat tradisional arung jeram menggunakan bambu yang di satukan dengan tali di tengah2nya di sediakan tempat duduk untuk tiga orang, lama pengarungan bambo rafting di sungai amandit loksado sekitar 2,5 jam perjalanan dengan ditemani seorang joki handal, rasakan sensasi arung jeram menggunakan bambo rafting :)', '6', 'Jakarta', '2015-04-24 18:34:36'),
+(1108, 2, 'Trip Seru, Murah, Penuh Pelajaran Dan Pengalaman K', 'Banten, Indonesia', 'Banten', '', -6.405817, 106.064018, '4', 11, '0000-00-00', '0000-00-00', '', '4', 'kampung rambutan', '2015-04-24 18:43:45'),
+(1109, 2, 'Ujungkulon 07-09 Agustus 2015 Naek Kano Nginap Di ', '', '', '', 0, 0, '5', 3, '2015-06-19', '2015-06-30', 'Beberapa tempat yang akan kita kunjungi di UK:\r\na. Cidaon Grazing Ground (wildlife viewing)\r\nb. Karang Copong (sunset)\r\nc. Handeuleum Island\r\nd. Canoing (Habit of Rhino)\r\ne. Snorkeling at Peucang dan Citerjun', '5', 'Rambutan', '2015-04-24 18:47:51'),
+(1129, 2, 'Jalan jalan meruya', 'Jalan Meruya Utara, Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta, Indonesia', 'Daerah Khusus Ibukota Jakarta', 'Kota Jakarta Barat', -6.197561, 106.765292, '2', 14, '0000-00-00', '0000-00-00', 'kajflkajsldfjlas\r\n\r\nsfsdfsdfsd\r\n\r\n\r\nsdfsdfsafdsaf\r\n\r\nd\r\nsdfsdfsdfsfsdfs\r\n', '1', '', '2015-04-25 11:32:45');
 
 -- --------------------------------------------------------
 
@@ -303,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
   `member_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`member_id`),
   KEY `FK_tb_trip_member_tb_user` (`member_user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `tb_trip_member`
@@ -315,7 +326,11 @@ INSERT INTO `tb_trip_member` (`member_trip_id`, `member_user_id`, `member_status
 (193, 2, 'A', 3),
 (194, 2, 'A', 4),
 (195, 2, 'A', 5),
-(1100, 2, 'A', 6);
+(1100, 2, 'A', 6),
+(1104, 2, 'A', 7),
+(1108, 2, 'A', 8),
+(1109, 2, 'A', 9),
+(1129, 2, 'A', 10);
 
 -- --------------------------------------------------------
 

@@ -154,12 +154,15 @@ function Tmplt_comment_trip1($trip_id)
 //	</div>
 //	</div>';
 //	}
-        if (count(array_filter($data)) == 0 )
-        {
-        	echo "";
-        	$kosong = true;
-        }else{
-        foreach ($data as $d) {
+
+//        //REMARK GANTI JADI FETCH ASSOC
+//        if (count(array_filter($data)) == 0 )
+//        {
+//        	echo "";
+//        	$kosong = true;
+//        }else{
+        //foreach ($data as $d) {
+        while ($d = mysqli_fetch_assoc($data) ) {
         	$kosong = false;
             echo '
             <div class="dataPertanyaan">
@@ -184,7 +187,7 @@ function Tmplt_comment_trip1($trip_id)
         }
     }
 
-}
+//} REMARK GANTI JADI FETCH ASSOC
 
 function Tmplt_comment_trip2($trip_id)
 {
@@ -193,7 +196,8 @@ function Tmplt_comment_trip2($trip_id)
 	// return mysql query
 	$data = Trip_get_tanya($trip_id);
         $listTanya = "";
-        foreach ($data as $d) {
+        //foreach ($data as $d) {
+        while ($d = mysqli_fetch_assoc($data) ) {
             $listTanya .= '
             <div class="dataPertanyaan">
                 <hr/>

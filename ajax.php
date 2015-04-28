@@ -7,6 +7,17 @@ require_once '_include/template.php';
 $do = $_GET['do'];
 
 if ($do == 'tanya'){
+    ///Validasi capcay///
+    $captcha    = $_POST['capcay'];
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User anda tidak lolos captcha";
+       $status  = false;
+       $hasil   = NULL;
+    } else {
+        // user valid
+    
 	$status 	= false; 				// inisiasi value default
         $hasil          = "";
 	$pesan		= "Error mengambil informasi dari database";	// inisiasi value default
@@ -50,7 +61,7 @@ if ($do == 'tanya'){
 		//echo "<br/>".$pesan;
             $hasil = "error terjadi";
 	}
-        
+    }    
         $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
         
         echo json_encode($result);
