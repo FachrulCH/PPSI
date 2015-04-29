@@ -12,7 +12,6 @@ echo '
 	<meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="shortcut icon" href="css/favicon.ico" type="image/x-icon">
         <link rel="icon" href="css/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="css/themes/tema-merah.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<script src="js/jquery.min.js"></script>
@@ -20,7 +19,10 @@ echo '
 
 //tambah google font
 //penggunaan => font-family: 'Asap', sans-serif;
-echo    "<link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>"; 
+echo "  <link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='css/themes/tema-merah.min.css' />
+        <link rel='stylesheet' href='css/tb.css' />
+    "; 
 }
 
 function get_panel()
@@ -29,11 +31,14 @@ echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="ketengah">
 			<a href="#"><img src="css/images/profile.jpg" width="100px"></a>
-			<p>Nama Usernya</p>
+			<p><b>Si Bolang</b></p>
 			<p class="hrfKecil">"Ini Statusnya"</p>
 		</div>
 	<ul data-role="listview" data-inset="true">
-	<li><a href="index.php" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
+	<li><a href="'.URLSITUS.'index.php" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
+        <li><a href="'.URLSITUS.'trip.php" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
+        <li><a href="'.URLSITUS.'user_profile.php" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">User</a></li>
+        <li><a href="'.URLSITUS.'exp_new.php" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Inspirasi</a></li>
 	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>
 	<li data-role="list-divider">Perjalanan</li>
 	<li><a href="#" class="ui-icon-location hrfKecil" data-transition="slidefade">Trip hopping island Belitung</a></li>
@@ -43,7 +48,9 @@ echo '
 	<li><a href="#" class="ui-icon-gear hrfKecil" data-transition="turn">Pengaturan</a></li>
 	<li><a href="#" class="ui-icon-info hrfKecil" data-transition="fade">Bantuan</a></li>
 	<li><a href="#" class="ui-icon-power hrfKecil" data-transition="slideup">Logout</a></li>
+        <li><a href="#" class="ui-icon-delete hrfKecil" data-transition="slideup">Laporkan error!</a></li>
 	</ul>
+	</div><!-- /footer -->
 	</div><!-- /panel -->';
 }
 function get_panel_search()

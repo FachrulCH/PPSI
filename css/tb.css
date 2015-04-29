@@ -1,0 +1,34 @@
+/* 
+    Created on : 29 Apr 15, 23:19:11
+    Author     : fachrul ch
+*/
+/*p{
+    font-family: 'Asap', sans-serif;
+}*/
+.hrfKecil{
+    font-size: .8em;
+}
+.ketengah{
+    text-align: center;
+}
+.ketengah a:link{
+    text-decoration: none;
+}
+.breadcrumb{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    clear: both;
+    font-size: .9em;
+}
+.breadcrumb li {
+    display: inline;
+}
+.breadcrumb li+li:before {
+    content:"» ";
+}
+#brdcmb{
+    position: relative;
+    left: -30px;
+}
+

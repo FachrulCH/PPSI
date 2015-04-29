@@ -35,14 +35,6 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 
 
 	<style type="text/css">
-		.profilePic{
-			text-align: center;
-			height: 150px;
-		}
-		.hrfKecil{
-			font-size: 10px;
-			margin: -15px 0px 5px 0px;
-		}
                 .b-upload {
                     white-space: nowrap;
                 }

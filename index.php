@@ -13,18 +13,7 @@ include_once "_include/template.php";
         get_meta('TemanBackpacker.com');
 ?>
     <style type="text/css">
-        p{
-            font-family: 'Asap', sans-serif;
-        }
-            .hrfKecil{
-                    font-size: .8em;
-            }
-            .ketengah{
-                text-align: center;
-            }
-            .ketengah a:link{
-                text-decoration: none;
-            }
+        
             .judul{
                 font-size: 1.1em; 
                 font-weight: normal; 

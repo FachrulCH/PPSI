@@ -64,33 +64,8 @@ if ($page < $JmlHalaman) {
         get_meta('TemanBackpacker.com');
         ?>
         <style type="text/css">
-            .profilePic{
-                text-align: center;
-                height: 150px;
-            }
-            .hrfKecil{
-                font-size: 10px;
-                margin: -15px 0px 5px 0px;
-            }
             hr{
                 border-top-color: #DADADA;
-            }
-            .breadcrumb{
-                position: relative;
-                display: block;
-                overflow: hidden;
-                clear: both;
-                font-size: 1.1em;
-            }
-            .breadcrumb li {
-                display: inline;
-            }
-            .breadcrumb li+li:before {
-                content:"» ";
-            }
-            #brdcmb{
-                position: relative;
-                left: -30px;
             }
             .blok a:link{
                 text-decoration: none;
