@@ -17,6 +17,10 @@ echo '
 	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.mobile-1.4.5.min.js"></script>';
+
+//tambah google font
+//penggunaan => font-family: 'Asap', sans-serif;
+echo    "<link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>"; 
 }
 
 function get_panel()
