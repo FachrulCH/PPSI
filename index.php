@@ -205,7 +205,7 @@ include_once "_include/template.php";
                 <div class="ui-block-b"><div class="ketengah" style=" background-color: rgb(244, 185, 0); min-height:140px;margin: 5px;">
                         <a href="<?= URLSITUS ?>trip.php" data-ajax="false"><p class="judul">Temukan teman seperjalanan</p><img src="css/images/pin_64px.png"/></a></div></div>
                 <div class="ui-block-c"><div class="ketengah" style=" background-color: rgb(70, 186, 23); min-height:140px;margin: 5px;">
-                        <a href="#"><p class="judul">Berbagi pengalaman</p><img src="css/images/chat_64px.png"/></a></div></div>
+                        <a href="<?= URLSITUS ?>exp_new.php" data-ajax="false"><p class="judul">Berbagi pengalaman</p><img src="css/images/chat_64px.png"/></a></div></div>
             </div><!-- /grid-b -->
             <hr/>
             <br/>
@@ -213,7 +213,7 @@ include_once "_include/template.php";
             <div data-role="navbar">
                 <ul>
                     <li><a href="#" class="ui-btn-active">Ulasan</a></li>
-                    <li><a href="#">Rencana</a></li>
+                    <li><?= tautan('trip.php', 'Rencana') ?></li>
                     <li><a href="#">Sekitarmu</a></li>
                 </ul>
             </div><!-- /navbar -->

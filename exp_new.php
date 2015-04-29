@@ -188,7 +188,6 @@ include_once "_include/template.php";
         <div class="ui-bar ui-bar-a">
             <h3>Bagikan pengalaman petualanganmu!</h3>
         </div>
-        <div class="ui-body ui-body-a">
             <form action="#" method="post" data-ajax="false" id="newTrip" enctype="multipart/form-data">
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
@@ -234,7 +233,6 @@ include_once "_include/template.php";
                                     <input type="file" name="filedata" class="ui-btn ui-btn-inline ui-mini"/>
                                     <span class="js-upload ui-btn ui-btn-inline ui-mini ui-icon-action ui-btn-icon-left">Upload</span>
                                 </div>
-                        </div>
                     </li>
                     <span style="float: left;"><input type="submit" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
                 </ul>
