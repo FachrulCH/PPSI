@@ -9,8 +9,6 @@ defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
 
 defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); // ==> URL web nya, buat <a href> 
 
-
-
 $database = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 $db =& $database;
 
@@ -58,6 +56,22 @@ function good_query_all($sql, $debug=0)
     $result = good_query($sql, $debug);
     if ($result->num_rows > 0){
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
+    }else{
+        return false;
+    }
+    
+}
+
+function good_query_allrow($sql, $debug=0)
+{
+    $arr = array();
+    // this function require presence of good_query() function
+    $result = good_query($sql, $debug);
+    if ($result->num_rows > 0){
+       while ($row = mysqli_fetch_assoc($result)){
+           $arr[] = $row;
+       }
+       return $arr;
     }else{
         return false;
     }
