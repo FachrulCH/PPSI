@@ -7,11 +7,22 @@ include_once "_include/db_function.php";
 include_once "_include/template.php";
 include_once "_include/trip.php";
 
+$menu       = isset($_GET['menu'] ) ? $_GET['menu'] : 'trip';   // menu yg diakses, trip || exp
 $m          = isset($_GET['m'] ) ? $_GET['m'] : 'new';
-$page       = isset($_GET['page'] ) ? (int) $_GET['page'] : 1; // mengambil data trip
-$batas      = 5;                                       // jumlah trip perhalaman
-$jumData    = Trip_total();                             //Jumlah halaman
-$JmlHalaman = ceil($jumData/$batas);                    //ceil digunakan untuk pembulatan keatas
+$page       = isset($_GET['page'] ) ? (int) $_GET['page'] : 1;  // mengambil data trip
+$batas      = 5;                                                // jumlah trip perhalaman
+
+if ($menu == 'trip'){
+    // Jika menu adalah trip, maka ada beberapa variabel yg harus di set
+    $jumData    = Trip_total();                                 // Jumlah halaman
+    $title      = 'Perjalanan';                                 // judul halaman
+    $menu1      = 'New Trip';
+    $menu2      = 'Hot Trip';
+    $menu3      = 'Browse Trip';
+    $menuNew    = 'Buat trip baru';
+}
+
+$JmlHalaman = ceil($jumData/$batas);                            // ceil digunakan untuk pembulatan keatas
 
 // Validasi biar ga eror kalo masukin halaman yg 
 if ($page > $JmlHalaman){                               
@@ -22,10 +33,10 @@ if ($m == 'hot') {
     // Karena hot trip cuma 10 trip dengan jumlah komentar teratas maka perlu di set default value
     $page   = 1;
     $batas  = 10;
-    $trip = Trip_load_hot($page, $batas);
+    $listData = Trip_load_hot($page, $batas);
     $JmlHalaman = 1;
 }else{
-    $trip = Trip_load_new($page, $batas);
+    $listData = Trip_load_new($page, $batas);
 }
 
 //Navigasi ke sebelumnya
@@ -74,39 +85,41 @@ if ($page < $JmlHalaman) {
             get_panel();
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
-            get_header('Perjalanan');
+            get_header($title);
 ?>
             <article role="main" class="ui-content" class="ui-content" >
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="fade" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
-                        <li><a href="#browse" data-transition="pop">Browse Trip</a></li>
+                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> > <?= $menu1 ?></a></li>
+                        <li><a href="?m=hot" data-transition="fade" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>> <?= $menu2 ?> </a></li>
+                        <li><a href="#browse" data-transition="pop"> <?= $menu3 ?> </a></li>
                     </ul>
                 </div><!-- /navbar -->
+                
                 <span style="float:left;">
                     <div class="breadcrumb">
                         <div id="brdcmb">
                             <ul>
                                 <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php#home">Trip</a></li>
+                                <li><a href="<?= URLSITUS ?>list.php#home"><?= ucfirst($menu) ?></a></li>
                             </ul>
                         </div>
                     </div>
                 </span>
+                
                 <span style="float:right;">
-                    <a href="<?= URLSITUS ?>trip_new.php" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Buat trip baru</a>
+                    <a href="<?= URLSITUS ?>trip_new.php" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false"> <?= $menuNew ?></a>
                 </span>
                 <div style="clear: both;"></div>
                 <hr/>
                 <ul data-role="listview" data-inset="true">
 <?php
-                if ($trip == FALSE){
+                if ($listData == FALSE){
                     echo 'Data Trip tidak ditemukan';
                 }else{
                     // Looping data trip terbaru
                     //foreach (mysqli_fetch_assoc($trip) as $t){
-                    while ($t = mysqli_fetch_assoc($trip)){
+                    while ($t = mysqli_fetch_assoc($listData)){
 ?>
                     <li><a href="<?= URLSITUS ?>trip_view.php?id=<?= $t['trip_id'] ?>" data-ajax="false">
                             <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $t['trip_gambar'] ?>" class="ui-li-thumb">
@@ -139,14 +152,14 @@ if ($page < $JmlHalaman) {
             //get_panel();
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
-            get_header('Perjalanan');
+            get_header($title);
 ?>
             <article role="main" class="ui-content" class="ui-content" >
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="slideup" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
-                        <li><a href="#browse" data-transition="pop">Browse Trip</a></li>
+                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> > <?= $menu1 ?> </a></li>
+                        <li><a href="?m=hot" data-transition="slideup" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?> > <?= $menu2 ?> </a></li>
+                        <li><a href="#browse" data-transition="pop"> <?= $menu3 ?> </a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <span style="float:left;">
@@ -154,8 +167,8 @@ if ($page < $JmlHalaman) {
                         <div id="brdcmb">
                             <ul>
                                 <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php" data-ajax="false">Trip</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php#browse" data-ajax="false">Browse</a></li>
+                                <li><a href="<?= URLSITUS ?>list.php#home"><?= ucfirst($menu) ?></a></li>
+                                <li><a href="<?= URLSITUS ?>list.php#browse">Browse</a></li>
                             </ul>
                         </div>
                     </div>

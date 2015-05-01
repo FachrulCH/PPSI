@@ -106,6 +106,11 @@ if ($do == 'tanya'){
         $hasil = array('status' => true, 'pesan' => "berhasil masuk ", 'data' => $simpan);
 	echo json_encode($hasil);
 	
+}elseif($do == 'kategori'){
+    $id = $_POST['id'];
+    $detailKategori = Tmplt_get_kategori2($id);
+    $hasil = array('status' => true, 'pesan' => "Pilih detail kategori", 'data' => $detailKategori);
+    echo json_encode($hasil);  // data detail kategori
 }else{
     echo 'ada kesalahan';
 }

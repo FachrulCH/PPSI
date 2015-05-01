@@ -111,11 +111,18 @@ $_SESSION['user_id'] = 1;
 //print_r($data);
 
 // cek data trip
-$sql = "select * from v_trip_list where trip_id = 110 limit 2;" ;
+//$sql = "select * from v_trip_list where trip_id = 110 limit 2;" ;
 echo "<pre>";
 //print_r(Trip_load_new());
-print_r(Trip_load_hot(1,2));
+//print_r(Trip_load_hot(1,2));
+$ar = Tmplt_get_kategori1();
+print_r($ar);
 echo '</pre>';
+
+foreach ($ar as $b) {
+    echo $b['param_name'];
+}
+
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>

@@ -3,6 +3,7 @@
 include_once "_include/db_function.php";
 include_once "_include/template.php";
 
+$loadKategori1 = Tmplt_get_kategori1();
 ?>
 <!doctype html>
 <html>
@@ -65,125 +66,6 @@ include_once "_include/template.php";
         
       });
     </script>
-    <style type="text/css">
-                .b-upload {
-                    white-space: nowrap;
-                }
-                .b-upload__name,
-                .b-upload__size {
-                    display: inline-block;
-                    position: relative;
-                    overflow: hidden;
-                    max-width: 150px;
-                    vertical-align: middle;
-                }
-                .b-upload__size {
-                    color: #666;
-                    font-size: 12px;
-                }
-
-                .b-upload .js-files:after {
-                    clear: both;
-                    content: '';
-                    display: block;
-                }
-
-
-                .b-upload__hint {
-                    padding: 5px 8px;
-                    font-size: 12px;
-                    white-space: normal;
-                    border-radius: 3px;
-                    background-color: rgba(0,0,0,.08);
-                }
-                .b-thumb {
-                    float: left;
-                    margin: 3px;
-                    padding: 5px;
-                    overflow: hidden;
-                    position: relative;
-                    box-shadow: 0 0 2px rgba(0,0,0,.4);
-                    background-color: #fff;
-                }
-                .b-thumb__del {
-                    top: -6px;
-                    right: -1px;
-                    color: #FF0000;
-                    cursor: pointer;
-                    opacity: 0;
-                    z-index: 999;
-                    position: absolute;
-                    font-size: 20px;
-                    -webkit-transition: opacity .1s ease-in;
-                    -moz-transition: opacity .1s ease-in;
-                    transition: opacity .1s ease-in;
-                }
-                .b-thumb:hover .b-thumb__del {
-                    opacity: 1;
-                }
-
-                .b-thumb__rotate {
-                    top: 40%;
-                    left: 50%;
-                    width: 32px;
-                    height: 32px;
-                    cursor: pointer;
-                    margin: -16px 0 0 -16px;
-                    position: absolute;
-                    background: url('css/uploader/rotate.png');
-                }
-
-                .b-thumb__preview {
-                    width: 80px;
-                    height: 80px;
-                    -webkit-transition: -webkit-transform .2s ease-in;
-                    -moz-transition: -moz-transform .2s ease-in;
-                    transition: transform .2s ease-in;
-                }
-                .b-thumb__preview__pic {
-                    width: 100%;
-                    height: 100%;
-                    background: url('css/uploader/file-icon.png') 50% 50% no-repeat;
-                }
-
-                .b-thumb__name {
-                    width: 80px;
-                    overflow: hidden;
-                    font-size: 12px;
-                }
-
-                .b-thumb__progress {
-                    top: 75px;
-                    left: 10px;
-                    right: 10px;
-                    position: absolute;
-                }
-                .progress .bar {
-                        width: 0;
-                        top: 0;
-                        left: 0;
-                        bottom: 0;
-                        position: absolute;
-                        background-color: #f60;
-                }
-
-
-                .progress-small {
-                    height: 5px;
-                    padding: 1px;
-                    box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3);
-                    border-radius: 10px;
-                    background-color: rgba(0,0,0,.5);
-                }
-                .progress-small .bar {
-                    width: 0;
-                    height: 100%;
-                    position: static;
-                    border-radius: 10px;
-                    background-color: orange;
-                }
-
-    </style>
     <article role="main" class="ui-content">
         <div class="ui-bar ui-bar-a">
             <h3>Bagikan pengalaman petualanganmu!</h3>
@@ -206,9 +88,25 @@ include_once "_include/template.php";
                         <input type="date" name="t_judul" id="t_judul" value="" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
-                        <label for="t_judul">Kategori</label>
-                        <input type="text" name="t_judul" id="t_judul" value="" data-clear-btn="true">
+                        <label for="kategori1">Kategori</label>
+                        <select name="kategori1" id="kategori1" data-native-menu="false">
+                            <option>Pilih kategori</option>
+<?php
+                            // Semua data kategori dari parameter di munculkan
+                            foreach ($loadKategori1 as $k) {
+?>
+                            <option value="<?= $k['param_id'] ?>"><?= $k['param_name'] ?></option>
+<?php
+                            }
+?>
+                        </select>
                     </li>
+                    <li class="ui-field-contain" id="detailKategori" style="display: none;">
+                        <label for="kategori2">Detail Kategori</label>
+                        <select name="kategori2" id="kategori2">
+                            <option>Pilih kategori</option>
+                        </select>
+                    </li>                    
                     <li class="ui-field-contain">
                     <label for="multiupload">Galeri</label>
                         <div id="multiupload">
@@ -247,9 +145,33 @@ include_once "_include/template.php";
         <script src="js/FileAPI/FileAPI.min.js"></script>
         <script src="js/FileAPI/FileAPI.exif.js"></script>
         <script src="js/FileAPI/jquery.fileapi.min.js"></script>
-
+        <script src="js/main.js"></script>
         <script type="text/javascript">
         jQuery(function ($){
+            $('#kategori1').change(function(){
+                var id = $(this).val();
+                if (id == ''){
+                    dialogin('Pilih kategori dahulu');
+                }else{
+                    
+                    customAjax('<?= URLSITUS ?>ajax.php?do=kategori','&id='+id,function (data) {
+                        console.log(data);
+			$('#detailKategori').show(300); /*munculin list detail kategori*/
+                         $('#kategori2').empty();
+                        //$.each(data, function(key, val) {
+                                    for(i=0; i<data.length; i++) {
+                                        //alert(obj.tagName);
+                                         var html = '<option value="'+data[i].param_id+'">'+data[i].param_name+'</option>';
+                                         $('#kategori2').append(html);
+//                                           $('#kategori2')
+//                                            .append($("<option></option>")
+//                                            .attr("value",val.param_id)
+//                                            .text(val.param_name)); 
+                                    //});
+				};
+                            })
+                };
+            });
                         $('#multiupload').fileapi({
                                 multiple: true,
                                 url: 'upload_galeri.php',
