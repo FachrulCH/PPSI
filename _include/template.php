@@ -247,4 +247,19 @@ function Tmplt_trip_member_join($trip_id){
 //    }
 }
 
+function Tmplt_get_kategori1(){
+    $sql = "SELECT * FROM tb_param WHERE param_parent = 0 
+        order by param_name ";
+    $selectSql = good_query_allrow($sql);
+    return $selectSql;
+}
+
+function Tmplt_get_kategori2($id){
+    $id  = (int) $id;
+    $sql = "SELECT * FROM tb_param WHERE param_parent = {$id} 
+        order by param_name ";
+    $selectSql = good_query_allrow($sql);
+    return $selectSql;
+}
+
 ?>
