@@ -7,7 +7,7 @@ require_once '_include/template.php';
 $do = $_GET['do'];
 
 if ($do == 'tanya'){
-    ///Validasi capcay///
+    ///***** Validasi capcay****///
     $captcha    = $_POST['capcay'];
     $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
 
@@ -111,6 +111,31 @@ if ($do == 'tanya'){
     $detailKategori = Tmplt_get_kategori2($id);
     $hasil = array('status' => true, 'pesan' => "Pilih detail kategori", 'data' => $detailKategori);
     echo json_encode($hasil);  // data detail kategori
+}elseif($do == 'cekusername'){
+     //echo 'false'; // udah ada yg punya
+     echo 'true'; // masih tersedia
+}elseif($do == 'newmember'){
+    //***** inisialisasi nilai *****//
+    $status = false;
+    $pesan  = 'pesan kosong';
+    $hasil  = 'hasil kosong';
+    
+    ///***** Validasi capcay****///
+    $captcha    = isset($_POST['g-recaptcha-response'])? $_POST['g-recaptcha-response'] : null;
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User anda tidak lolos captcha";
+       $status  = false;
+       $hasil   = NULL;
+    } else {
+       $pesan   = "User berhasil terdaftar, silahkan melakukan login ya";
+       $status  = true;
+       $hasil   = $_POST;
+    }
+    
+        $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+        echo json_encode($result);
 }else{
     echo 'ada kesalahan';
 }

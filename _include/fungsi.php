@@ -51,7 +51,7 @@ function make_image_name($name){
 }
 
 function tautan($url,$text){
-    return "<a href=".URLSITUS.$url." data-ajax=\"false\">{$text}</a>";
+    return "<a href=".URLSITUS.$url." data-ajax=\"false\" data-role=\"none\">{$text}</a>";
 }
 
 function enkripsi($string){

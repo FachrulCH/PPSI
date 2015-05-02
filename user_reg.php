@@ -26,56 +26,118 @@ include_once "_include/template.php";
 		get_header('Registrasi');
 	?>
 	<article role="main" class="ui-content">
-
+            <div id="why" style="text-align: justify">
             <p>Mengapa gabung di TemanBackpacker?</p>
+            <p class="hrfKecil">TemanBackpacker.com adalah sebuah portal komunitas backpaking yang dapat mempertemukan kamu dengan orang-orang di seluruh Indonesia. </p>
+            <p class="hrfKecil">Kamu bisa berinteraksi, berbagi cerita, dan rencana liburan/perjalanan kamu pada teman dekat ataupun member lainya yang membantu mewujudkan rencana liburan tersebut menjadi nyata. </p>
+            <p class="hrfKecil">Di TemanBackpacker.com kamu juga dapat melihat pengalaman, trip, post, ataupun foto perjalanan dari orang lain. </p>
+            <p class="hrfKecil">Dan member juga dapat menemukan tempat-tempat baru dan wisata sekitar yang mungkin terlewatkan.</p>
+            </div>
             <div class="hrfKecil">
-                <form action="user_save.php" method="post" data-ajax="false">
+                <form action="" method="post" data-ajax="false" id="newMember">
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Nama Lengkap</label>
-                        <input type="text" name="txt_nama_lengkap" id="txt_nama_lengkap" value="" data-clear-btn="true">
+                        <label for="t_nama_lengkap">Nama Lengkap</label>
+                        <input type="text" name="t_nama_lengkap" id="t_nama_lengkap" value="" data-clear-btn="true"  class="required" maxlength="10">
                     </li>
 
                     <li class="ui-field-contain">
-                        <label for="txt_username">Username</label>
-                        <input type="text" name="txt_username" id="txt_username" value="" data-clear-btn="true">
+                        <label for="t_username">Username</label>
+                        <input type="text" name="t_username" id="t_username" value="" data-clear-btn="true" maxlength="25">
                     </li>
 
                     <li class="ui-field-contain">
-                        <label for="txt_email">E-mail</label>
-                        <input type="text" name="txt_email" id="txt_email" value="" data-clear-btn="true">
+                        <label for="t_email">E-mail</label>
+                        <input type="text" name="t_email" id="txt_email" value="" data-clear-btn="true"  class="required email" maxlength="50">
                     </li>
 
                     <li class="ui-field-contain">
-                        <label for="txt_katasandi">Kata sandi</label>
-                        <input type="text" name="txt_katasandi" id="txt_katasandi" value="" data-clear-btn="true">
+                        <label for="t_katasandi">Kata sandi</label>
+                        <input type="password" name="t_katasandi" id="t_katasandi" value="" data-clear-btn="true" class="password" minlength="6">
                     </li>
 
                     <li class="ui-field-contain">
-                        <label for="txt_katasandi2">Ulangi kata sandi</label>
-                        <input type="text" name="txt_katasandi2" id="txt_katasandi2" value="" data-clear-btn="true">
-                    </li>
-
-                    <li class="ui-field-contain">
-                        <label for="txt_captcha">Captcha</label>
-                        <input type="text" name="txt_captcha" id="txt_captcha" value="" data-clear-btn="true">
+                        <label for="t_katasandi2">Ulangi kata sandi</label>
+                        <input type="password" name="t_katasandi2" id="t_katasandi2" value="" equalTo="#t_katasandi" class="required" data-clear-btn="true" maxlength="40">
                     </li>
 
                     <li class="ui-field-contain">
                         <label for="name2">Ketentuan Penggunaan</label>
-                        Saya menerima ketentuan penggunaan
+                        <div>Dengan mendaftar, kamu dianggap menerima dan setuju dengan <a href="#" data-ajax="false" data-role="none">ketentuan dan penggunaan TemanBackpacker.com </a></div>
                     </li>
                     <li class="ui-field-contain">
                         <label for="name2">Captcha</label>
                         <div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div>
                     </li>
                     
-                    <li class="ui-field-contain">
-                        <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Buat Akun</button>
+                     <li class="ui-field-contain">
+                        <label for="btn_reg"></label>
+                        <button class="ui-btn ui-icon-user ui-btn-icon-left" type="submit" id="btn_reg">Daftar</button>
                     </li>
                 </ul>
             </form>
             </div>
+            <script type="text/javascript" src="js/main.js"></script>
+            <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+            
+            <script type="text/javascript">
+                /***** validasi formnya *****/
+                jQuery.validator.addMethod("password", function( value, element ) { 
+                    return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+                        && /\d/.test(value) // has a digit
+                }, "Kata sandi minimal 6 karakter dan mengandung angka nya");
+                $.validator.setDefaults({
+			submitHandler: function() {
+				//dialogin("submitted!");
+				var kirim = $("#newMember").serialize();
+                                console.log(kirim);
+				customAjax('<?= URLSITUS ?>ajax.php?do=newmember',kirim,function (data) {
+					dialogin(data);
+                                        setTimeout('window.location.href = "<?= URLSITUS ?>user_login.php"',3000);
+				});
+				}
+			});
+		$("#newMember").validate({
+			debug: false,
+                        rules: {
+				t_username: {
+                                    required: true,
+                                    remote:{
+                                        url: "ajax.php?do=cekusername",
+                                        type: "post",
+                                        data:
+                                        {
+                                            usernames: function()
+                                            {
+                                                return $('#newMember :input[name="t_username"]').val();
+                                            }
+                                        }
+                                    }
+				}
+                        },
+			messages: {
+				t_nama_lengkap: {
+                                    required: "Apa nama lengkap kamu?"
+				},
+                                t_username: { 
+                                    remote: jQuery.validator.format("Username ini sudah ada yg punya."),
+                                    required: "Mau kita panggil kamu apa nih?"
+                                },
+                                t_email: {
+                                    required: "Email kamu apa?",
+                                    email: "Harap masukan alamat email yang valid: namakamu@email.com"
+                                },
+                                t_katasandi2: {
+                                    required: " ",
+                                    equalTo: "Kata sandi harus sama dengan yang di atas"
+                                }
+                                
+			}
+
+
+		});
+                /***** validasi formnya *****/
+            </script>
 	</article><!-- /content -->
 	<?php
 		get_footer();
