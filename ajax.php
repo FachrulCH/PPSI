@@ -3,6 +3,7 @@ require_once '_include/db_function.php';
 require_once '_include/trip.php';
 require_once '_include/chat.php';
 require_once '_include/template.php';
+require_once '_include/user.php';
 
 $do = $_GET['do'];
 
@@ -112,8 +113,16 @@ if ($do == 'tanya'){
     $hasil = array('status' => true, 'pesan' => "Pilih detail kategori", 'data' => $detailKategori);
     echo json_encode($hasil);  // data detail kategori
 }elseif($do == 'cekusername'){
-     //echo 'false'; // udah ada yg punya
-     echo 'true'; // masih tersedia
+    //***** Pengecekan apakah username yg akan daftar sudah ada apa belum *****//
+    // fungsi ada pada include/user.php
+
+    $status = User_tersedia($_POST['usernames']);
+    if ($status == TRUE){
+        echo 'true'; // masih tersedia
+    }else{
+        echo 'false'; // udah ada yg punya
+    }
+     
 }elseif($do == 'newmember'){
     //***** inisialisasi nilai *****//
     $status = false;
@@ -125,13 +134,28 @@ if ($do == 'tanya'){
     $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
 
     if ($response['success'] == false) {
-       $pesan   = "User anda tidak lolos captcha";
+       $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";
        $status  = false;
        $hasil   = NULL;
     } else {
-       $pesan   = "User berhasil terdaftar, silahkan melakukan login ya";
-       $status  = true;
-       $hasil   = $_POST;
+        //***** user tervalidasi capcay
+        $namaLengkap    = $_POST['t_nama_lengkap'];
+        $username       = $_POST['t_username'];
+        $email          = $_POST['t_email'];
+        $pwd            = md5(trim($_POST['t_katasandi']));
+        
+        //***** sekali aja validasi, karena nilai udah di filter di awal dengan jquery
+        if(isset($namaLengkap) && isset($username) && isset($email) && isset($pwd)){
+            //***** proses penyimpanan data user baru => include/user.php
+            $status = User_new($namaLengkap,$username,$email,$pwd);
+                if ($status == TRUE){
+                    $pesan   = "Selamat bergabung ".$username." !, mohon login dahulu ya";
+                }else{
+                    $pesan   = "terjadi kesalahan dalam proses pembuatan user kamu";
+                }
+        }else{
+            $pesan   = "Input kurang lengkap";
+        }
     }
     
         $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);

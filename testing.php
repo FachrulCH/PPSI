@@ -2,6 +2,7 @@
 include_once "_include/db_function.php";
 include_once "_include/trip.php";
 include_once '_include/template.php';
+include_once '_include/user.php';
 
 //$trip_id = '110';
 //Tmplt_comment_trip1($trip_id);
@@ -112,17 +113,27 @@ $_SESSION['user_id'] = 1;
 
 // cek data trip
 //$sql = "select * from v_trip_list where trip_id = 110 limit 2;" ;
-echo "<pre>";
+//echo "<pre>";
 //print_r(Trip_load_new());
 //print_r(Trip_load_hot(1,2));
-$ar = Tmplt_get_kategori1();
-print_r($ar);
-echo '</pre>';
+//$ar = Tmplt_get_kategori1();
+//print_r($ar);
+//echo '</pre>';
 
-foreach ($ar as $b) {
-    echo $b['param_name'];
-}
+//foreach ($ar as $b) {
+//    echo $b['param_name'];
+//}
 
+//*********testing User_new($namaLengkap, $username, $email, $pwd)
+//
+//$simpan = User_new('haci kiwir', 'papatong', 'imel@imel.com', md5('katasandi'));
+//
+//var_dump($simpan);
+
+//***** ketersediaan user buat register
+
+$status = User_tersedia('alula');
+var_dump($status);
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>

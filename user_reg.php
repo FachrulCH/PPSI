@@ -38,7 +38,7 @@ include_once "_include/template.php";
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
                         <label for="t_nama_lengkap">Nama Lengkap</label>
-                        <input type="text" name="t_nama_lengkap" id="t_nama_lengkap" value="" data-clear-btn="true"  class="required" maxlength="10">
+                        <input type="text" name="t_nama_lengkap" id="t_nama_lengkap" value="" data-clear-btn="true"  class="required" maxlength="50">
                     </li>
 
                     <li class="ui-field-contain">
@@ -48,7 +48,7 @@ include_once "_include/template.php";
 
                     <li class="ui-field-contain">
                         <label for="t_email">E-mail</label>
-                        <input type="text" name="t_email" id="txt_email" value="" data-clear-btn="true"  class="required email" maxlength="50">
+                        <input type="text" name="t_email" id="txt_email" value="" data-clear-btn="true"  class="required email" maxlength="75">
                     </li>
 
                     <li class="ui-field-contain">
@@ -86,14 +86,22 @@ include_once "_include/template.php";
                     return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
                         && /\d/.test(value) // has a digit
                 }, "Kata sandi minimal 6 karakter dan mengandung angka nya");
+                
+                jQuery.validator.addMethod("noSpace", function(value, element) { 
+                    return value.indexOf(" ") < 0 && value != ""; 
+                }, "Tidak boleh ada spasi");
+
                 $.validator.setDefaults({
 			submitHandler: function() {
 				//dialogin("submitted!");
 				var kirim = $("#newMember").serialize();
-                                console.log(kirim);
+                                //console.log(kirim);
 				customAjax('<?= URLSITUS ?>ajax.php?do=newmember',kirim,function (data) {
 					dialogin(data);
-                                        setTimeout('window.location.href = "<?= URLSITUS ?>user_login.php"',3000);
+                                        //setTimeout('window.location.href = "<?= URLSITUS ?>user_login.php"',3000);
+                                        if (data.status == false){
+                                            grecaptcha.reset(); //refresh capcay
+                                        }
 				});
 				}
 			});
@@ -102,6 +110,7 @@ include_once "_include/template.php";
                         rules: {
 				t_username: {
                                     required: true,
+                                    noSpace: true,
                                     remote:{
                                         url: "ajax.php?do=cekusername",
                                         type: "post",
