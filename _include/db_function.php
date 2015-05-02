@@ -10,13 +10,6 @@ defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
 defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); // ==> URL web nya, buat <a href> 
 
 
-//defined('DBHOST') ? null : define("DBHOST", "mysql.idhostinger.com");
-//defined('DBUSER') ? null : define("DBUSER", "u551045327_root");
-//defined('DBPASS') ? null : define("DBPASS", "umb12345");
-//defined('DBNAME') ? null : define("DBNAME", "u551045327_tb");
-//
-//defined("URLSITUS") ? null : define("URLSITUS", "http://temanbackpacker.com/"); // ==> URL web nya, buat <a href> 
-//
 
 $database = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 $db =& $database;
