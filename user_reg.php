@@ -12,14 +12,6 @@ include_once "_include/template.php";
 		// memiliki argumen title halaman
 		get_meta('TemanBackpacker.com');
 	?>
-	<style type="text/css">
-            .hrfKecil{
-                font-size: .8em;
-            }
-            .ketengah{
-                text-align: center;
-            }
-	</style>
         <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
