@@ -131,7 +131,7 @@ if ($do == 'tanya'){
     
     ///***** Validasi capcay****///
     $captcha    = isset($_POST['g-recaptcha-response'])? $_POST['g-recaptcha-response'] : null;
-    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha .'33'. "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
 
     if ($response['success'] == false) {
        $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";

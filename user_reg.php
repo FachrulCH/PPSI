@@ -97,11 +97,10 @@ include_once "_include/template.php";
 				var kirim = $("#newMember").serialize();
                                 //console.log(kirim);
 				customAjax('<?= URLSITUS ?>ajax.php?do=newmember',kirim,function (data) {
+                                        grecaptcha.reset(); //refresh capcay
 					dialogin(data);
                                         //setTimeout('window.location.href = "<?= URLSITUS ?>user_login.php"',3000);
-                                        if (data.status == false){
-                                            grecaptcha.reset(); //refresh capcay
-                                        }
+                                        
 				});
 				}
 			});
