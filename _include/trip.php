@@ -107,8 +107,8 @@ function Trip_count_member_joined($trip_id){
 }
 
 function Trip_kategori_view($id){
-	$json = get_db_param('status_trip');
-	return $json->status_trip[$id]->name;	
+//	$json = get_db_param('status_trip');
+//	return $json->status_trip[$id]->name;	
 }
 
 function Trip_get_tanya($trip_id){

@@ -11,18 +11,17 @@ echo '
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="shortcut icon" href="css/favicon.ico" type="image/x-icon">
-        <link rel="icon" href="css/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>';
+        <link rel="icon" href="'.URLSITUS.'css/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="'.URLSITUS.'css/jquery.mobile.structure-1.4.5.min.css" />
+	<link rel="stylesheet" href="'.URLSITUS.'css/themes/jquery.mobile.icons.min.css" />
+	<script src="'.URLSITUS.'js/jquery.min.js"></script>
+	<script src="'.URLSITUS.'js/jquery.mobile-1.4.5.min.js"></script>';
 
 //tambah google font
 //penggunaan => font-family: 'Asap', sans-serif;
-echo "  <link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' href='css/themes/tema-merah.min.css' />
-        <link rel='stylesheet' href='css/tb.css' />
-    "; 
+echo "  <link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>";
+echo '<link rel="stylesheet" href="'.URLSITUS.'css/themes/tema-merah.min.css" />
+        <link rel="stylesheet" href="'.URLSITUS.'css/tb.css" />';
 }
 
 function get_panel()
@@ -30,7 +29,7 @@ function get_panel()
 echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="ketengah">
-			<a href="#"><img src="css/images/profile.jpg" width="100px"></a>
+			<a href="#"><img src="'.URLSITUS.'css/images/profile.jpg" width="100px"></a>
 			<p><b>Si Bolang</b></p>
 			<p class="hrfKecil">"Ini Statusnya"</p>
 		</div>
@@ -178,7 +177,7 @@ function Tmplt_comment_trip1($trip_id)
             echo '
             <div class="dataPertanyaan">
                 <hr/>
-                <img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
+                <img class="thumb" src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'">
                 <div class="usr">'.$d['user_name'].'</div>
                 <div><span class="usrHdr">
                     <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
@@ -212,7 +211,7 @@ function Tmplt_comment_trip2($trip_id)
             $listTanya .= '
             <div class="dataPertanyaan">
                 <hr/>
-                <img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
+                <img class="thumb" src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'">
                 <div class="usr">'.$d['user_name'].'</div>
                 <div><span class="usrHdr">
                     <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
@@ -238,7 +237,7 @@ function Tmplt_trip_member_join($trip_id){
     $data = Trip_member_join($trip_id);
 	while ($d = mysqli_fetch_array($data)){
 		echo'
-			<img src="_gambar/user/'.$d['user_foto'].'" width="80px"> 	
+			<img src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'" width="80px"> 	
 			';
 	}
         

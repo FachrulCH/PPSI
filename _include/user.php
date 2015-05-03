@@ -35,4 +35,11 @@ function User_tersedia($username){
         return false;
     }
 }
+
+function User_loginbyusername($username, $password){
+    return 2;
+}
+function User_loginbyemail($username, $password){
+    return 2;
+}
 ?>
