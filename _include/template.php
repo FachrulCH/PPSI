@@ -68,7 +68,7 @@ echo '
 function get_header($title=null)
 {
 	echo '
-	<header data-role="header">
+	<header data-role="header" id="header">
 		<h1>'.$title.'</h1>
         <a href="#" data-rel="back"  class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" >Back
           </a>
@@ -79,7 +79,7 @@ function get_header($title=null)
 function get_header_index($title=null)
 {
 	echo '
-	<header data-role="header">
+	<header data-role="header" id="header">
 		<h1>'.$title.'</h1>
         <a href="#panelSearch" class="ui-btn ui-icon-search ui-btn-icon-notext ui-corner-all ui-btn-right">Pencarian</a>
 	</header><!-- /header -->';
@@ -88,13 +88,29 @@ function get_header_index($title=null)
 
 function get_footer()
 {
-	echo '
+    //tambah popup
+    if (isset($_SESSION['user_id']) == false){
+        // kalo user belum login, muncul tomobl pop up
+        $tombolLogin = '<li><a href = "#popupLogin" data-rel = "popup" data-position-to = "window" class = "ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition = "pop">Login | Pendaftaran</a></li>';
+        echo '
+            <div data-role = "popup" id = "popupLogin" data-theme = "a" class = "ui-corner-all">
+            <div style = "padding:10px 20px;">
+            <h3>Hai kamu, selamat datang :)</h3>
+            <label for = "lg" class = "ui-hidden-accessible">Sudah terdaftar?</label>
+            <a href="'. URLSITUS .'user/login/" class="ui-btn ui-icon-action ui-btn-icon-left" id="lg">Login</a>
+            <label for = "pw" class = "ui-hidden-accessible">Mau bergabung?</label>
+            <a href="'. URLSITUS .'user/registrasi/" class="ui-btn ui-icon-user ui-btn-icon-left">Daftar</a>
+            </div>
+            </div>';
+        
+    }
+echo '
 	<div data-role="footer" style="overflow:hidden; text-align:center">
 		<div data-role="navbar">
 			<ul>
-				<li><a href="#">Back to top</a></li>
-				<li><a href="#">Desktop Version</a></li>
+				<li><a href="#header" data-ajax="false">Back to top</a></li>
 				<li><a href="#">Report bug</a></li>
+                                '.@$tombolLogin.'
 			</ul>
 		</div><!-- /navbar -->
 	<small>© 2015 TemanBackpacker.com</small>

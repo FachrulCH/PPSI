@@ -132,8 +132,13 @@ $_SESSION['user_id'] = 1;
 
 //***** ketersediaan user buat register
 
-$status = User_tersedia('alula');
-var_dump($status);
+//$status = User_tersedia('alula');
+//var_dump($status);
+//$status = User_email_tersedia('fachrul.fch@gmail.co');
+//var_dump($status);
+
+$userprofile = User_get_profil(1);
+var_dump($userprofile);
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>

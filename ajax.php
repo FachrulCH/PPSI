@@ -7,6 +7,7 @@ require_once '_include/user.php';
 
 $do = $_GET['do'];
 
+// =========================================================================== //
 if ($do == 'tanya'){
     ///***** Validasi capcay****///
     $captcha    = $_POST['capcay'];
@@ -66,12 +67,15 @@ if ($do == 'tanya'){
         $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
         
         echo json_encode($result);
-	
+        
+// =========================================================================== //	
 }elseif ($do == 'ijingabung'){
 	$status = true;
 	$pesan	= "Permintaan gabung berhasil. Tunggu approval penyelenggara trip ya";
 	$hasil 	= array('status' => $status, 'pesan' => $pesan);
 	echo json_encode($hasil);
+        
+// =========================================================================== //
 }elseif ($do == 'trip_save') {
         $id     = @$_SESSION['user_id'];
 	$judul  = $_POST['t_judul'];
@@ -106,12 +110,15 @@ if ($do == 'tanya'){
         }
         $hasil = array('status' => true, 'pesan' => "berhasil masuk ", 'data' => $simpan);
 	echo json_encode($hasil);
-	
+
+// =========================================================================== //
 }elseif($do == 'kategori'){
     $id = $_POST['id'];
     $detailKategori = Tmplt_get_kategori2($id);
     $hasil = array('status' => true, 'pesan' => "Pilih detail kategori", 'data' => $detailKategori);
     echo json_encode($hasil);  // data detail kategori
+
+// =========================================================================== //
 }elseif($do == 'cekusername'){
     //***** Pengecekan apakah username yg akan daftar sudah ada apa belum *****//
     // fungsi ada pada include/user.php
@@ -122,7 +129,20 @@ if ($do == 'tanya'){
     }else{
         echo 'false'; // udah ada yg punya
     }
-     
+
+// =========================================================================== //    
+}elseif($do == 'cekemail'){
+    //***** Pengecekan apakah username yg akan daftar sudah ada apa belum *****//
+    // fungsi ada pada include/user.php
+
+    $status = User_email_tersedia($_POST['usernames']);
+    if ($status == TRUE){
+        echo 'true'; // masih tersedia
+    }else{
+        echo 'false'; // udah ada yg punya
+    }
+
+// =========================================================================== //    
 }elseif($do == 'newmember'){
     //***** inisialisasi nilai *****//
     $status = false;
@@ -160,15 +180,18 @@ if ($do == 'tanya'){
     
         $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
         echo json_encode($result);
+
+// =========================================================================== //        
 }elseif($do == 'login'){
     //*** inisiasi nilai
     $status = false;
     $pesan  = "gagal login";
-    $hasil = $_POST;
+    $hasil  = null;//$_POST;
     $username = $_POST['t_username'];
     $password = md5(trim($_POST['t_password']));
     
     if (strpos($username,'@') == true) {
+        //*** cek login dengan imel ***//
         $status = User_loginbyemail($username, $password);
             if ($status == 1){
                 $pesan = 'Login email berhasil';
@@ -179,6 +202,7 @@ if ($do == 'tanya'){
             }
 
     }else{
+        //*** cek login dengan username ***//
         $status = User_loginbyusername($username, $password);
             if ($status == 1){
                 $pesan = 'Login username berhasil';
@@ -189,8 +213,22 @@ if ($do == 'tanya'){
             }
 
     }
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => strtolower($username));
+    echo json_encode($result);
+
+// =========================================================================== //    
+}elseif($do == 'updatemember'){
+    //*** inisiasi nilai
+    $status = false;
+    $pesan  = "berhasil di update";
+    $hasil  = $_POST;
+
+    
+    
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
     echo json_encode($result);
+
+// =========================================================================== //    
 }else{
     echo 'ada kesalahan';
 }

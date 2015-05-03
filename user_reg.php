@@ -27,7 +27,7 @@ include_once "_include/template.php";
 	?>
 	<article role="main" class="ui-content">
             <div id="why" style="text-align: justify">
-            <p>Mengapa gabung di TemanBackpacker?</p>
+                <h3 class="ketengah">Mengapa gabung di TemanBackpacker?</h3>
             <p class="hrfKecil">TemanBackpacker.com adalah sebuah portal komunitas backpaking yang dapat mempertemukan kamu dengan orang-orang di seluruh Indonesia. </p>
             <p class="hrfKecil">Kamu bisa berinteraksi, berbagi cerita, dan rencana liburan/perjalanan kamu pada teman dekat ataupun member lainya yang membantu mewujudkan rencana liburan tersebut menjadi nyata. </p>
             <p class="hrfKecil">Di TemanBackpacker.com kamu juga dapat melihat pengalaman, trip, post, ataupun foto perjalanan dari orang lain. </p>
@@ -48,7 +48,7 @@ include_once "_include/template.php";
 
                     <li class="ui-field-contain">
                         <label for="t_email">E-mail</label>
-                        <input type="text" name="t_email" id="txt_email" value="" data-clear-btn="true"  class="required email" maxlength="75">
+                        <input type="text" name="t_email" id="t_email" value="" data-clear-btn="true" maxlength="75">
                     </li>
 
                     <li class="ui-field-contain">
@@ -99,7 +99,7 @@ include_once "_include/template.php";
 				customAjax('<?= URLSITUS ?>api/newmember/',kirim,function (data) {
                                         grecaptcha.reset(); //refresh capcay
 					dialogin(data);
-                                        setTimeout('window.location.href = "<?= URLSITUS ?>user/login/"',3000);
+                                        setTimeout('window.location.href = "<?= URLSITUS ?>user/login/"',3000); // redirect ke form login
                                         
 				});
 				}
@@ -121,6 +121,21 @@ include_once "_include/template.php";
                                             }
                                         }
                                     }
+				},
+                                t_email: {
+                                    required: true,
+                                    email: true,
+                                    remote:{
+                                        url: "<?= URLSITUS ?>api/cekemail/",
+                                        type: "post",
+                                        data:
+                                        {
+                                            usernames: function()
+                                            {
+                                                return $('#newMember :input[name="t_email"]').val();
+                                            }
+                                        }
+                                    }
 				}
                         },
 			messages: {
@@ -133,7 +148,8 @@ include_once "_include/template.php";
                                 },
                                 t_email: {
                                     required: "Email kamu apa?",
-                                    email: "Harap masukan alamat email yang valid: namakamu@email.com"
+                                    email: "Harap masukan alamat email yang valid: namakamu@email.com",
+                                    remote: jQuery.validator.format("Email ini sudah ada yg punya.")
                                 },
                                 t_katasandi2: {
                                     required: " ",

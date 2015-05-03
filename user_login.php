@@ -65,7 +65,7 @@ include_once "_include/template.php";
                                 console.log(kirim);
 				customAjax('<?= URLSITUS ?>api/login/',kirim,function (data) {
 					dialogin(data);
-                                        //setTimeout('window.location.href = "<?= URLSITUS ?>user/login/"',3000);
+                                        setTimeout('window.location.href = "<?= URLSITUS ?>user/profil/"',1000); // redirect ke halaman profil user
                                         
 				});
 				}
