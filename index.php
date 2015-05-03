@@ -195,7 +195,7 @@ include_once "_include/template.php";
                 <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="_gambar/galeri/fit/badak.jpg"/><div class="caption">Petualangan di rimba Lampung</div></a></div>
             </div>
             <p class="hrfKecil ketengah" style="padding-top: 20px;">
-                Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu, <?= tautan('user_reg.php', 'Ayo gabung!')?></a>
+                Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu, <?= tautan('user/registrasi/', 'Ayo gabung!')?></a>
             </p>
             <p class="ketengah" style="font-size: .6em;">Ada 100 Travelers yang berbagi <?= tautan('trip.php', '1.000 ulasan perjalanan') ?> , dan <?= tautan('galeri.php', '2.000 foto') ?> loh</p>
             <hr/>

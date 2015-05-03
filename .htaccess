@@ -19,4 +19,18 @@
   RewriteRule \.(?:jpe?g|gif|png)$ adaptive-images.php
 
   # END Adaptive-Images -------------------------------------------------------------------------------
+
+# redirect error 404
+ErrorDocument 404 /404.php
+# Disable directory browsing
+Options All -Indexes
+
+# NC makes the rule non case sensitive
+# L makes this the last rule that this specific condition will match
+# $ in the regular expression makes the matching stop so that "customblah" will not work
+RewriteRule ^api/([a-zA-Z0-9]+)/$ ajax.php?do=$1 [NC,L]
+RewriteRule ^trip/$ trip.php [NC,L]
+RewriteRule ^trip/view/(.*)/([0-9]+)/$ trip_view.php?id=$2 [NC,L]
+RewriteRule ^user/login/$ user_login.php [NC,L]
+RewriteRule ^user/registrasi/$ user_reg.php [NC,L]
 </IfModule>

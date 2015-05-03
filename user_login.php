@@ -23,15 +23,15 @@ include_once "_include/template.php";
         get_header('Login');
 ?>
 	<article role="main" class="ui-content">
-            <form action="user_save.php" method="post" data-ajax="false">
+            <form action="" method="post" data-ajax="false" id="formLogin">
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Username/email</label>
-                        <input type="text" name="txt_nama_lengkap" id="txt_nama_lengkap" value="" data-clear-btn="true">
+                        <label for="t_username">Username/email</label>
+                        <input type="text" name="t_username" id="t_username" value="" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
-                        <label for="txt_password">Kata Sandi</label>
-                        <input type="password" name="txt_password" id="txt_password" value="" data-clear-btn="true">
+                        <label for="t_password">Kata Sandi</label>
+                        <input type="password" name="t_password" id="t_password" value="" data-clear-btn="true" class="required">
                     </li>
                     <li class="ui-field-contain">
                         <label for="btn_login"></label>
@@ -39,10 +39,10 @@ include_once "_include/template.php";
                     </li>
                 </ul>
             </form>
-            <p class="ketengah"><a href="#reset" data-rel="popup" data-position-to="window" data-transition="pop">Lupa Password</a></p>
-            <p class="ketengah"><?= tautan('user_reg.php', 'Belum punya akun')?></p>
+            <p class="ketengah"><a href="#formReset" data-rel="popup" data-position-to="window" data-transition="pop">Lupa Password</a></p>
+            <p class="ketengah"><?= tautan('user/registrasi/', 'Belum punya akun')?></p>
 
-            <div data-role="popup" id="reset" data-theme="a" class="ui-corner-all">
+<!--            <div data-role="popup" id="formReset" data-theme="a" class="ui-corner-all">
                 <form>
                     <div style="padding:10px 20px;">
                         <h3>Masukan email kamu</h3>
@@ -51,7 +51,43 @@ include_once "_include/template.php";
                         <button type="submit" class="ui-btn ui-btn-icon-left ui-icon-check">Reset</button>
                     </div>
                 </form>
-            </div>
+            </div>-->
+            <script type="text/javascript" src="<?= URLSITUS ?>js/main.js"></script>
+            <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
+            <script type="text/javascript">
+                jQuery.validator.addMethod("noSpace", function(value, element) { 
+                    return value.indexOf(" ") < 0 && value != ""; 
+                }, "Tidak boleh ada spasi");
+                
+                $.validator.setDefaults({
+			submitHandler: function() {
+				var kirim = $("#formLogin").serialize();
+                                console.log(kirim);
+				customAjax('<?= URLSITUS ?>api/login/',kirim,function (data) {
+					dialogin(data);
+                                        //setTimeout('window.location.href = "<?= URLSITUS ?>user/login/"',3000);
+                                        
+				});
+				}
+			});
+		$("#formLogin").validate({
+			debug: false,
+                        rules: {
+				t_username: {
+                                    required: true,
+                                    noSpace: true,
+				}
+                        },
+			messages: {
+				t_username: {
+                                    required: "Masukan username atau email kamu"
+				}
+			}
+
+
+		});
+                /***** validasi formnya *****/
+            </script>
 	</article><!-- /content -->
 <?php
         get_footer();

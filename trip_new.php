@@ -19,9 +19,9 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 ?>
   	<!-- Peta -->
   	<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-	<script src="js/jquery.geocomplete.min.js"></script>
+	<script src="<?= URLSITUS ?>js/jquery.geocomplete.min.js"></script>
   	<!-- End Peta -->
-	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
 	<script>
       $(function(){
           $("#t_tujuan").geocomplete({
@@ -99,7 +99,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
                     cursor: pointer;
                     margin: -16px 0 0 -16px;
                     position: absolute;
-                    background: url('css/uploader/rotate.png');
+                    background: url('<?= URLSITUS ?>css/uploader/rotate.png');
                 }
 
                 .b-thumb__preview {
@@ -112,7 +112,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
                 .b-thumb__preview__pic {
                     width: 100%;
                     height: 100%;
-                    background: url('css/uploader/file-icon.png') 50% 50% no-repeat;
+                    background: url('<?= URLSITUS ?>css/uploader/file-icon.png') 50% 50% no-repeat;
                 }
 
                 .b-thumb__name {
@@ -292,7 +292,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
                         </ul>
 		</form>	
 		</div>
-<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="<?= URLSITUS ?>js/main.js"></script>
 <script type="text/javascript">
     $('#ckTGL').on('change', function() { 
       if ($(this).prop('checked')) {
@@ -360,9 +360,9 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
         , staticPath: 'js/FileAPI/' // path to *.swf
     };
 </script>
-<script src="js/FileAPI/FileAPI.min.js"></script>
-<script src="js/FileAPI/FileAPI.exif.js"></script>
-<script src="js/FileAPI/jquery.fileapi.min.js"></script>
+<script src="<?= URLSITUS ?>js/FileAPI/FileAPI.min.js"></script>
+<script src="<?= URLSITUS ?>js/FileAPI/FileAPI.exif.js"></script>
+<script src="<?= URLSITUS ?>js/FileAPI/jquery.fileapi.min.js"></script>
 
 <script type="text/javascript">
 jQuery(function ($){

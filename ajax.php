@@ -131,7 +131,7 @@ if ($do == 'tanya'){
     
     ///***** Validasi capcay****///
     $captcha    = isset($_POST['g-recaptcha-response'])? $_POST['g-recaptcha-response'] : null;
-    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha .'33'. "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
 
     if ($response['success'] == false) {
        $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";
@@ -160,6 +160,37 @@ if ($do == 'tanya'){
     
         $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
         echo json_encode($result);
+}elseif($do == 'login'){
+    //*** inisiasi nilai
+    $status = false;
+    $pesan  = "gagal login";
+    $hasil = $_POST;
+    $username = $_POST['t_username'];
+    $password = md5(trim($_POST['t_password']));
+    
+    if (strpos($username,'@') == true) {
+        $status = User_loginbyemail($username, $password);
+            if ($status == 1){
+                $pesan = 'Login email berhasil';
+            }elseif($status == 2){
+                $pesan = 'Email tidak ditemukan';
+            }else{
+                $pesan = 'Password salah';
+            }
+
+    }else{
+        $status = User_loginbyusername($username, $password);
+            if ($status == 1){
+                $pesan = 'Login username berhasil';
+            }elseif($status == 2){
+                $pesan = 'Username tidak ditemukan';
+            }else{
+                $pesan = 'Password salah';
+            }
+
+    }
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+    echo json_encode($result);
 }else{
     echo 'ada kesalahan';
 }

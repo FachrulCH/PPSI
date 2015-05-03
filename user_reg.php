@@ -77,8 +77,8 @@ include_once "_include/template.php";
                 </ul>
             </form>
             </div>
-            <script type="text/javascript" src="js/main.js"></script>
-            <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+            <script type="text/javascript" src="<?= URLSITUS ?>js/main.js"></script>
+            <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
             
             <script type="text/javascript">
                 /***** validasi formnya *****/
@@ -96,10 +96,10 @@ include_once "_include/template.php";
 				//dialogin("submitted!");
 				var kirim = $("#newMember").serialize();
                                 //console.log(kirim);
-				customAjax('<?= URLSITUS ?>ajax.php?do=newmember',kirim,function (data) {
+				customAjax('<?= URLSITUS ?>api/newmember/',kirim,function (data) {
                                         grecaptcha.reset(); //refresh capcay
 					dialogin(data);
-                                        //setTimeout('window.location.href = "<?= URLSITUS ?>user_login.php"',3000);
+                                        setTimeout('window.location.href = "<?= URLSITUS ?>user/login/"',3000);
                                         
 				});
 				}
@@ -111,7 +111,7 @@ include_once "_include/template.php";
                                     required: true,
                                     noSpace: true,
                                     remote:{
-                                        url: "ajax.php?do=cekusername",
+                                        url: "<?= URLSITUS ?>api/cekusername/",
                                         type: "post",
                                         data:
                                         {

@@ -21,8 +21,8 @@ $user_id_rahasia = enkripsi($user_id);
         ?>
         <!-- Plug-in untuk carousel -->
         <!-- Carousel -->
-        <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
-        <script defer src="js/jquery.flexslider.js"></script>
+        <link rel="stylesheet" href="<?= URLSITUS ?>css/flexslider.css" type="text/css" media="screen" />
+        <script defer src="<?= URLSITUS ?>js/jquery.flexslider.js"></script>
         <script type="text/javascript">
             $(function () {
                 SyntaxHighlighter.all();
@@ -39,17 +39,6 @@ $user_id_rahasia = enkripsi($user_id);
         </script>
 
         <style type="text/css">
-            .profilePic{
-                text-align: center;
-                height: 150px;
-            }
-            .hrfKecil{
-                font-size: 10px;
-                margin: -15px 0px 5px 0px;
-            }
-            .ketengah{
-                text-align: center;
-            }
             .thumb{
                 width: 32px;
                 float: left;
@@ -110,17 +99,17 @@ $user_id_rahasia = enkripsi($user_id);
                      <section class="slider">
                         <div class="flexslider">
                             <ul class="slides">
-                                <li data-thumb="_gambar/galeri/fit/badak.jpg">
-                                    <img src="_gambar/galeri/fit/badak.jpg" />
+                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg">
+                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg" />
                                 </li>
-                                <li data-thumb="_gambar/galeri/fit/kitchenadventurercaramel.jpg">
-                                    <img src="_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
+                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg">
+                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
                                 </li>
-                                <li data-thumb="_gambar/galeri/fit/bajak.jpg">
-                                    <img src="_gambar/galeri/fit/bajak.jpg" />
+                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/bajak.jpg">
+                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/bajak.jpg" />
                                 </li>
-                                <li data-thumb="_gambar/galeri/fit/kitchenadventurercaramel.jpg">
-                                    <img src="_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
+                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg">
+                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
                                 </li>
                             </ul>
                         </div>
@@ -199,8 +188,8 @@ $user_id_rahasia = enkripsi($user_id);
 ?>
                     </div>
                 </div>
-                <script type="text/javascript" src="js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
-                <script type="text/javascript" src="js/main.js" ></script>
+                <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
+                <script type="text/javascript" src="<?= URLSITUS ?>js/main.js" ></script>
                 <script type="text/javascript">
                     (function ($) {
                         jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/

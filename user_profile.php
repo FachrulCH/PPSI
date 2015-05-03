@@ -46,9 +46,8 @@ include_once "_include/template.php";
             
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#" class="ui-btn-active">Informasi</a></li>
-                    <li><a href="#privasi">Privasi</a></li>
-                    <li><a href="#akun">Akun</a></li>
+                    <li><a href="#home" class="ui-btn-active">Informasi</a></li>
+                    <li><a href="#akun" data-transition="flip">Akun</a></li>
                 </ul>
             </div><!-- /navbar -->
             
@@ -124,8 +123,7 @@ include_once "_include/template.php";
             <p>Profile User</p>
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#">Informasi</a></li>
-                    <li><a href="#privasi">Privasi</a></li>
+                    <li><a href="#home" data-transition="flip">Informasi</a></li>
                     <li><a href="#akun" class="ui-btn-active">Akun</a></li>
                 </ul>
             </div><!-- /navbar -->

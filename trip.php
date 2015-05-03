@@ -108,7 +108,7 @@ if ($page < $JmlHalaman) {
                     //foreach (mysqli_fetch_assoc($trip) as $t){
                     while ($t = mysqli_fetch_assoc($trip)){
 ?>
-                    <li><a href="<?= URLSITUS ?>trip_view.php?id=<?= $t['trip_id'] ?>" data-ajax="false">
+                    <li><a href="<?= URLSITUS ."trip/view/". make_seo_name($t['trip_judul']) ."/".$t['trip_id'] ?>/" data-ajax="false">
                             <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $t['trip_gambar'] ?>" class="ui-li-thumb">
                             <h2><?= $t['trip_tujuan_provinsi'] ?></h2>
                             <p><?= $t['trip_judul'] ?></p>
