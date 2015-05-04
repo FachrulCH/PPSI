@@ -85,7 +85,7 @@ $user_profil    = User_get_profil($user_id);
 
                     <li class="ui-field-contain">
                         <label for="t_exp">Perjalanan seperti apa yang kamu sukai</label>
-                        <textarea cols="40" rows="8" name="t_exp" id="t_exp"><?= $user_profil['user_exp'] ?></textarea>
+                        <textarea cols="40" rows="8" name="t_exp" id="t_exp" placeholder="Paling suka kalo liburan ke..."><?= $user_profil['user_exp']?></textarea>
                     </li>
 
                     <li class="ui-field-contain">
@@ -94,7 +94,7 @@ $user_profil    = User_get_profil($user_id);
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_lokasi">Lokasi sekarang </label>
-                        <input type="text" name="t_lokasi" id="t_lokasi" value="<?= $user_profil['user_lokasi'] ?>" data-clear-btn="true">
+                        <input type="text" name="t_lokasi" id="t_lokasi" value="<?= $user_profil['user_lokasi'] ?>" data-clear-btn="true" required="required">
                         <div id="hasil"> 
 					<input name="location" type="hidden" value="">
                                         <input name="administrative_area_level_1" type="hidden" value="">
@@ -207,30 +207,50 @@ $user_profil    = User_get_profil($user_id);
             
             <div class="hrfKecil">
                 
-                <form action="user_save.php" method="post" data-ajax="false">
+                
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Ubah kata sandi</label>
-                        <input type="text"/>
-                    </li>
-                    <li class="ui-field-contain">
-                        <label for="txt_nama_lengkap">Hapus akun</label>
-                        <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Konfirmasi hapus akun</button>
-                    </li>
-                   <li class="ui-field-contain">
                         <label for="txt_email">Visibilitas</label>
                         <select name="select-choice-a" data-native-menu="false" data-mini="true">
-                            <option>Terlihat</option>
+                            <option>Terlihat untuk umum</option>
                             <option value="0">Untuk umum</option>
                             <option value="1">Hanya member terdaftar</option>
                         </select>
                     </li>
                     <li class="ui-field-contain">
-                        <button type="submit" class="ui-btn ui-corner-all ui-btn-a">Simpan</button>
+                        <a href="#popupLogin" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-lock ui-btn-icon-left ui-btn-b" data-transition="pop" id="b_ubah">Ubah kata sandi</a>
                     </li>
+                    <li class="ui-field-contain">
+                        <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Hapus Akun</a>
+                    </li>   
                 </ul>
-            </form>
             </div>
+            
+
+<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+<form>
+<div style="padding:10px 20px;">
+<h3>Konfirmasi</h3>
+<input type="password" name="pass" id="pw" value="" placeholder="Kata sandi sebelumnya:">
+<input type="password" name="pass" id="pw" value="" placeholder="Kata sandi baru">
+<input type="password" name="pass" id="pw" value="" placeholder="Ulangi kata sandi baru">
+<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Ubah</button>
+</div>
+</form>
+</div>
+            
+
+<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+<div data-role="header" data-theme="a">
+<h1>Yah kamu mah gitu :( </h1>
+</div>
+<div role="main" class="ui-content">
+<h3 class="ui-title">Apa kamu yakin mau menghapus akun ini?</h3>
+<p>Aksi ini ga bisa di cancel loh ya</p>
+<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Batal</a>
+<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Hapus</a>
+</div>
+</div>
 	</article><!-- /content -->
 	<?php
 		get_footer();

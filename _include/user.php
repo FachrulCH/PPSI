@@ -120,4 +120,23 @@ function User_get_profil($user_id)
     $sql = "SELECT * FROM tb_user WHERE user_id = {$user_id}";
     return good_query_assoc($sql);
 }
+
+function User_update($t_bio, $t_nama_lengkap, $t_email, $s_jk, $t_ttl, $t_exp, $t_sosmed, $t_lokasi, $t_lokasi_lat, $t_lokasi_lng) 
+{
+    $t_bio          = sanitize($t_bio);
+    $t_nama_lengkap = sanitize($t_nama_lengkap);
+    $t_email        = sanitize($t_email);
+    $s_jk           = sanitize($s_jk);
+    $t_ttl          = sanitize($t_ttl);
+    $t_exp          = sanitize($t_exp);
+    $t_sosmed       = sanitize($t_sosmed);
+    $t_lokasi       = sanitize($t_lokasi);
+    $t_lokasi_lat   = sanitize($t_lokasi_lat);
+    $t_lokasi_lng   = sanitize($t_lokasi_lng);
+    $id             = (int) $_SESSION['user_id'];//isset($_SESSION['user_id'])? $_SESSION['user_id'] :null;
+    
+    $sql = "UPDATE tb_user SET user_name = '{$t_nama_lengkap}', user_email = '{$t_email}', user_bio = '{$t_bio}', user_gender = '{$s_jk}', user_ttl = '{$t_ttl}', user_exp = '{$t_exp}', user_sosmed = '{$t_sosmed}', user_lokasi = '{$t_lokasi}', user_geolat = '{$t_lokasi_lat}', user_geolng= '{$t_lokasi_lng}' WHERE user_id = '{$id}'";
+    return good_update($sql);
+    //return $sql; buat debug
+}
 ?>

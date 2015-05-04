@@ -82,7 +82,7 @@ if ($do == 'tanya'){
         $tujuan = $_POST['formatted_address'];
         $tujuan_prov = $_POST['administrative_area_level_1'];
         $tujuan_kota = $_POST['administrative_area_level_2'];
-        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;;
+        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
         $kategori = $_POST['s_status_trip'];
         $quota  = $_POST['t_quota'];
         $tgl1   = $_POST['t_tgl1'];
@@ -222,10 +222,22 @@ if ($do == 'tanya'){
     $status = false;
     $pesan  = "berhasil di update";
     $hasil  = $_POST;
-
+    $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
+    $hasil  = User_update($_POST['t_bio'], $_POST['t_nama_lengkap'], 
+                            $_POST['t_email'], $_POST['s_jk'], 
+                            $_POST['t_ttl'], $_POST['t_exp'], 
+                            $_POST['t_sosmed'], $_POST['t_lokasi'], @$lokasi[0], @$lokasi[1]);
+    
+    if ($hasil == 1){
+        $pesan = "Tidak ada data yg terupdate";
+    }elseif ($hasil == 2) {
+        $pesan = "Datamu berhasil terupdate";
+    }else{
+        $pesan = "Kesalahan dalam mengupdate data";
+    }
     
     
-    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
 
 // =========================================================================== //    
