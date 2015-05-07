@@ -34,4 +34,6 @@ RewriteRule ^trip/view/(.*)/([0-9]+)/$ trip_view.php?id=$2 [NC,L]
 RewriteRule ^user/login/$ user_login.php [NC,L]
 RewriteRule ^user/registrasi/$ user_reg.php [NC,L]
 RewriteRule ^user/profil/$ user_profile.php [NC,L]
+RewriteRule ^pengalaman/baru/$ exp_new.php [NC,L]
+
 </IfModule>

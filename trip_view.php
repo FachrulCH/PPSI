@@ -7,7 +7,7 @@ include_once "_include/trip.php";
 $trip_id = (int) $_GET['id'];
 $trip_id_rahasia = enkripsi($trip_id);
 $db_trip = trip_get_by_id($trip_id);
-$_SESSION['user_id'] = 2;
+//$_SESSION['user_id'] = 2;
 $user_id = $_SESSION['user_id'];
 $user_id_rahasia = enkripsi($user_id);
 ?>

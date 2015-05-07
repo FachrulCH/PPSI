@@ -205,7 +205,7 @@ include_once "_include/template.php";
                 <div class="ui-block-b"><div class="ketengah" style=" background-color: rgb(244, 185, 0); min-height:140px;margin: 5px;">
                         <a href="<?= URLSITUS ?>trip.php" data-ajax="false"><p class="judul">Temukan teman seperjalanan</p><img src="<?= URLSITUS ?>css/images/pin_64px.png"/></a></div></div>
                 <div class="ui-block-c"><div class="ketengah" style=" background-color: rgb(70, 186, 23); min-height:140px;margin: 5px;">
-                        <a href="<?= URLSITUS ?>exp_new.php" data-ajax="false"><p class="judul">Berbagi pengalaman</p><img src="<?= URLSITUS ?>css/images/chat_64px.png"/></a></div></div>
+                        <a href="<?= URLSITUS ?>pengalaman/baru/" data-ajax="false"><p class="judul">Berbagi pengalaman</p><img src="<?= URLSITUS ?>css/images/chat_64px.png"/></a></div></div>
             </div><!-- /grid-b -->
             <hr/>
             <br/>

@@ -5,7 +5,7 @@ include_once "_include/template.php";
 
 seqid_generate('sq_trip');              // Generate ID Trip
 $trip_id = seqid_getlast('sq_trip');    // ambil ID terahir
-$_SESSION['user_id'] = 2;
+//$_SESSION['user_id'] = 2;
 $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 ?>
 <!doctype html>

@@ -57,7 +57,12 @@ function customAjax(u, d, callback) {
         success: function (result) {
             $.mobile.loading("hide");
             if (result.status == '1') {
-                dialogin(result.pesan);
+                // kalo status nya true
+                if (result.pesan != null){
+                    // jika pesannya tidak kosong isinya maka tampil alert
+                    dialogin(result.pesan);
+                }
+                
                 if (typeof callback == 'function') {
                     callback(result.data);
                 }

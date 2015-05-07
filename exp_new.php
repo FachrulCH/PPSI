@@ -3,6 +3,9 @@
 include_once "_include/db_function.php";
 include_once "_include/template.php";
 
+seqid_generate('seq_exp');              // Generate ID Trip
+$_SESSION['exp_id'] = seqid_getlast('seq_exp');    // ambil ID terahir
+
 $loadKategori1 = Tmplt_get_kategori1();
 ?>
 <!doctype html>
@@ -24,53 +27,28 @@ $loadKategori1 = Tmplt_get_kategori1();
         get_header('Inspirasi');
 ?>
     <!-- include libraries BS3 -->
-    <link rel="stylesheet" href="src/summernote/bootstrap.min.css" />
-    <script type="text/javascript" src="src/summernote/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="<?= URLSITUS ?>src/summernote/bootstrap.min.css" />
+    <script type="text/javascript" src="<?= URLSITUS ?>src/summernote/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="<?= URLSITUS ?>css/font-awesome.min.css" />
 
     <!-- include summernote -->
-    <link rel="stylesheet" href="src/summernote/summernote.css">
-    <script type="text/javascript" src="src/summernote/summernote.js"></script>
+    <link rel="stylesheet" href="<?= URLSITUS ?>src/summernote/summernote.css">
+    <script type="text/javascript" src="<?= URLSITUS ?>src/summernote/summernote.js"></script>
     <!-- Peta -->
     <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-    <script src="js/jquery.geocomplete.min.js"></script>
+    <script src="<?= URLSITUS ?>js/jquery.geocomplete.min.js"></script>
     <!-- End Peta -->
-    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script type="text/javascript">
       $(function() {
-        $('.summernote').summernote({
-          height: 200,
-           toolbar: [
-            //[groupname, [button list]]
-
-            ['style', ['bold', 'italic', 'underline']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'paragraph']],
-            ['insert', ['picture', 'link']],
-            ['misc', ['undo', 'redo']],
-          ]
-        });
-        
-        
-        $("#t_tujuan").geocomplete({
-                          details: "#hasil"
-                  });
-//                  var lokasi = $("#lokasi").html();
-//                          $("#lokasi2").val(lokasi);
-
-        $('form').on('submit', function (e) {
-          e.preventDefault();
-          alert($('.summernote').code());
-        });
-        
       });
     </script>
     <article role="main" class="ui-content">
         <div class="ui-bar ui-bar-a">
             <h3>Bagikan pengalaman petualanganmu!</h3>
         </div>
-            <form action="#" method="post" data-ajax="false" id="newTrip" enctype="multipart/form-data">
+            <form action="#" id="formPengalaman" method="post" data-ajax="false" id="newTrip" enctype="multipart/form-data">
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
                         <label for="t_judul">Judul</label>
@@ -82,10 +60,16 @@ $loadKategori1 = Tmplt_get_kategori1();
                     <li class="ui-field-contain">
                         <label for="t_tujuan">Dimana?</label>
                         <input type="text" name="t_tujuan" id="t_tujuan" value="" data-clear-btn="true">
+                        <div id="hasil"> 
+                                <input name="location" type="hidden" value="">
+                                <input name="administrative_area_level_1" type="hidden" value="">
+                                <input name="administrative_area_level_2" type="hidden" value="">
+                                <input name="formatted_address" type="hidden" value="" id="lokasi2">
+                        </div>
                     </li>
                     <li class="ui-field-contain">
-                        <label for="t_judul">Kapan?</label>
-                        <input type="date" name="t_judul" id="t_judul" value="" data-clear-btn="true">
+                        <label for="t_waktu">Kapan?</label>
+                        <input type="date" name="t_waktu" id="t_waktu" value="" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
                         <label for="kategori1">Kategori</label>
@@ -132,29 +116,56 @@ $loadKategori1 = Tmplt_get_kategori1();
                                     <span class="js-upload ui-btn ui-btn-inline ui-mini ui-icon-action ui-btn-icon-left">Upload</span>
                                 </div>
                     </li>
-                    <span style="float: left;"><input type="submit" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
+                    <span style="float: left;">
+                        <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
                 </ul>
             </form>
         </div>
         <script>
             window.FileAPI = {
-                  debug: true // debug mode
+                  debug: false//true // debug mode
                 , staticPath: 'js/FileAPI/' // path to *.swf
             };
         </script>
-        <script src="js/FileAPI/FileAPI.min.js"></script>
-        <script src="js/FileAPI/FileAPI.exif.js"></script>
-        <script src="js/FileAPI/jquery.fileapi.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="<?= URLSITUS ?>js/FileAPI/FileAPI.min.js"></script>
+        <script src="<?= URLSITUS ?>js/FileAPI/FileAPI.exif.js"></script>
+        <script src="<?= URLSITUS ?>js/FileAPI/jquery.fileapi.min.js"></script>
+        <script src="<?= URLSITUS ?>js/main.js"></script>
         <script type="text/javascript">
         jQuery(function ($){
+            
+            $('.summernote').summernote({
+              height: 200,
+               toolbar: [
+                //[groupname, [button list]]
+
+                ['style', ['bold', 'italic', 'underline']],
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'paragraph']],
+                ['insert', ['picture', 'link']],
+                ['misc', ['undo', 'redo']],
+              ]
+            });
+
+
+            $("#t_tujuan").geocomplete({
+                              details: "#hasil"
+                      });
+    //                  var lokasi = $("#lokasi").html();
+    //                          $("#lokasi2").val(lokasi);
+
+//            $('form').on('submit', function (e) {
+//              e.preventDefault();
+//              alert($('.summernote').code());
+//            });
+
             $('#kategori1').change(function(){
                 var id = $(this).val();
                 if (id == ''){
                     dialogin('Pilih kategori dahulu');
                 }else{
                     
-                    customAjax('<?= URLSITUS ?>ajax.php?do=kategori','&id='+id,function (data) {
+                    customAjax('<?= URLSITUS ?>api/kategori/','&id='+id,function (data) {
                         console.log(data);
 			$('#detailKategori').show(300); /*munculin list detail kategori*/
                          $('#kategori2').empty();
@@ -168,43 +179,43 @@ $loadKategori1 = Tmplt_get_kategori1();
 //                                            .attr("value",val.param_id)
 //                                            .text(val.param_name)); 
                                     //});
-				};
-                            })
+                                    };
+                    })
                 };
             });
-                        $('#multiupload').fileapi({
-                                multiple: true,
-                                url: 'upload_galeri.php',
-                                elements: {
-                                        ctrl: { upload: '.js-upload' },
-                                        empty: { show: '.b-upload__hint' },
-                                        emptyQueue: { hide: '.js-upload' },
-                                        list: '.js-files',
-                                                                        maxSize: FileAPI.MB*5, // max file size
-                                                                        accept: 'image/*',
-                                                                        imageSize: { minWidth: 320, minHeight: 240, maxWidth: 3840, maxHeight: 2160 },
-                                                                        file: {
-                                                                                tpl: '.js-file-tpl',
-                                                                                preview: {
-                                                                                        el: '.b-thumb__preview',
-                                                                                        width: 80,
-                                                                                        height: 80
-                                                                                },
-                                                                                upload: { show: '.progress', hide: '.b-thumb__rotate' },
-                                                                                complete: { hide: '.progress' },
-                                                                                progress: '.progress .bar'
-                                                                        }
-                                                                },
-                                        imageTransform: {
-                                            // crop & resize
-                                            //'medium': { width: 320, height: 240, preview: true },
-                                            // crop & resize
-                                            //'small': { width: 100, height: 100 }
-                                            // resize by max side
-                                            maxWidth: 1280,
-                                            maxHeight: 1280
-                                        },
-                                        imageOriginal: false,
+            $('#multiupload').fileapi({
+                    multiple: true,
+                    url: '<?= URLSITUS ?>upload_galeri.php',
+                    elements: {
+                            ctrl: { upload: '.js-upload' },
+                            empty: { show: '.b-upload__hint' },
+                            emptyQueue: { hide: '.js-upload' },
+                            list: '.js-files',
+                                                            maxSize: FileAPI.MB*5, // max file size
+                                                            accept: 'image/*',
+                                                            imageSize: { minWidth: 320, minHeight: 240, maxWidth: 3840, maxHeight: 2160 },
+                                                            file: {
+                                                                    tpl: '.js-file-tpl',
+                                                                    preview: {
+                                                                            el: '.b-thumb__preview',
+                                                                            width: 80,
+                                                                            height: 80
+                                                                    },
+                                                                    upload: { show: '.progress', hide: '.b-thumb__rotate' },
+                                                                    complete: { hide: '.progress' },
+                                                                    progress: '.progress .bar'
+                                                            }
+                                                    },
+                            imageTransform: {
+                                // crop & resize
+                                //'medium': { width: 320, height: 240, preview: true },
+                                // crop & resize
+                                //'small': { width: 100, height: 100 }
+                                // resize by max side
+                                maxWidth: 1280,
+                                maxHeight: 1280
+                            },
+                            imageOriginal: false,
                     onFileRemoveCompleted: function (evt, file) {
                         // Send ajax-request
                         $.post('remove-ctrl.php', {uid: FileAPI.uid(file)});
@@ -214,6 +225,16 @@ $loadKategori1 = Tmplt_get_kategori1();
 
 
 
+                });
+                
+                $('#posting').on('click', function () {
+                    var data = $('#formPengalaman').serialize();
+                        data += '&t_isi='+$('.summernote').code();
+                   customAjax('<?= URLSITUS ?>api/pengalamanbaru/',data,function (data) {
+                        console.log(data);
+			
+                    });
+                    return false; // cancel original event to prevent form submitting
                 });
             });
         </script>

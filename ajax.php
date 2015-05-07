@@ -4,6 +4,7 @@ require_once '_include/trip.php';
 require_once '_include/chat.php';
 require_once '_include/template.php';
 require_once '_include/user.php';
+require_once '_include/Exp.php';
 
 $do = $_GET['do'];
 
@@ -115,7 +116,7 @@ if ($do == 'tanya'){
 }elseif($do == 'kategori'){
     $id = $_POST['id'];
     $detailKategori = Tmplt_get_kategori2($id);
-    $hasil = array('status' => true, 'pesan' => "Pilih detail kategori", 'data' => $detailKategori);
+    $hasil = array('status' => true, 'pesan' => null, 'data' => $detailKategori);
     echo json_encode($hasil);  // data detail kategori
 
 // =========================================================================== //
@@ -240,7 +241,35 @@ if ($do == 'tanya'){
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
 
-// =========================================================================== //    
+// =========================================================================== // 
+}elseif($do == 'pengalamanbaru'){
+    //*** inisiasi nilai
+    $status = FALSE;
+    $pesan  = "";
+    ///***** Validasi capcay****///
+    $captcha    = isset($_POST['g-recaptcha-response'])? $_POST['g-recaptcha-response'] : null;
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";
+       $status  = false;
+       $hasil   = NULL;
+    } else {
+        //***** user tervalidasi capcay
+        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
+        $hasil = Exp_save($_POST['t_judul'], $_POST['t_isi'], $_POST['location'], $lokasi[0], $lokasi[1], $_POST['t_waktu'], $_POST['kategori2'], 1);
+        
+        if ($hasil == TRUE){
+            $status = TRUE;
+            $pesan = "Pengalamanmu erhasil di simpan";
+        }else{
+            $status = FALSE;
+            $pesan = "Gagal tersimpan";
+        }
+    }
+    
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
+    echo json_encode($result);
 }else{
     echo 'ada kesalahan';
 }
