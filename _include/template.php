@@ -7,7 +7,7 @@ function get_meta($title=null)
 echo "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>";
 echo '
 	<title>'.$title.'</title>
-	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="shortcut icon" href="css/favicon.ico" type="image/x-icon">

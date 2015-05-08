@@ -142,7 +142,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                 ['style', ['bold', 'italic', 'underline']],
                 ['fontsize', ['fontsize']],
                 ['para', ['ul', 'paragraph']],
-                ['insert', ['picture', 'link']],
+                ['insert', ['link']],
                 ['misc', ['undo', 'redo']],
               ]
             });
@@ -231,7 +231,8 @@ $loadKategori1 = Tmplt_get_kategori1();
                     var data = $('#formPengalaman').serialize();
                         data += '&t_isi='+$('.summernote').code();
                    customAjax('<?= URLSITUS ?>api/pengalamanbaru/',data,function (data) {
-                        console.log(data);
+                        //console.log(data);
+                        setTimeout('window.location.href = "<?= URLSITUS ?>pengalaman/"',2500);
 			
                     });
                     return false; // cancel original event to prevent form submitting

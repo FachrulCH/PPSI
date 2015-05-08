@@ -28,3 +28,25 @@ function Exp_save($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, 
         return FALSE;
     }
 }
+
+function Exp_list_new($page, $batas)
+{
+    $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
+    // mengambil data new trip dari view
+    $sql = "select * 
+            from v_exp_list 
+            limit {$posisi}, {$batas}" ;
+    //return good_query_all($sql);
+    return good_query($sql);
+}
+
+function Exp_get_by_id($exp_id){
+	// escape html and real escape
+	$exp_id = (int) amankan($exp_id);
+	
+	$sql = "SELECT * 
+                FROM tb_pengalaman 
+		WHERE pengalaman_id = '{$exp_id}' LIMIT 1";
+	$data = good_query_assoc($sql);
+	return $data;
+}

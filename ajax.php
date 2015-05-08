@@ -257,7 +257,7 @@ if ($do == 'tanya'){
     } else {
         //***** user tervalidasi capcay
         $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
-        $hasil = Exp_save($_POST['t_judul'], $_POST['t_isi'], $_POST['location'], $lokasi[0], $lokasi[1], $_POST['t_waktu'], $_POST['kategori2'], 1);
+        $hasil = Exp_save($_POST['t_judul'], $_POST['t_isi'], $_POST['formatted_address'], $lokasi[0], $lokasi[1], $_POST['t_waktu'], $_POST['kategori2'], 1);
         
         if ($hasil == TRUE){
             $status = TRUE;
