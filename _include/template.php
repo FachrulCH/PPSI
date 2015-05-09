@@ -26,6 +26,8 @@ echo '<link rel="stylesheet" href="'.URLSITUS.'css/themes/tema-merah.min.css" />
 
 function get_panel()
 {
+    //*** Kalau user sudah login
+    if (isLogin()){
 echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="ketengah">
@@ -46,11 +48,22 @@ echo '
 	<li><a href="#" class="ui-icon-search hrfKecil" data-transition="slidefade">Cari</a></li>
 	<li><a href="#" class="ui-icon-gear hrfKecil" data-transition="turn">Pengaturan</a></li>
 	<li><a href="#" class="ui-icon-info hrfKecil" data-transition="fade">Bantuan</a></li>
-	<li><a href="#" class="ui-icon-power hrfKecil" data-transition="slideup">Logout</a></li>
         <li><a href="#" class="ui-icon-delete hrfKecil" data-transition="slideup">Laporkan error!</a></li>
+        <li><a href="'.URLSITUS.'user/logout/" class="ui-icon-power hrfKecil" data-transition="slideup" data-ajax="false">Logout</a></li>
 	</ul>
 	</div><!-- /footer -->
 	</div><!-- /panel -->';
+    }else{
+        //*** Kalo user belum login
+        echo '  <div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
+                <p class="ketengah" style="padding-top: 20px;">
+                Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu,'.tautan('user/registrasi/', 'Ayo gabung!').'</a>
+            </p>
+            <p class="ketengah">Ada 100 Travelers yang berbagi'. tautan('trip/', '1.000 ulasan perjalanan') .' , dan '.tautan('galeri.php', '2.000 foto') .' loh</p>
+
+                </div>
+            ';
+    }
 }
 function get_panel_search()
 {

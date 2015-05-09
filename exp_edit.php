@@ -2,13 +2,19 @@
 //if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
 include_once "_include/db_function.php";
 include_once "_include/template.php";
+include_once "_include/Exp.php";
 
 harus_login(); // validasi hanya user yg udah login
-
-seqid_generate('seq_exp');              // Generate ID Trip
-$_SESSION['exp_id'] = seqid_getlast('seq_exp');    // ambil ID terahir
-
 $loadKategori1 = Tmplt_get_kategori1();
+$exp_id     = $_GET['id'];
+$exp        = Exp_get_by_id($exp_id);
+
+//validasi user yg edit adalah user yg berhak
+if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
+    echo 'Km tidak berhak mengedit';
+}else{
+    //*** simpan id pengalaman yg di edit di session
+    $_SESSION['edit_pengalaman_id'] = $exp['pengalaman_id'];
 ?>
 <!doctype html>
 <html>
@@ -54,14 +60,14 @@ $loadKategori1 = Tmplt_get_kategori1();
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain">
                         <label for="t_judul">Judul</label>
-                        <input type="text" name="t_judul" id="t_judul" value="" data-clear-btn="true">
+                        <input type="text" name="t_judul" id="t_judul" value="<?= $exp['pengalaman_judul'] ?>" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
-                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!"></textarea>
+                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!"><?= $exp['pengalaman_isi'] ?></textarea>
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_tujuan">Dimana?</label>
-                        <input type="text" name="t_tujuan" id="t_tujuan" value="" data-clear-btn="true">
+                        <input type="text" name="t_tujuan" id="t_tujuan" value="<?= $exp['pengalaman_lokasi'] ?>" data-clear-btn="true">
                         <div id="hasil"> 
                                 <input name="location" type="hidden" value="">
                                 <input name="administrative_area_level_1" type="hidden" value="">
@@ -71,7 +77,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_waktu">Kapan?</label>
-                        <input type="date" name="t_waktu" id="t_waktu" value="" data-clear-btn="true">
+                        <input type="date" name="t_waktu" id="t_waktu" value="<?= $exp['pengalaman_date'] ?>" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
                         <label for="kategori1">Kategori</label>
@@ -232,7 +238,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                 $('#posting').on('click', function () {
                     var data = $('#formPengalaman').serialize();
                         data += '&t_isi='+$('.summernote').code();
-                   customAjax('<?= URLSITUS ?>api/pengalamanbaru/',data,function (data) {
+                   customAjax('<?= URLSITUS ?>api/pengalamanedit/',data,function (data) {
                         //console.log(data);
                         setTimeout('window.location.href = "<?= URLSITUS ?>pengalaman/"',2500);
 			
@@ -249,4 +255,5 @@ $loadKategori1 = Tmplt_get_kategori1();
 
 </body>
 </html>
-<?php //ob_flush(); ?>
+<?php } //end kondisi validasi
+//ob_flush(); ?>

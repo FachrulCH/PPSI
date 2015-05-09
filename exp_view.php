@@ -35,7 +35,7 @@ $exp = Exp_get_by_id($exp_id);
             get_header('Trip');
 ?>
             <article role="main" class="ui-content">
-                <span style="float: right"><a href="index.html" class="ui-btn ui-shadow ui-icon-edit ui-btn-icon-left">Edit</a></span>
+                <span style="float: right"><a href="<?= URLSITUS ."pengalaman/edit/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] ?>/" class="ui-btn ui-shadow ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit</a></span>
                 <h3 class="ui-bar ui-bar-a"><?= $exp['pengalaman_judul'] ?></h3>
                 <div class="ui-body ui-body-a">
                     <?= $exp['pengalaman_isi'] ?>	
