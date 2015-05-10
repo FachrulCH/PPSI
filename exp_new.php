@@ -118,6 +118,13 @@ $loadKategori1 = Tmplt_get_kategori1();
                                     <span class="js-upload ui-btn ui-btn-inline ui-mini ui-icon-action ui-btn-icon-left">Upload</span>
                                 </div>
                     </li>
+                    <li class="ui-field-contain">
+                        <label for="s_komen">Ijinkan komentar</label>
+                        <select name="s_komen" id="s_komen" data-role="slider" data-theme="b">
+                            <option value="1">Ya</option>
+                            <option value="0">Tdk</option>
+                        </select>
+                    </li>
                     <span style="float: left;">
                         <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
                 </ul>
@@ -142,7 +149,6 @@ $loadKategori1 = Tmplt_get_kategori1();
                 //[groupname, [button list]]
 
                 ['style', ['bold', 'italic', 'underline']],
-                ['fontsize', ['fontsize']],
                 ['para', ['ul', 'paragraph']],
                 ['insert', ['link']],
                 ['misc', ['undo', 'redo']],
