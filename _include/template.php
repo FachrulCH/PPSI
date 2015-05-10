@@ -28,25 +28,46 @@ function get_panel()
 {
     //*** Kalau user sudah login
     if (isLogin()){
-echo '
+        include_once 'user.php';
+        $user_id = $_SESSION['user_id'];
+        $user = User_get_by_id($user_id);
+        $tripnya_user = User_member_trip($user_id); //==> ambil data user's trip
+        echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="ketengah">
-			<a href="#"><img src="'.URLSITUS.'css/images/profile.jpg" width="100px"></a>
-			<p><b>Si Bolang</b></p>
-			<p class="hrfKecil">"Ini Statusnya"</p>
+			<a href="#">';
+        if (empty($user['user_foto'])){                
+            echo '<img src="'.URLSITUS.'css/images/profile.jpg" width="100">';
+        }else{
+            echo '<img src="'.URLSITUS.'_gambar/user/'.$user['user_foto'].'" width="100">';
+        }
+        echo '          </a>
+			<p><b>'.$user['user_username'].'</b></p>
+			<p class="hrfKecil">"'.$user['user_bio'].'"</p>
 		</div>
 	<ul data-role="listview" data-inset="true">
-	<li><a href="'.URLSITUS.'index.php" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
-        <li><a href="'.URLSITUS.'trip.php" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
-        <li><a href="'.URLSITUS.'user_profile.php" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">User</a></li>
-        <li><a href="'.URLSITUS.'exp_new.php" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Inspirasi</a></li>
-	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>
-	<li data-role="list-divider">Perjalanan</li>
-	<li><a href="#" class="ui-icon-location hrfKecil" data-transition="slidefade">Trip hopping island Belitung</a></li>
-	<li><a href="#" class="ui-icon-location hrfKecil" data-transition="slidefade">Trip Pendakian puncak gunung Tambora</a></li>
-	<li data-role="list-divider"></li>
-	<li><a href="#" class="ui-icon-search hrfKecil" data-transition="slidefade">Cari</a></li>
-	<li><a href="#" class="ui-icon-gear hrfKecil" data-transition="turn">Pengaturan</a></li>
+	<li><a href="'.URLSITUS.'" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
+        <li><a href="'.URLSITUS.'user/profil/" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">User</a></li>
+        <li><a href="'.URLSITUS.'trip/" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
+        <li><a href="'.URLSITUS.'pengalaman/" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Inspirasi</a></li>
+	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>';
+        
+	/*
+         * Cek apakah user memiliki trip aktif, kalo ada tampilkan trip link nya
+         */
+        if (!empty($tripnya_user)){
+        echo'
+        <li data-role="list-divider" class="hrfKecil" >Perjalanan</li>';
+        foreach ($tripnya_user as $t) {
+            echo'
+                <li><a href="'.URLSITUS ."trip/lihat/". make_seo_name($t['trip_judul']) ."/".$t['trip_id'].'/" class="ui-icon-location hrfKecil" data-transition="slidefade" data-ajax="false">'.$t['trip_judul'].'</a></li>';
+        }
+        echo'
+            <li data-role="list-divider"></li>';
+        }
+	echo'
+        <li><a href="#" class="ui-icon-search hrfKecil" data-transition="slidefade">Cari</a></li>
+	<li><a href="'.URLSITUS.'user/profil/#akun" class="ui-icon-gear hrfKecil" data-transition="turn" data-ajax="false">Pengaturan</a></li>
 	<li><a href="#" class="ui-icon-info hrfKecil" data-transition="fade">Bantuan</a></li>
         <li><a href="#" class="ui-icon-delete hrfKecil" data-transition="slideup">Laporkan error!</a></li>
         <li><a href="'.URLSITUS.'user/logout/" class="ui-icon-power hrfKecil" data-transition="slideup" data-ajax="false">Logout</a></li>

@@ -17,6 +17,7 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
      * simpan id pengalaman yg di edit di session
      */
     $_SESSION['edit_pengalaman_id'] = $exp['pengalaman_id'];
+    $_SESSION['edit_pengalaman_kategori'] = $exp['pengalaman_kategori']; // simpen nilai default awal, kalo kategori ga diedit
 ?>
 <!doctype html>
 <html>
@@ -65,16 +66,16 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                         <input type="text" name="t_judul" id="t_judul" value="<?= $exp['pengalaman_judul'] ?>" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
-                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!"><?= $exp['pengalaman_isi'] ?></textarea>
+                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!"  name="t_isi" id="t_isi"><?= $exp['pengalaman_isi'] ?></textarea>
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_tujuan">Dimana?</label>
-                        <input type="text" name="t_tujuan" id="t_tujuan" value="<?= $exp['pengalaman_lokasi'] ?>" data-clear-btn="true">
+                        <input type="text" name="t_tujuan" id="t_tujuan" value="<?= $exp['pengalaman_lokasi'] ?>" data-clear-btn="true" required="required">
                         <div id="hasil"> 
-                                <input name="location" type="hidden" value="">
+                                <input name="location" type="hidden" value="<?= $exp['pengalaman_lat'].",".$exp['pengalaman_lot'] ?>">
                                 <input name="administrative_area_level_1" type="hidden" value="">
                                 <input name="administrative_area_level_2" type="hidden" value="">
-                                <input name="formatted_address" type="hidden" value="" id="lokasi2">
+                                <input name="formatted_address" type="hidden" value="<?= $exp['pengalaman_lokasi'] ?>" id="lokasi2">
                         </div>
                     </li>
                     <li class="ui-field-contain">
@@ -132,11 +133,14 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                             <option value="1">Ya</option>
                             <option value="0">Tdk</option>
                         </select>
-                    </li>      
+                    </li>  
+                    <li class="ui-field-contain">
                     <span style="float: left;">
                         <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
+                    </li>
                 </ul>
             </form>
+        <button class="ui-btn ui-icon-delete ui-btn-icon-left" id="btn_delete">Hapus</button>
         </div>
         <script>
             window.FileAPI = {
@@ -244,15 +248,32 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                 });
                 
                 $('#posting').on('click', function () {
-                    var data = $('#formPengalaman').serialize();
-                        data += '&t_isi='+$('.summernote').code();
+                        //data = data+'&t_isi='+$('.summernote').code();
+                        $('#t_isi').html($('.summernote').code());
+                        var data = $('#formPengalaman').serialize();
                    customAjax('<?= URLSITUS ?>api/pengalamanedit/',data,function (data) {
+                       
                         //console.log(data);
-                        setTimeout('window.location.href = "<?= URLSITUS ?>pengalaman/"',2500);
+                        //setTimeout('window.history.back();',500); // redirect ke halaman sebelumnya
 			
                     });
                     return false; // cancel original event to prevent form submitting
                 });
+                
+            $('#btn_delete').on('click', function () {
+                var checkstr =  confirm('Apa kamu yakin ini mau di hapus?');
+                if(checkstr == true){
+                customAjax('<?= URLSITUS ?>api/pengalamanhapus/',null,function (data) {
+                        //console.log(data);
+                        setTimeout('window.location.href = "<?= URLSITUS ?>pengalaman/"',2500);
+			
+                    });
+                }else{
+                return false;
+                }
+                return false; // cancel original event to prevent form submitting
+            });
+            
             });
         </script>
     </article><!-- /content -->

@@ -68,12 +68,17 @@ function customAjax(u, d, callback) {
                 }
             } else {
                 dialogin(result.pesan);
+                if (result.status == false){
+                    //reset capcay kalo status false
+                    grecaptcha.reset(); 
+                }
             }
         },
         error: function (request, error) {
             // This callback function will trigger on unsuccessful action                
             dialogin('Network bermasalah, silahkan coba lagi!');
             $.mobile.loading("hide");
+            grecaptcha.reset(); //reset capcay
             console.log(error);
             console.log(request);
                                     

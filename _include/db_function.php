@@ -11,6 +11,7 @@ defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); //
 
 
 
+
 $database = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 $db =& $database;
 
@@ -94,6 +95,24 @@ function good_query_assoc($sql, $debug=0)
     return false;
 }
 
+function good_update($sql) 
+{
+    global $db;
+    $result = $db->query($sql);
+    
+    if ($result){
+        $status = 1; //berhasil di jalankan querynya / tidak ada yg terupdate
+        if ($db->affected_rows > 0){
+            $status = 2; // sukses semua
+        }
+    }else{
+        //gagal menjalankan update
+        $status = 0;
+    }
+    
+    return $status;
+}
+
 function get_db_param($name){
     $sql    = "SELECT * FROM tb_parameter WHERE parameter_name ='{$name}'";
     $doSql  = good_query_assoc($sql);
@@ -129,6 +148,25 @@ function amankan($input){
 
 function session_cek(){
     if (!isset($_SESSION)) { session_start(); }
+}
+
+function isLogin() 
+{
+    //*** Fungsi untuk cek apakah user udah login apa belum
+    session_cek();
+    if (isset($_SESSION['user_id'])){
+        return TRUE;
+    }else{
+        return FALSE;
+    }
+}
+
+function harus_login()
+{
+    //*** UNtuk mengarahkan user yg belum login
+    if (!isLogin()){
+        header("Location: ".URLSITUS."user/login/?red=y");
+    }
 }
 
 session_cek();

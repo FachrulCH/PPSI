@@ -257,7 +257,7 @@ if ($do == 'tanya'){
     } else {
         //***** user tervalidasi capcay
         $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
-        $hasil = Exp_save($_POST['t_judul'], $_POST['t_isi'], $_POST['formatted_address'], $lokasi[0], $lokasi[1], $_POST['t_waktu'], $_POST['kategori2'], 1);
+        $hasil = Exp_save(@$_POST['t_judul'], @$_POST['t_isi'], @$_POST['formatted_address'], $lokasi[0], $lokasi[1], @$_POST['t_waktu'], @$_POST['kategori2'], @$_POST['s_komen']);
         
         if ($hasil == TRUE){
             $status = TRUE;
@@ -285,17 +285,38 @@ if ($do == 'tanya'){
     } else {
         //***** user tervalidasi capcay
         $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
-        $hasil = Exp_edit($_POST['t_judul'], $_POST['t_isi'], $_POST['formatted_address'], $lokasi[0], $lokasi[1], $_POST['t_waktu'], $_POST['kategori2'], 1);
+        if($_POST['kategori2'] != 'Pilih kategori'){ 
+            $kategori = $_POST['kategori2'];
+        }else{ 
+            $kategori = $_SESSION['edit_pengalaman_kategori'] ;
+        } //==> kalo kategori ga diganti pake kategori awal, diambil dari session
+        
+        $hasil = Exp_edit(@$_POST['t_judul'], @$_POST['t_isi'], @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], @$_POST['t_waktu'], $kategori, @$_POST['s_komen']);
         
         if ($hasil == TRUE){
             $status = TRUE;
-            $pesan = "Pengalamanmu erhasil di simpan";
+            $pesan = "Pengalamanmu berhasil di update";
         }else{
             $status = FALSE;
             $pesan = "Gagal tersimpan";
         }
     }
     
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
+    echo json_encode($result);
+}elseif($do == 'pengalamanhapus'){
+    //*** inisiasi nilai
+    $status = FALSE;
+    $pesan  = "";
+    $hasil = Exp_delete($_SESSION['edit_pengalaman_id']);
+    //$hasil = true;
+    if ($hasil == TRUE){
+            $status = TRUE;
+            $pesan = "Pengalamanmu berhasil di hapus";
+        }else{
+            $status = FALSE;
+            $pesan = "Gagal menghapus";
+        }
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
 }else{

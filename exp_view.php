@@ -6,6 +6,8 @@ include_once "_include/Exp.php";
 //ambil data trip dari database, lemparan adalah trip_id
 $exp_id = (int) $_GET['id'];
 $exp = Exp_get_by_id($exp_id);
+
+Exp_viewed($exp_id); //==>> update statistik experienced
 ?>
 <!doctype html>
 <html>

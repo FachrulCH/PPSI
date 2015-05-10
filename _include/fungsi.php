@@ -79,4 +79,9 @@ function get_user_ip(){
     }
     return $ip;
 }
+
+function clean_tag($string)
+{
+    return strip_tags($string, '<p><span><b><i><u><ul><li><ol><a>');
+}
 ?>

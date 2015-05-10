@@ -8,6 +8,7 @@ function User_get_by_id($id)
 {
 	$sql = "SELECT * FROM  tb_user WHERE user_id = '{$id}' LIMIT 1";
 	$sqlDo = good_query_assoc($sql);
+        return $sqlDo;
 }
 
 function User_new($namaLengkap,$username,$email,$pwd)
@@ -138,5 +139,17 @@ function User_update($t_bio, $t_nama_lengkap, $t_email, $s_jk, $t_ttl, $t_exp, $
     $sql = "UPDATE tb_user SET user_name = '{$t_nama_lengkap}', user_email = '{$t_email}', user_bio = '{$t_bio}', user_gender = '{$s_jk}', user_ttl = '{$t_ttl}', user_exp = '{$t_exp}', user_sosmed = '{$t_sosmed}', user_lokasi = '{$t_lokasi}', user_geolat = '{$t_lokasi_lat}', user_geolng= '{$t_lokasi_lng}' WHERE user_id = '{$id}'";
     return good_update($sql);
     //return $sql; buat debug
+}
+
+function User_member_trip($user_id)
+{
+    /*
+     * Mengecek apakah user ini mengikuti suatu trip aktif
+     */
+    $sql = "select a.trip_id, a.trip_judul from tb_trip a, tb_trip_member b
+            where a.trip_id = b.member_trip_id
+            and a.trip_date1 >= CURRENT_DATE
+            and b.member_status in ('A','C')";
+    return good_query_allrow($sql);
 }
 ?>
