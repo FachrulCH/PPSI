@@ -13,7 +13,9 @@ $exp        = Exp_get_by_id($exp_id);
 if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
     echo 'Km tidak berhak mengedit';
 }else{
-    //*** simpan id pengalaman yg di edit di session
+    /*
+     * simpan id pengalaman yg di edit di session
+     */
     $_SESSION['edit_pengalaman_id'] = $exp['pengalaman_id'];
 ?>
 <!doctype html>
@@ -124,6 +126,13 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                                     <span class="js-upload ui-btn ui-btn-inline ui-mini ui-icon-action ui-btn-icon-left">Upload</span>
                                 </div>
                     </li>
+                    <li class="ui-field-contain">
+                        <label for="s_komen">Ijinkan komentar</label>
+                        <select name="s_komen" id="s_komen" data-role="slider" data-theme="b">
+                            <option value="1">Ya</option>
+                            <option value="0">Tdk</option>
+                        </select>
+                    </li>      
                     <span style="float: left;">
                         <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
                 </ul>
@@ -148,7 +157,6 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                 //[groupname, [button list]]
 
                 ['style', ['bold', 'italic', 'underline']],
-                ['fontsize', ['fontsize']],
                 ['para', ['ul', 'paragraph']],
                 ['insert', ['link']],
                 ['misc', ['undo', 'redo']],
@@ -199,21 +207,21 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                             empty: { show: '.b-upload__hint' },
                             emptyQueue: { hide: '.js-upload' },
                             list: '.js-files',
-                                                            maxSize: FileAPI.MB*5, // max file size
-                                                            accept: 'image/*',
-                                                            imageSize: { minWidth: 320, minHeight: 240, maxWidth: 3840, maxHeight: 2160 },
-                                                            file: {
-                                                                    tpl: '.js-file-tpl',
-                                                                    preview: {
-                                                                            el: '.b-thumb__preview',
-                                                                            width: 80,
-                                                                            height: 80
-                                                                    },
-                                                                    upload: { show: '.progress', hide: '.b-thumb__rotate' },
-                                                                    complete: { hide: '.progress' },
-                                                                    progress: '.progress .bar'
-                                                            }
+                                            maxSize: FileAPI.MB*5, // max file size
+                                            accept: 'image/*',
+                                            imageSize: { minWidth: 320, minHeight: 240, maxWidth: 3840, maxHeight: 2160 },
+                                            file: {
+                                                    tpl: '.js-file-tpl',
+                                                    preview: {
+                                                            el: '.b-thumb__preview',
+                                                            width: 80,
+                                                            height: 80
                                                     },
+                                                    upload: { show: '.progress', hide: '.b-thumb__rotate' },
+                                                    complete: { hide: '.progress' },
+                                                    progress: '.progress .bar'
+                                            }
+                                    },
                             imageTransform: {
                                 // crop & resize
                                 //'medium': { width: 320, height: 240, preview: true },
