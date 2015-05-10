@@ -44,9 +44,9 @@ function Exp_get_by_id($exp_id){
 	// escape html and real escape
 	$exp_id = (int) amankan($exp_id);
 	
-	$sql = "SELECT * 
-                FROM tb_pengalaman 
-		WHERE pengalaman_id = '{$exp_id}' LIMIT 1";
+	$sql = "SELECT a.*, (select b.user_username from tb_user b where b.user_id = a.pengalaman_user_id) as username
+                FROM tb_pengalaman a
+		WHERE a.pengalaman_id = '{$exp_id}' LIMIT 1";
 	$data = good_query_assoc($sql);
 	return $data;
 }
@@ -61,7 +61,7 @@ function Exp_edit($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, 
     $lot        = sanitize($lot);
     $date       = sanitize($t_waktu);
     $kategori   = sanitize($kategori);
-    $t_isi      = clean_tag($t_isi);
+    $t_isi      = clean_text($t_isi);
     
     $sql = "UPDATE tb_pengalaman a SET a.pengalaman_judul = '{$t_judul}', a.pengalaman_isi = '{$t_isi}', a.pengalaman_lokasi = '{$location}', a.pengalaman_lat = '{$lat}', a.pengalaman_lot = '{$lot}', a.pengalaman_date = '{$date}', a.pengalaman_kategori = '{$kategori}', a.pengalaman_flag_komen = '{$komen}'
             WHERE pengalaman_id = '{$exp_id}'";

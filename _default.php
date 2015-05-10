@@ -12,6 +12,7 @@ include_once "_include/template.php";
         // memiliki argumen title halaman
         get_meta('TemanBackpacker.com');
 ?>
+
 </head>
 <body>
 <section data-role="page" id="home">

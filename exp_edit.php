@@ -254,7 +254,7 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                    customAjax('<?= URLSITUS ?>api/pengalamanedit/',data,function (data) {
                        
                         //console.log(data);
-                        //setTimeout('window.history.back();',500); // redirect ke halaman sebelumnya
+                        setTimeout('window.history.back();',500); // redirect ke halaman sebelumnya
 			
                     });
                     return false; // cancel original event to prevent form submitting

@@ -80,8 +80,8 @@ function get_user_ip(){
     return $ip;
 }
 
-function clean_tag($string)
+function clean_text($string)
 {
-    return strip_tags($string, '<p><span><b><i><u><ul><li><ol><a>');
+    return strip_tags(addslashes($string), '<p><span><b><i><u><ul><li><ol><a>');
 }
 ?>

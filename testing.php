@@ -137,8 +137,13 @@ $_SESSION['user_id'] = 1;
 //$status = User_email_tersedia('fachrul.fch@gmail.co');
 //var_dump($status);
 
-$userprofile = User_get_profil(1);
-var_dump($userprofile);
+//$userprofile = User_get_profil(1);
+//var_dump($userprofile);
+$url = 'http://localhost/PPSIoop/_gambar/galeri/o/bajak.jpg';
+
+echo $url;
+
+print_r(getimagesize($url), true);
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>

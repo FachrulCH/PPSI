@@ -257,7 +257,7 @@ if ($do == 'tanya'){
     } else {
         //***** user tervalidasi capcay
         $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
-        $hasil = Exp_save(@$_POST['t_judul'], @$_POST['t_isi'], @$_POST['formatted_address'], $lokasi[0], $lokasi[1], @$_POST['t_waktu'], @$_POST['kategori2'], @$_POST['s_komen']);
+        $hasil = Exp_save(@$_POST['t_judul'], clean_text(@$_POST['t_isi']), @$_POST['formatted_address'], $lokasi[0], $lokasi[1], @$_POST['t_waktu'], @$_POST['kategori2'], @$_POST['s_komen']);
         
         if ($hasil == TRUE){
             $status = TRUE;
@@ -291,7 +291,7 @@ if ($do == 'tanya'){
             $kategori = $_SESSION['edit_pengalaman_kategori'] ;
         } //==> kalo kategori ga diganti pake kategori awal, diambil dari session
         
-        $hasil = Exp_edit(@$_POST['t_judul'], @$_POST['t_isi'], @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], @$_POST['t_waktu'], $kategori, @$_POST['s_komen']);
+        $hasil = Exp_edit(@$_POST['t_judul'], clean_text($_POST['t_isi']), @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], @$_POST['t_waktu'], $kategori, @$_POST['s_komen']);
         
         if ($hasil == TRUE){
             $status = TRUE;
