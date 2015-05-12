@@ -8,6 +8,10 @@
 .hrfKecil{
     font-size: .8em;
 }
+.ditengah{
+    margin-left: auto;
+    margin-right: auto;
+}
 .ketengah{
     text-align: center;
 }

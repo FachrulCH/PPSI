@@ -9,7 +9,11 @@ include_once "_include/Exp.php";
 
 $m      = isset($_GET['m'] ) ? $_GET['m'] : 'new';
 $page   = isset($_GET['page'] ) ? (int) $_GET['page'] : 1; // mengambil data trip
-$exp    = Exp_list_new($page, 5);
+if ($m == 'hot'){
+    $exp    = Exp_list_hot();
+}else{
+    $exp    = Exp_list_new($page, 3);
+}
 ?>
 <!doctype html>
 <html>

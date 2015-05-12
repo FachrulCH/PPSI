@@ -9,9 +9,7 @@ $exp = Exp_get_by_id($exp_id);
 
 Exp_viewed($exp_id); //==>> update statistik experienced
 
-$gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg"));
-//PHOTOSWIPE
-require_once 'src/fastimage/Fastimage.php';
+$gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg","air-terjun-gitgit-bal.jpg","anak-band.jpg","kitchenadventurercheesecakebrownie.jpg"));
 ?>
 <!doctype html>
 <html>
@@ -80,15 +78,17 @@ require_once 'src/fastimage/Fastimage.php';
                 <h3 class="ui-bar ui-bar-a"><?= $exp['pengalaman_judul'] ?></h3>
                 <p class="ketengah"><?= tautan('username/'.  make_seo_name($exp['username']), $exp['username']) ." | ". $exp['pengalaman_judul'] ." | ". date("j-M-Y", strtotime($exp['pengalaman_date'])) ?></p>
                 
+                <div class="ditengah">
                 <!--     PHOTOSWIPE     -->
                 <div class="picture" itemscope>
 <?php
             foreach ($gambar['galeri_foto_url'] as $g) {
-                $uri = URLSITUS ."_gambar/galeri/o/". $g;
-                //list($width, $height) = getimagesize($uri);
+                $uri = "_gambar/galeri/o/". $g;
+                $url = URLSITUS ."_gambar/galeri/o/". $g;
                 list($width, $height, $type, $attr) = getimagesize($uri);
+                //list($width, $height) = getimagesize($uri);
                 echo "<figure itemprop='associatedMedia' itemscope>
-		   <a href=".$uri." itemprop='contentUrl' data-size=". $width ."x". $height ." data-index='0'>
+		   <a href=".$url." itemprop='contentUrl' data-size=". $width ."x". $height ." data-index='0'>
 		   <img src=".URLSITUS ."_gambar/galeri/thumb2/". $g ." itemprop='thumbnail' alt='Image description' />
 		    </a>
 		  </figure>";
@@ -102,6 +102,7 @@ require_once 'src/fastimage/Fastimage.php';
 
 		</div>
                 <!--    END PHOTOSWIPE     -->
+                </div>
                 <div class="ui-body ui-body-a">
                     <?= $exp['pengalaman_isi'] ?>	
                 </div>

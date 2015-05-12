@@ -41,6 +41,21 @@ function Exp_list_new($page, $batas)
     return good_query($sql);
 }
 
+function Exp_list_hot($page = 1, $batas = 5)
+{
+    $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
+    // mengambil data trip dari view
+    // yg paling banyak di lihat dan lebih baru
+    // batasnya ditentukan hanya 5 teratas
+    $sql = "SELECT *
+            FROM v_exp_list a
+            WHERE a.pengalaman_created BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
+            ORDER BY pengalaman_stats DESC, pengalaman_created DESC
+            limit {$posisi}, {$batas}" ;
+    //return good_query_all($sql);
+    return good_query($sql);
+}
+
 function Exp_get_by_id($exp_id){
 	// escape html and real escape
 	$exp_id = (int) amankan($exp_id);

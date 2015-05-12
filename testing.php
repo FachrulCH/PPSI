@@ -139,11 +139,18 @@ $_SESSION['user_id'] = 1;
 
 //$userprofile = User_get_profil(1);
 //var_dump($userprofile);
-$url = 'http://localhost/PPSIoop/_gambar/galeri/o/bajak.jpg';
-
+//$url = "http://localhost/PPSIoop/_gambar/galeri/o/bajak.jpg";
+$url = "_gambar/galeri/o/bajak.jpg";
+echo "<img src=".$url." />";
 echo $url;
 
 print_r(getimagesize($url), true);
+
+$data = getimagesize($url);
+$width = $data[0];
+$height = $data[1];
+echo "<br/>dimensi yg lain:".$width;
+
 ?>
 <!-- 
 <abbr class="timeago" title="2015-04-20">July 17, 2008</abbr>
