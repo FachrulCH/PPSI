@@ -261,7 +261,7 @@ if ($do == 'tanya'){
         
         if ($hasil == TRUE){
             $status = TRUE;
-            $pesan = "Pengalamanmu erhasil di simpan";
+            $pesan = "Pengalamanmu berhasil di simpan";
         }else{
             $status = FALSE;
             $pesan = "Gagal tersimpan";

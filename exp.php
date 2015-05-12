@@ -19,11 +19,6 @@ $exp    = Exp_list_new($page, 5);
         // memiliki argumen title halaman
         get_meta('TemanBackpacker.com');
 ?>
-        <style type="text/css">
-            span{
-                font-size: .8em;
-            }
-        </style>
     </head>
     <body>
         <section data-role="page" id="home" class="trip-grid">
@@ -64,12 +59,18 @@ $exp    = Exp_list_new($page, 5);
                 }else{
                    
                     while ($t = mysqli_fetch_assoc($exp)){
+                        // cek ada foto trip nya apa ngak
+                        if (!empty($t['foto'])){
+                            $foto = $t['foto'];
+                        }else{
+                            $foto = "default.gif";
+                        }
 ?>
                     <li><a href="<?= URLSITUS ."pengalaman/lihat/". make_seo_name($t['pengalaman_judul']) ."/".$t['pengalaman_id'] ?>/" data-ajax="false">
-                            <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $t['foto'] ?>" class="ui-li-thumb">
-                            <h2><?= $t['pengalaman_judul'] ?></h2>
-                            <span><?= date("j-M-Y", strtotime($t['pengalaman_date'])) ?></span> | <span><?= $t['pengalaman_lokasi'] ?></span>
-                            <p class="ui-li-aside"><?= $t['pengalaman_kategori'] ?></p>
+                            <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $foto ?>" class="ui-li-thumb">
+                            <h3 class="judulList"><?= $t['pengalaman_judul'] ?></h3>
+                            <span class="hrfKecil">Dari <?= $t['username'] ?></span> | <span class="hrfKecil"><?= $t['pengalaman_lokasi'] ?></span>
+                            <p class="ui-li-aside garisKotak"><?= $t['pengalaman_kategori'] ?></p>
                         </a></li>
 <?php
                     }

@@ -33,8 +33,9 @@ function Exp_list_new($page, $batas)
 {
     $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
     // mengambil data new trip dari view
-    $sql = "select * 
-            from v_exp_list 
+    $sql = "SELECT *
+            FROM v_exp_list
+            ORDER BY pengalaman_created DESC
             limit {$posisi}, {$batas}" ;
     //return good_query_all($sql);
     return good_query($sql);
