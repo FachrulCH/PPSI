@@ -96,7 +96,7 @@ $_SESSION['user_id'] = 1;
 	<!-- validator -->
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="js/jquery.timeago.js"></script>
-	
+        <script src="src/trianglify/trianglify.min.js"></script>
 </head>
 <body>
 
@@ -140,16 +140,16 @@ $_SESSION['user_id'] = 1;
 //$userprofile = User_get_profil(1);
 //var_dump($userprofile);
 //$url = "http://localhost/PPSIoop/_gambar/galeri/o/bajak.jpg";
-$url = "_gambar/galeri/o/bajak.jpg";
-echo "<img src=".$url." />";
-echo $url;
-
-print_r(getimagesize($url), true);
-
-$data = getimagesize($url);
-$width = $data[0];
-$height = $data[1];
-echo "<br/>dimensi yg lain:".$width;
+//$url = "_gambar/galeri/o/bajak.jpg";
+//echo "<img src=".$url." />";
+//echo $url;
+//
+//print_r(getimagesize($url), true);
+//
+//$data = getimagesize($url);
+//$width = $data[0];
+//$height = $data[1];
+//echo "<br/>dimensi yg lain:".$width;
 
 ?>
 <!-- 
@@ -185,5 +185,19 @@ echo "<br/>dimensi yg lain:".$width;
 		 jQuery("abbr.timeago").timeago();
 	</script>
  -->
+ <script>
+    var pattern = Trianglify({
+      height: window.innerHeight,
+      width: window.innerWidth,
+      cell_size: 30+Math.random()*100});
+  var str = "<img src=\"" + pattern.canvas() + "\" \/>";
+    document.body.appendChild(str);
+    //document.getElementById("background").style.backgroundImage=pattern.svg();
+    //document.getElementById("cek").setAttribute('src',pattern.svg());
+    $('.background').append(pattern.canvas());
+     $('#cek').attr('src',pattern.svg());
+  </script>
+  <div id="background"></div>
+  <img src="" id="cek"/>
 </body>
 </html>

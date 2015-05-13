@@ -18,6 +18,27 @@
 .ketengah a:link{
     text-decoration: none;
 }
+.kekiri{
+    float: left;
+    position: relative;
+}
+.kekanan{
+    float: right;
+    position: relative;
+}
+.profilHeader{
+    width: 300px;
+}
+.profilFoto{
+    
+}
+.profilBio{
+    position: absolute;
+    margin-left: .5em;
+}
+.profilAngka{
+    font-size: 1.5em;
+}
 .breadcrumb{
     position: relative;
     display: block;
