@@ -139,7 +139,7 @@ function get_footer()
         
     }
 echo '
-	<div data-role="footer" style="overflow:hidden; text-align:center">
+	<div data-role="footer" style="overflow:hidden; text-align:center" data-position="fixed">
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#header" data-ajax="false">Back to top</a></li>
@@ -311,4 +311,48 @@ function Tmplt_get_kategori2($id){
     return $selectSql;
 }
 
+function Tmplt_generate_list_exp($exp) 
+{
+     foreach ($exp as $t) {
+        // cek ada foto trip nya apa ngak
+        if (!empty($t['foto'])){
+            $foto = $t['foto'];
+        }else{
+            $foto = "default.gif";
+        }
+        echo '<li><a href="'. URLSITUS .'pengalaman/lihat/'. make_seo_name($t['pengalaman_judul']) .'/'.$t['pengalaman_id'] .'/" data-ajax="false">
+                            <img src="'. URLSITUS .'_gambar/galeri/thumb/'. $foto .'" class="ui-li-thumb">
+                            <h3 class="judulList">'. $t['pengalaman_judul'] .'</h3>
+                            <span class="hrfKecil">Dari '. $t['username'] .'</span> | <span class="hrfKecil">'. $t['pengalaman_lokasi'] .'</span>
+                            <p class="ui-li-aside garisKotak">'. $t['pengalaman_kategori'] .'</p>
+             </a></li>';
+                    }
+}
+
+function Tmplt_generate_list_exp_index($exp) 
+{
+     foreach ($exp as $t) {
+        // cek ada foto trip nya apa ngak
+        if (!empty($t['foto'])){
+            $foto = $t['foto'];
+        }else{
+            $foto = "default.gif";
+        }
+        echo '<li><a href="'. URLSITUS .'pengalaman/lihat/'. make_seo_name($t['pengalaman_judul']) .'/'.$t['pengalaman_id'] .'/" data-ajax="false">
+                            <img src="'. URLSITUS .'_gambar/galeri/thumb/'. $foto .'" class="ui-li-thumb">
+                            <h2>'. $t['pengalaman_judul'] .'</h2>
+                            <p>
+                            <span class="hrfKecil">Dari '. $t['username'] .'</span> | <span class="hrfKecil">'. $t['pengalaman_lokasi'] .'</span>
+                            </p>
+                            <p class="ui-li-aside garisKotak">'. $t['pengalaman_kategori'] .'</p>
+             </a></li>';
+                    }
+}
+
+function Tmplt_generate_breadcumb($breadcumb)
+{
+    foreach ($breadcumb as $url) {
+        echo "<li><a href='" . $url['link'] . "' data-ajax='false'>" . $url['text'] . "</a></li>";
+    }
+}
 ?>

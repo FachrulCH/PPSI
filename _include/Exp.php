@@ -53,7 +53,7 @@ function Exp_list_hot($page = 1, $batas = 5)
             ORDER BY pengalaman_stats DESC, pengalaman_created DESC
             limit {$posisi}, {$batas}" ;
     //return good_query_all($sql);
-    return good_query($sql);
+    return good_query_allrow($sql);
 }
 
 function Exp_get_by_id($exp_id){

@@ -13,6 +13,11 @@ $batas      = 5;                                       // jumlah trip perhalaman
 $jumData    = Trip_total();                             //Jumlah halaman
 $JmlHalaman = ceil($jumData/$batas);                    //ceil digunakan untuk pembulatan keatas
 
+$breadcumb = array
+               (array("link"=> URLSITUS, "text"=>"Home"),
+                array("link"=> URLSITUS."trip/#home", "text"=>"Trip")
+               );
+
 // Validasi biar ga eror kalo masukin halaman yg 
 if ($page > $JmlHalaman){                               
     $page = $JmlHalaman;
@@ -24,6 +29,7 @@ if ($m == 'hot') {
     $batas  = 10;
     $trip = Trip_load_hot($page, $batas);
     $JmlHalaman = 1;
+    $breadcumb[] =  array("link"=> URLSITUS."trip.php#hot", "text"=>"Hot");
 }else{
     $trip = Trip_load_new($page, $batas);
 }
@@ -77,19 +83,13 @@ if ($page < $JmlHalaman) {
             get_header('Perjalanan');
 ?>
             <article role="main" class="ui-content" class="ui-content" >
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="fade" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
-                        <li><a href="#browse" data-transition="pop">Browse Trip</a></li>
-                    </ul>
-                </div><!-- /navbar -->
                 <span style="float:left;">
                     <div class="breadcrumb">
                         <div id="brdcmb">
                             <ul>
-                                <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php#home">Trip</a></li>
+<?php
+                                Tmplt_generate_breadcumb($breadcumb);
+?>
                             </ul>
                         </div>
                     </div>
@@ -97,7 +97,17 @@ if ($page < $JmlHalaman) {
                 <span style="float:right;">
                     <a href="<?= URLSITUS ?>trip_new.php" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Buat trip baru</a>
                 </span>
+                
                 <div style="clear: both;"></div>
+                
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
+                        <li><a href="?m=hot" data-transition="fade" <?php if (@$_GET['m'] == 'hot'){ echo 'class="ui-btn-active"'; }?>>Hot Trip</a></li>
+                        <li><a href="#browse" data-transition="pop">Browse Trip</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+                
                 <hr/>
                 <ul data-role="listview" data-inset="true">
 <?php
@@ -142,6 +152,21 @@ if ($page < $JmlHalaman) {
             get_header('Perjalanan');
 ?>
             <article role="main" class="ui-content" class="ui-content" >
+                <span style="float:left;">
+                    <div class="breadcrumb">
+                        <div id="brdcmb">
+                            <ul>
+<?php
+                                Tmplt_generate_breadcumb($breadcumb);
+?>
+                                <li><a href="#browse" data-ajax="false">Browse</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+                
+                <div style="clear: both"></div>
+                
                 <div data-role="navbar">
                     <ul>
                         <li><a href="?m=new" data-transition="flip" <?php if (!isset($_GET['m']) OR $_GET['m'] == 'new'){ echo 'class="ui-btn-active"'; }?> >New Trip</a></li>
@@ -149,18 +174,7 @@ if ($page < $JmlHalaman) {
                         <li><a href="#browse" data-transition="pop">Browse Trip</a></li>
                     </ul>
                 </div><!-- /navbar -->
-                <span style="float:left;">
-                    <div class="breadcrumb">
-                        <div id="brdcmb">
-                            <ul>
-                                <li><a href="<?= URLSITUS ?>" data-ajax="false">Home</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php" data-ajax="false">Trip</a></li>
-                                <li><a href="<?= URLSITUS ?>trip.php#browse" data-ajax="false">Browse</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </span>
-                <div style="clear: both"></div>
+
                 <h3 class="ui-bar ui-bar-a ui-corner-all">Provinsi</h3>
                 <div class="ui-body ui-body-a ui-corner-all">
                     <div class="ui-grid-b">
