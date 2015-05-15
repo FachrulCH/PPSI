@@ -82,6 +82,6 @@ function get_user_ip(){
 
 function clean_text($string)
 {
-    return strip_tags(addslashes($string), '<p><span><b><i><u><ul><li><ol><a><table><tr><td><th>');
+    return strip_tags(addslashes($string), '<p><span><b><i><u><ul><li><ol><a><table><tr><td><th><img>');
 }
 ?>

@@ -42,10 +42,6 @@ $loadKategori1 = Tmplt_get_kategori1();
     <!-- End Peta -->
     <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script type="text/javascript">
-      $(function() {
-      });
-    </script>
     <article role="main" class="ui-content">
         <div class="ui-bar ui-bar-a">
             <h3>Bagikan pengalaman petualanganmu!</h3>
@@ -57,7 +53,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                         <input type="text" name="t_judul" id="t_judul" value="" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
-                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!"></textarea>
+                        <textarea class="summernote" placeholder="Tuliskan inspirasi perjalananmu!" id="t_isi" name="t_isi"></textarea>
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_tujuan">Dimana?</label>
@@ -71,7 +67,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                     </li>
                     <li class="ui-field-contain">
                         <label for="t_waktu">Kapan?</label>
-                        <input type="date" name="t_waktu" id="t_waktu" value="" data-clear-btn="true">
+                        <input type="date" name="t_waktu" id="t_waktu" value="<?php echo date('Y-m-d'); ?>" data-clear-btn="true">
                     </li>
                     <li class="ui-field-contain">
                         <label for="kategori1">Kategori</label>
@@ -92,7 +88,14 @@ $loadKategori1 = Tmplt_get_kategori1();
                         <select name="kategori2" id="kategori2">
                             <option>Pilih kategori</option>
                         </select>
-                    </li>                    
+                    </li>
+                    <li class="ui-field-contain">
+                        <table data-role="table" id="movie-table" data-mode="reflow" class="ui-responsive">
+                            <tr class="wrapBudget"></tr>
+                        </table>
+                        <label for="btn_addBudget">Pengeluaran</label>
+                        <button id="btn_addBudget" class="ui-btn-inline ui-btn-b ui-mini ui-btn ui-shadow ui-btn-icon-left ui-icon-plus">Tambah</button>
+                    </li>
                     <li class="ui-field-contain">
                     <label for="multiupload">Galeri</label>
                         <div id="multiupload">
@@ -141,8 +144,8 @@ $loadKategori1 = Tmplt_get_kategori1();
         <script src="<?= URLSITUS ?>js/FileAPI/jquery.fileapi.min.js"></script>
         <script src="<?= URLSITUS ?>js/main.js"></script>
         <script type="text/javascript">
-        jQuery(function ($){
-            
+        //jQuery(function ($){
+        $(document).ready(function() {    
             $('.summernote').summernote({
               height: 200,
                toolbar: [
@@ -151,7 +154,7 @@ $loadKategori1 = Tmplt_get_kategori1();
                 ['style', ['bold', 'italic', 'underline']],
                 ['para', ['ul', 'paragraph']],
                 ['insert', ['link']],
-                ['misc', ['undo', 'redo']],
+                ['misc', ['undo', 'redo','codeview']],
               ]
             });
 
@@ -236,8 +239,9 @@ $loadKategori1 = Tmplt_get_kategori1();
                 });
                 
                 $('#posting').on('click', function () {
+                    $('#t_isi').html($('.summernote').code());
                     var data = $('#formPengalaman').serialize();
-                        data += '&t_isi='+$('.summernote').code();
+                        //data += '&t_isi='+$('.summernote').code();
                    customAjax('<?= URLSITUS ?>api/pengalamanbaru/',data,function (data) {
                         //console.log(data);
                         setTimeout('window.location.href = "<?= URLSITUS ?>pengalaman/"',2500);
@@ -245,6 +249,23 @@ $loadKategori1 = Tmplt_get_kategori1();
                     });
                     return false; // cancel original event to prevent form submitting
                 });
+                
+                //*** Tambah budget dynamic
+                var max_fields      = 11; //maximum input boxes allowed
+                var x = 1; //initlal text box count
+                $("#btn_addBudget").on('click', function (e) { //on add input button click
+                    e.preventDefault();
+                    if(x < max_fields){ //max input box allowed
+                        x++; //text box increment
+                        $(".wrapBudget").append('<tr class="budgetlist"><td><input type="number" name="budgetAmt[]" placeholder="Rp.000"/></td> <td><input type="text" name="budgetFor[]" placeholder="Untuk keperluan"/> </td><td><a href="#" class="remove_field">Hapus</a></td></tr>'); //add input box
+                    }else{
+                        dialogin("Maksimum 10 inputan");
+                    }
+                    });
+
+                    $(".wrapBudget").on("click",".remove_field", function(e){ //user click on remove text
+                        e.preventDefault(); $(this).parent().parent('tr').remove(); x--;
+                    });
             });
         </script>
     </article><!-- /content -->

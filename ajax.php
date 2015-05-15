@@ -256,8 +256,9 @@ if ($do == 'tanya'){
        $hasil   = NULL;
     } else {
         //***** user tervalidasi capcay
-        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
-        $hasil = Exp_save(@$_POST['t_judul'], clean_text(@$_POST['t_isi']), @$_POST['formatted_address'], $lokasi[0], $lokasi[1], @$_POST['t_waktu'], @$_POST['kategori2'], @$_POST['s_komen']);
+        $tgl = isset($_POST['t_waktu']) ? $_POST['t_waktu'] : date("Y-m-d");
+        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): null;
+        $hasil = Exp_save(@$_POST['t_judul'], clean_text(@$_POST['t_isi']), @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], $tgl, @$_POST['kategori2'], @$_POST['s_komen'],@$_POST['budgetAmt'],@$_POST['budgetFor']);
         
         if ($hasil == TRUE){
             $status = TRUE;
@@ -268,7 +269,7 @@ if ($do == 'tanya'){
         }
     }
     
-    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => "OK");
     echo json_encode($result);
 }elseif($do == 'pengalamanedit'){
     //*** inisiasi nilai
@@ -284,7 +285,7 @@ if ($do == 'tanya'){
        $hasil   = NULL;
     } else {
         //***** user tervalidasi capcay
-        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
+        $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): " , ";
         if($_POST['kategori2'] != 'Pilih kategori'){ 
             $kategori = $_POST['kategori2'];
         }else{ 

@@ -48,6 +48,7 @@
 }
 .breadcrumb li {
     display: inline;
+    padding: .3em;
 }
 .breadcrumb li+li:before {
     content:"» ";

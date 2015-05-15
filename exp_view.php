@@ -9,7 +9,16 @@ $exp = Exp_get_by_id($exp_id);
 
 Exp_viewed($exp_id); //==>> update statistik experienced
 
+$exp_kategori = getKategori($exp['pengalaman_kategori']);
+        
 $gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg","air-terjun-gitgit-bal.jpg","anak-band.jpg","kitchenadventurercheesecakebrownie.jpg"));
+$breadcumb = array
+               (array("link"=> URLSITUS, "text"=>"Home"),
+                array("link"=> URLSITUS."pengalaman/#home", "text"=>"Pengalaman"),
+                array("link"=> URLSITUS."pengalaman/". $exp_kategori[0]['parent_name'] ."/", "text"=> $exp_kategori[0]['parent_name']),
+                array("link"=> URLSITUS ."pengalaman/lihat/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] , "text"=>$exp['pengalaman_judul'])
+               );
+
 ?>
 <!doctype html>
 <html>
@@ -74,9 +83,22 @@ $gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-t
             get_header('Pengalaman');
 ?>
             <article role="main" class="ui-content">
+                <span style="float:left;">
+                    <div class="breadcrumb">
+                        <div id="brdcmb">
+                            <ul>
+<!--                                <li><a href="" data-ajax="false">Home</a></li>
+                                <li><a href="pengalaman/#home">Pengalaman</a></li>-->
+<?php
+                                Tmplt_generate_breadcumb($breadcumb);
+?>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
                 <span style="float: right"><a href="<?= URLSITUS ."pengalaman/edit/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] ?>/" class="ui-btn ui-shadow ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit</a></span>
                 <h3 class="ui-bar ui-bar-a"><?= $exp['pengalaman_judul'] ?></h3>
-                <p class="ketengah"><?= tautan('username/'.  make_seo_name($exp['username']), $exp['username']) ." | ". $exp['pengalaman_judul'] ." | ". date("j-M-Y", strtotime($exp['pengalaman_date'])) ?></p>
+                <p class="ketengah"><?= tautan('username/'.  make_seo_name($exp['username']).'/', $exp['username']) ." | ". $exp['pengalaman_judul'] ." | ". date("j-M-Y", strtotime($exp['pengalaman_date'])) ?></p>
                 
                 <div class="ditengah">
                 <!--     PHOTOSWIPE     -->

@@ -4,7 +4,7 @@ if(@$statuskoneksi != 'connected'){
 	require_once 'db_function.php';
 }
 
-function Exp_save($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, $komen){
+function Exp_save($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, $komen, $budgetAmt, $budgetFor){
     $exp_id     = sanitize($_SESSION['exp_id']);
     $user_id    = sanitize($_SESSION['user_id']);
     $t_judul    = sanitize($t_judul);
@@ -14,18 +14,27 @@ function Exp_save($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, 
     $date       = sanitize($t_waktu);
     $kategori   = sanitize($kategori);
     $t_isi      = $t_isi;
+    $budget     = null;
+    
+    if (count($budgetAmt) > 0){
+        $budgetAmt  = sanitize($budgetAmt);
+        $budgetFor  = sanitize($budgetFor);
+        // kalo ada data budget, lakukan penyimpanan
+        $budget = json_encode(array_combine($budgetFor, $budgetAmt));
+    }
     
     $sql = "INSERT INTO tb_pengalaman(pengalaman_id, pengalaman_user_id, pengalaman_judul, "
             . "                         pengalaman_isi, pengalaman_lokasi, pengalaman_lat, "
             . "                         pengalaman_lot, pengalaman_date, pengalaman_kategori, "
-            . "                         pengalaman_flag_komen)"
-            . "VALUES               ('{$exp_id}','{$user_id}','{$t_judul}','{$t_isi}','{$location}','{$lat}','{$lot}','{$date}','{$kategori}','{$komen}');";
+            . "                         pengalaman_flag_komen, pengalaman_budget)"
+            . "VALUES               ('{$exp_id}','{$user_id}','{$t_judul}','{$t_isi}','{$location}','{$lat}','{$lot}','{$date}','{$kategori}','{$komen}','{$budget}');";
     $sqlInsert = good_query($sql);
     
     if ($sqlInsert == TRUE){    
-        return true;
+        return TRUE;
     }else{
         return FALSE;
+        
     }
 }
 
