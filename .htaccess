@@ -8,15 +8,15 @@
   # RewriteCond %{REQUEST_URI} !ignore-this-directory
   # RewriteCond %{REQUEST_URI} !and-ignore-this-directory-too
   
-  RewriteCond %{REQUEST_URI} !assets
+  #RewriteCond %{REQUEST_URI} !assets
 
   # don't apply the AI behaviour to images inside AI's cache folder:
-  RewriteCond %{REQUEST_URI} !ai-cache
+  #RewriteCond %{REQUEST_URI} !ai-cache
     
   # Send any GIF, JPG, or PNG request that IS NOT stored inside one of the above directories
   # to adaptive-images.php so we can select appropriately sized versions
   
-  RewriteRule \.(?:jpe?g|gif|png)$ adaptive-images.php
+  #RewriteRule \.(?:jpe?g|gif|png)$ adaptive-images.php
 
   # END Adaptive-Images -------------------------------------------------------------------------------
 
@@ -29,6 +29,7 @@ Options All -Indexes
 # L makes this the last rule that this specific condition will match
 # $ in the regular expression makes the matching stop so that "customblah" will not work
 RewriteRule ^api/([a-zA-Z0-9]+)/$ ajax.php?do=$1 [NC,L]
+RewriteRule ^upload/([a-zA-Z0-9]+)/$ upload.php?do=$1 [NC,L]
 RewriteRule ^trip/$ trip.php [NC,L]
 RewriteRule ^trip/lihat/(.*)/([0-9]+)/$ trip_view.php?id=$2 [NC,L]
 RewriteRule ^user/login/$ user_login.php [NC,L]

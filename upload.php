@@ -1,30 +1,36 @@
 <?php
-include_once './_include/fungsi.php';
+include_once './_include/db_function.php';
 // Setelah berhasil di save, lalu di resize lah
 include('src/abeautifulsite/SimpleImage.php');
 
-$do == $_GET['do'];
+$do = $_GET['do'];
 $nama           = make_image_name($_FILES["filedata"]["name"]);
 //echo $nama;
 
 
-if ($do == 'photoprofile'){
+if ($do == 'profile'){
     // 1. Simpan dulu file original dari upload user, lokasi folder ori
-    $Thumb         = "_gambar/user/";
+    $Thumb         = "_gambar/user/". basename($nama);;
     $target_dir    = "_gambar/user/o/";
     $target_file   = $target_dir . basename($nama);
     // 2. Proses upload ke folder besar
     $upload        = move_uploaded_file($_FILES["filedata"]["tmp_name"], $target_file);
-    
+    print_r($target_file);
     // 3. Manipulasi replikasi dari folder _gambar/galeri/o/
     try {
-        $img = new abeautifulsite\SimpleImage($target_file);
+        
+        $img = new abeautifulsite\SimpleImage(URLSITUS.$target_file);
         // Shrink the image proportionally to fit inside a box
         $img->thumbnail(80, 80)->save($Thumb);
 
     } catch(Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
+    
+    //Update Database
+    $user_id = (int) $_SESSION['user_id'];
+    $sql = "UPDATE tb_user SET `user_foto`='{$nama}' WHERE  `user_id`={$user_id};";
+    good_query($sql);
     
 }
 elseif ($do == 'trip') {

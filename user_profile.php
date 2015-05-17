@@ -38,6 +38,7 @@ $user_profil    = User_get_profil($user_id);
     .tombol{
         margin-top: 105px;
     }
+    
     </style>                
 </head>
 <body>
@@ -66,7 +67,7 @@ $user_profil    = User_get_profil($user_id);
                         <div class="js-upload" style="display: none; top: -130px; position: relative;">
                             <div class="progress progress-success"><div class="js-progress bar"></div></div>
 <!--                            <span class="btn-txt">Uploading</span>-->
-                            <img src="css/images/ajax-loader.gif"/>
+                            <img src="<?= URLSITUS ?>css/images/ajax-loader.gif"/>
                         </div>
                     </div>
                 </div>
@@ -172,7 +173,16 @@ $user_profil    = User_get_profil($user_id);
             <script src="<?= URLSITUS ?>js/jquery.modal.js"></script>
             <link rel="stylesheet" href="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.css" />
             <link rel="stylesheet" href="<?= URLSITUS ?>css/css/fileupload.css" />
-
+<?php
+                if (isset($user_profil['user_foto'])){
+                //*** Kalo user uda pernah upload foto
+                    echo "<style>
+                        .userpic { 
+                        background: url('".URLSITUS."_gambar/user/".$user_profil['user_foto']."') no-repeat center;
+                        }
+                        </style>";
+                }
+?>
             <script type="text/javascript">
                 $(function(){
                     $("#t_lokasi").geocomplete({
@@ -237,7 +247,7 @@ $user_profil    = User_get_profil($user_id);
 //                profile upload
 
                     $('#userpic').fileapi({
-                        url: 'http://rubaxa.org/FileAPI/server/ctrl.php',
+                        url: '<?= URLSITUS ?>upload/profile/',
                         accept: 'image/*',
                         imageSize: { minWidth: 300, minHeight: 300 },
                         elements: {
@@ -279,6 +289,7 @@ $user_profil    = User_get_profil($user_id);
                         }
                         });
             </script>
+            
 	</article><!-- /content -->
 	<?php
 		get_footer();

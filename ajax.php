@@ -70,14 +70,16 @@ if ($do == 'tanya'){
         echo json_encode($result);
         
 // =========================================================================== //	
-}elseif ($do == 'ijingabung'){
+}
+elseif ($do == 'ijingabung'){
 	$status = true;
 	$pesan	= "Permintaan gabung berhasil. Tunggu approval penyelenggara trip ya";
 	$hasil 	= array('status' => $status, 'pesan' => $pesan);
 	echo json_encode($hasil);
         
 // =========================================================================== //
-}elseif ($do == 'trip_save') {
+}
+elseif ($do == 'trip_save') {
         $id     = @$_SESSION['user_id'];
 	$judul  = $_POST['t_judul'];
         $tujuan = $_POST['formatted_address'];
@@ -113,14 +115,16 @@ if ($do == 'tanya'){
 	echo json_encode($hasil);
 
 // =========================================================================== //
-}elseif($do == 'kategori'){
+}
+elseif($do == 'kategori'){
     $id = $_POST['id'];
     $detailKategori = Tmplt_get_kategori2($id);
     $hasil = array('status' => true, 'pesan' => null, 'data' => $detailKategori);
     echo json_encode($hasil);  // data detail kategori
 
 // =========================================================================== //
-}elseif($do == 'cekusername'){
+}
+elseif($do == 'cekusername'){
     //***** Pengecekan apakah username yg akan daftar sudah ada apa belum *****//
     // fungsi ada pada include/user.php
 
@@ -132,7 +136,8 @@ if ($do == 'tanya'){
     }
 
 // =========================================================================== //    
-}elseif($do == 'cekemail'){
+}
+elseif($do == 'cekemail'){
     //***** Pengecekan apakah username yg akan daftar sudah ada apa belum *****//
     // fungsi ada pada include/user.php
 
@@ -144,7 +149,8 @@ if ($do == 'tanya'){
     }
 
 // =========================================================================== //    
-}elseif($do == 'newmember'){
+}
+elseif($do == 'newmember'){
     //***** inisialisasi nilai *****//
     $status = false;
     $pesan  = 'pesan kosong';
@@ -183,7 +189,8 @@ if ($do == 'tanya'){
         echo json_encode($result);
 
 // =========================================================================== //        
-}elseif($do == 'login'){
+}
+elseif($do == 'login'){
     //*** inisiasi nilai
     $status = false;
     $pesan  = "gagal login";
@@ -218,7 +225,8 @@ if ($do == 'tanya'){
     echo json_encode($result);
 
 // =========================================================================== //    
-}elseif($do == 'updatemember'){
+}
+elseif($do == 'updatemember'){
     //*** inisiasi nilai
     $status = false;
     $pesan  = "berhasil di update";
@@ -242,7 +250,8 @@ if ($do == 'tanya'){
     echo json_encode($result);
 
 // =========================================================================== // 
-}elseif($do == 'pengalamanbaru'){
+}
+elseif($do == 'pengalamanbaru'){
     //*** inisiasi nilai
     $status = FALSE;
     $pesan  = "";
@@ -271,7 +280,8 @@ if ($do == 'tanya'){
     
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => "OK");
     echo json_encode($result);
-}elseif($do == 'pengalamanedit'){
+}
+elseif($do == 'pengalamanedit'){
     //*** inisiasi nilai
     $status = FALSE;
     $pesan  = "";
@@ -305,7 +315,8 @@ if ($do == 'tanya'){
     
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
-}elseif($do == 'pengalamanhapus'){
+}
+elseif($do == 'pengalamanhapus'){
     //*** inisiasi nilai
     $status = FALSE;
     $pesan  = "";
@@ -320,7 +331,8 @@ if ($do == 'tanya'){
         }
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
-}else{
+}
+else{
     echo 'ada kesalahan';
 }
 ?>

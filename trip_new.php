@@ -368,7 +368,7 @@ $_SESSION['trip_id'] = $trip_id;        // simpan id di session
 jQuery(function ($){
 		$('#multiupload').fileapi({
 			multiple: true,
-			url: 'upload_galeri.php',
+			url: 'upload.php?do=trip',
 			elements: {
 				ctrl: { upload: '.js-upload' },
 				empty: { show: '.b-upload__hint' },

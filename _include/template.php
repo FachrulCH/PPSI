@@ -37,7 +37,7 @@ function get_panel()
 		<div class="ketengah">
 			<a href="#">';
         if (empty($user['user_foto'])){                
-            echo '<img src="'.URLSITUS.'css/images/profile.jpg" width="100">';
+            echo '<img src="'.URLSITUS.'css/images/profile.jpg" width="80">';
         }else{
             echo '<img src="'.URLSITUS.'_gambar/user/'.$user['user_foto'].'" width="100">';
         }
