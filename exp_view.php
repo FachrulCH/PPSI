@@ -98,7 +98,7 @@ $breadcumb = array
                 </span>
                 <span style="float: right"><a href="<?= URLSITUS ."pengalaman/edit/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] ?>/" class="ui-btn ui-shadow ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit</a></span>
                 <h3 class="ui-bar ui-bar-a"><?= $exp['pengalaman_judul'] ?></h3>
-                <p class="ketengah"><?= tautan('username/'.  make_seo_name($exp['username']).'/', $exp['username']) ." | ". $exp['pengalaman_judul'] ." | ". date("j-M-Y", strtotime($exp['pengalaman_date'])) ?></p>
+                <p class="ketengah"><?= tautan('username/'.  make_seo_name($exp['username']).'/', $exp['username']) ." | ". $exp['pengalaman_lokasi'] ." | ". date("j-M-Y", strtotime($exp['pengalaman_date'])) ?></p>
                 
                 <div class="ditengah">
                 <!--     PHOTOSWIPE     -->

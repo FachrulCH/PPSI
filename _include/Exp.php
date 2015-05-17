@@ -86,7 +86,7 @@ function Exp_edit($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, 
     $lot        = sanitize($lot);
     $date       = sanitize($t_waktu);
     $kategori   = sanitize($kategori);
-    $t_isi      = clean_text($t_isi);
+    $t_isi      = $t_isi;
     
     $sql = "UPDATE tb_pengalaman a SET a.pengalaman_judul = '{$t_judul}', a.pengalaman_isi = '{$t_isi}', a.pengalaman_lokasi = '{$location}', a.pengalaman_lat = '{$lat}', a.pengalaman_lot = '{$lot}', a.pengalaman_date = '{$date}', a.pengalaman_kategori = '{$kategori}', a.pengalaman_flag_komen = '{$komen}'
             WHERE pengalaman_id = '{$exp_id}'";

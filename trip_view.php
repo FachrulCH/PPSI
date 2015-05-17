@@ -90,7 +90,7 @@ $user_id_rahasia = enkripsi($user_id);
 
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
-            get_header('Trip');
+            get_header('Rencana Perjalanan');
 ?>
             <article role="main" class="ui-content">
                 <h3 class="ui-bar ui-bar-a"><?= $db_trip['trip_judul'] ?></h3>

@@ -292,7 +292,7 @@ if ($do == 'tanya'){
             $kategori = $_SESSION['edit_pengalaman_kategori'] ;
         } //==> kalo kategori ga diganti pake kategori awal, diambil dari session
         
-        $hasil = Exp_edit(@$_POST['t_judul'], clean_text($_POST['t_isi']), @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], @$_POST['t_waktu'], $kategori, @$_POST['s_komen']);
+        $hasil = Exp_edit(@$_POST['t_judul'], clean_text(@$_POST['t_isi']), @$_POST['formatted_address'], @$lokasi[0], @$lokasi[1], @$_POST['t_waktu'], $kategori, @$_POST['s_komen']);
         
         if ($hasil == TRUE){
             $status = TRUE;

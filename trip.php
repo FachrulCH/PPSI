@@ -80,7 +80,7 @@ if ($page < $JmlHalaman) {
             get_panel();
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
-            get_header('Perjalanan');
+            get_header('Rencana Perjalanan');
 ?>
             <article role="main" class="ui-content" class="ui-content" >
                 <span style="float:left;">

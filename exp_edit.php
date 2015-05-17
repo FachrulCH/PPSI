@@ -136,7 +136,7 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
                     </li>  
                     <li class="ui-field-contain">
                     <span style="float: left;">
-                        <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Post"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
+                        <input type="submit" id="posting" name="filedata" class="ui-btn ui-icon-action ui-btn-icon-left" value="Simpan"/></span><span style="float: right;"><div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div></span>
                     </li>
                 </ul>
             </form>
@@ -153,7 +153,7 @@ if ($_SESSION['user_id'] != $exp['pengalaman_user_id']){
         <script src="<?= URLSITUS ?>js/FileAPI/jquery.fileapi.min.js"></script>
         <script src="<?= URLSITUS ?>js/main.js"></script>
         <script type="text/javascript">
-        jQuery(function ($){
+        $(document).ready(function() {
             
             $('.summernote').summernote({
               height: 200,

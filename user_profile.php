@@ -16,6 +16,29 @@ $user_profil    = User_get_profil($user_id);
 		// memiliki argumen title halaman
 		get_meta('TemanBackpacker.com');
 	?>
+    
+    <style type="text/css">
+    .ui-input-text, .ui-input-search {
+        /* margin: .5em 0; */
+        /* border-width: 1px; */
+        border-style: hidden;
+      }
+
+    #userpic input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    .tombol{
+        margin-top: 105px;
+    }
+    </style>                
 </head>
 <body>
 <section data-role="page" id="home">
@@ -31,7 +54,31 @@ $user_profil    = User_get_profil($user_id);
 	<article role="main" class="ui-content">
 
             <div class="ketengah">
-                <img src="<?= URLSITUS ?>css/images/profile.jpg" width="100">
+<!--                <img src="<?= URLSITUS ?>css/images/profile.jpg" width="100">-->
+                
+                <div id="userpic" class="userpic">
+                    <div class="js-preview userpic__preview"></div>
+                    <div class="js-fileapi-wrapper tombol">
+                        <span class="ui-btn ui-icon-plus ui-btn-icon-left">
+                            <span>Pilih</span>
+                            <input type="file" name="filedata" class="upload">
+                        </span>
+                        <div class="js-upload" style="display: none; top: -130px; position: relative;">
+                            <div class="progress progress-success"><div class="js-progress bar"></div></div>
+<!--                            <span class="btn-txt">Uploading</span>-->
+                            <img src="css/images/ajax-loader.gif"/>
+                        </div>
+                    </div>
+                </div>
+
+            <div id="popup" class="popup" style="display: none;">
+                <div class="popup__body"><div class="js-img"></div></div>
+                <div style="margin: 0 0 5px; text-align: center;">
+                    <div class="js-upload btn btn_browse btn_browse_small">Unggah</div>
+                    <div class="btn btn_browse btn_browse_small" onclick="$.modal().close();$('.userpic__preview').empty()">Batal</div>
+                </div>
+            </div>
+                
                 <p><i><strong><?= $user_profil['user_username'] ?></strong></i></p>
                 <p class="hrfKecil">
                   <?= $user_profil['user_bio'] ?>  
@@ -118,6 +165,14 @@ $user_profil    = User_get_profil($user_id);
             <script type="text/javascript" src="<?= URLSITUS ?>js/main.js"></script>
             <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.validate.min.js"></script>
             
+            <script src="<?= URLSITUS ?>js/FileAPI/FileAPI.min.js"></script>
+            <script src="<?= URLSITUS ?>js/FileAPI/FileAPI.exif.js"></script>
+            <script src="<?= URLSITUS ?>js/FileAPI/jquery.fileapi.min.js"></script>
+            <script src="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.js"></script>
+            <script src="<?= URLSITUS ?>js/jquery.modal.js"></script>
+            <link rel="stylesheet" href="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.css" />
+            <link rel="stylesheet" href="<?= URLSITUS ?>css/css/fileupload.css" />
+
             <script type="text/javascript">
                 $(function(){
                     $("#t_lokasi").geocomplete({
@@ -178,6 +233,51 @@ $user_profil    = User_get_profil($user_id);
 
 		});
                 /***** validasi formnya *****/
+                
+//                profile upload
+
+                    $('#userpic').fileapi({
+                        url: 'http://rubaxa.org/FileAPI/server/ctrl.php',
+                        accept: 'image/*',
+                        imageSize: { minWidth: 300, minHeight: 300 },
+                        elements: {
+                           active: { show: '.js-upload', hide: '.js-browse' },
+                           preview: {
+                              el: '.js-preview',
+                              width: 100,
+                              height: 100
+                           },
+                           progress: '.js-progress'
+                        },
+                        onSelect: function (evt, ui){
+                           var file = ui.files[0];
+                           if( !FileAPI.support.transform ) {
+                              alert('Your browser does not support Flash :(');
+                           }
+                           else if( file ){
+                              $('#popup').modal({
+                                 closeOnEsc: true,
+                                 closeOnOverlayClick: false,
+                                 onOpen: function (overlay){
+                                    $(overlay).on('click', '.js-upload', function (){
+                                       $.modal().close();
+                                       $('#userpic').fileapi('upload');
+                                    });
+                                    $('.js-img', overlay).cropper({
+                                       file: file,
+                                       bgColor: 'black',
+                                       maxSize: [$(window).width()-100, $(window).height()-100],
+                                       minSize: [50, 50],
+                                       selection: '90%',
+                                       onSelect: function (coords){
+                                          $('#userpic').fileapi('crop', file, coords);
+                                       }
+                                    });
+                                 }
+                              }).open();
+                           }
+                        }
+                        });
             </script>
 	</article><!-- /content -->
 	<?php
