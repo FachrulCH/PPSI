@@ -152,4 +152,11 @@ function User_member_trip($user_id)
             and b.member_status in ('A','C')";
     return good_query_allrow($sql);
 }
+
+function User_get_profil_by_name($username) 
+{
+    $username = strtolower(sanitize($username));
+    $sql = "select A.*,(select count(1) from tb_pengalaman B where B.pengalaman_user_id = A.user_id) as user_pengalaman, (select count(1) from tb_trip C where C.trip_user_id = A.user_id) as user_perjalanan from tb_user A where LOWER(A.user_username) = '{$username}'; ";
+    return good_query_assoc($sql);
+}
 ?>

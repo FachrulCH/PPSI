@@ -56,9 +56,9 @@
         hours: "sekitar %d jam", //"about %d hours",
         day: "sehari", //"a day",
         days: "%d hari", //"%d days",
-        month: "sebulan lalu", //"about a month",
+        month: "sebulan", //"about a month",
         months: "%d bulan", //"%d months",
-        year: "setahun lalu", //"about a year",
+        year: "setahun", //"about a year",
         years: "%d tahun", //"%d years",
         wordSeparator: " ",
         numbers: []
