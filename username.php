@@ -9,8 +9,10 @@ $u = User_get_profil_by_name($username);
 
 if (empty($u['user_foto'])){                
     $foto = URLSITUS.'css/images/profile.jpg';
+    $foto_o = URLSITUS.'css/images/profile.jpg';
 }else{
     $foto = URLSITUS.'_gambar/user/'.$u['user_foto'];
+    $foto_o = URLSITUS.'_gambar/user/o/'.$u['user_foto'];
 }
 ?>
 <!doctype html>
@@ -39,7 +41,12 @@ if (empty($u['user_foto'])){
             <article role="main" class="ui-content">
                 <div class="profilHeader">
                     <span class="profilFoto">
-                        <img src="<?= $foto ?>" width="100">
+                        <a href="#popupPhoto" data-rel="popup" data-position-to="window" data-transition="fade">
+                            <img src="<?= $foto ?>" width="100" alt="<?= $username ?>" style=" border: 1px solid #DDDDDD;">
+                        </a>
+                        <div data-role="popup" id="popupPhoto" data-overlay-theme="b" data-theme="b" data-corners="false">
+                            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><img class="popphoto" src="<?= $foto_o ?>" style="max-height:512px;" alt="">
+                        </div>
                     </span>
                     <span class="profilBio">
                         <strong style="font-size: 1.3em"><?= $u['user_username'] ?></strong>
@@ -51,7 +58,7 @@ if (empty($u['user_foto'])){
                         </p>
                     </span>
                 </div>
-
+                
                 <div class="profileDetail">
                     <div class="ui-grid-b">
                         
@@ -71,15 +78,28 @@ if (empty($u['user_foto'])){
                         
                     </div><!-- /grid-b -->
                 </div>
+<?php
+//*** Tombol kirim pesan pribadi muncul klo yg lihat profil selain user itu sendiri
+if ($u['user_id'] != @$_SESSION['user_id']) {
+?>
                 <div style="text-align: right">
                     <a href="#popupPM" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-rel="popup" data-position-to="window" data-transition="flip">Pesan pribadi</a>
                 </div>
+<?php
+}else{
+?>
+                <div style="text-align: right">
+                    <a href="<?= URLSITUS ?>user/profil/" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit Profil</a>
+                </div>
+<?php
+}
+?>
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain"><label for="t_bio">Lokasi</label><p id="t_bio"><?= $u['user_lokasi'] ?></p></li>
-                    <li class="ui-field-contain"><label for="t_bio">Umur</label><p id="t_bio"><?= $u['user_ttl'] ?></p></li>
+                    <li class="ui-field-contain"><label for="t_bio">Umur</label><p id="t_bio"><?= umur($u['user_ttl'])?> tahun</p></li>
                     <li class="ui-field-contain"><label for="t_bio">Perjalanan Paling disukai</label><p id="t_bio"><?= $u['user_exp'] ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Akun sosmed</label><p id="t_bio"><?= $u['user_sosmed'] ?></p></li>
-                    <li class="ui-field-contain"><label for="t_bio">Jenis Kelamin</label><p id="t_bio"><?= $u['user_gender'] ?></p></li>
+                    <li class="ui-field-contain"><label for="t_bio">Jenis Kelamin</label><p id="t_bio"><?= ($u['user_gender'] == 'P') ? 'Perempuan' : 'Laki-laki'; ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Label</label><p id="t_bio"><?= $u['user_reputasi'] ?></p></li>
                 </ul>
                 

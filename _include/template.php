@@ -47,7 +47,7 @@ function get_panel()
 		</div>
 	<ul data-role="listview" data-inset="true">
 	<li><a href="'.URLSITUS.'" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
-        <li><a href="'.URLSITUS.'username/'.make_seo_name($user['user_username']).'/" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">User</a></li>
+        <li><a href="'.URLSITUS.'username/'.make_seo_name($user['user_username']).'/" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">Profil</a></li>
         <li><a href="'.URLSITUS.'trip/" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
         <li><a href="'.URLSITUS.'pengalaman/" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Pengalaman</a></li>
 	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>';
