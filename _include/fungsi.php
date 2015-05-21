@@ -100,4 +100,10 @@ function umur($tgl)
 {
     return floor((time() - strtotime($tgl)) / 31556926);
 }
+
+function tanggalan($tgl)
+{
+    $date=date_create("2013-03-15");
+    return date_format($date,"d/M/y");
+}
 ?>

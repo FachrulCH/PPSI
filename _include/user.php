@@ -162,4 +162,13 @@ function User_get_profil_by_name($username)
         from tb_user A where LOWER(A.user_username) = '{$username}'; ";
     return good_query_assoc($sql);
 }
+
+function User_seperjalanan()
+{
+    $sql = "SELECT A.user_username, A.user_foto, B.trip_id, B.trip_judul, B.trip_tujuan, B.trip_date1, B.trip_date2, B.trip_created_date
+            FROM tb_user A, tb_trip B
+            WHERE A.user_id = B.trip_user_id
+            ORDER BY B.trip_created_date DESC";
+    return good_query_allrow($sql);
+}
 ?>
