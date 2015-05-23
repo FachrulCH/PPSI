@@ -103,7 +103,7 @@ function umur($tgl)
 
 function tanggalan($tgl)
 {
-    $date=date_create("2013-03-15");
-    return date_format($date,"d/M/y");
+    $date=date_create($tgl);
+    return date_format($date,"d-M-y");
 }
 ?>
