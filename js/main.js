@@ -8,7 +8,8 @@ function dialogin(pesan) {
 
     // Popup body - set width is optional - append button and Ajax msg
     var popup = $("<div/>", {
-        "data-role": "popup"
+        "data-role": "popup",
+        "id": "dialogy"
     }).css({
         width: $(window).width() / 1.5 + "px",
         padding: 5 + "px"
@@ -19,7 +20,7 @@ function dialogin(pesan) {
 
     // Create it and add listener to delete it once it's closed
     // open it
-    $("[data-role=popup]").popup({
+    $("#dialogy").popup({
         dismissible: false,
         history: false,
         theme: "b",

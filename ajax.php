@@ -337,7 +337,7 @@ elseif($do == 'usersekitar'){
     $status = TRUE;
     $lat    = sanitize($_POST['lat']);
     $lng    = sanitize($_POST['lng']);
-    $pesan  = "ok";
+    $pesan  = NULL;
     //$hasil = @$_POST;
     $hasil  = User_sekitar($lat, $lng);
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);

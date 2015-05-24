@@ -61,6 +61,8 @@ $userList = User_seperjalanan();
                 <script type="text/javascript">
                     $(document).ready(function () {
                         function showPosition(position) {
+                            var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
+                                if (check == true) {
                             // simpan posisi user di cookie, selama membuka browser
                             $.cookie("lat", position.coords.latitude);
                             $.cookie("lng", position.coords.longitude);
@@ -70,30 +72,31 @@ $userList = User_seperjalanan();
                                 showLoadMsg: true
                             });
                             //alert(position.coords.latitude +"<br>" + position.coords.longitude);
-
+                                }else {
+                                    return false;
+                                }
                         }
 
                         function showError(error) {
                             switch (error.code) {
                                 case error.PERMISSION_DENIED:
-                                    alert("User denied the request for Geolocation.");
+                                    dialogin("Kamu tidak mengijinkan TemanBackpacker mengakses lokasi kamu :( <br/> <a href='<?= URLSITUS ?>faq.php#geolocation'>lihat penjelasan</a>");
                                     break;
                                 case error.POSITION_UNAVAILABLE:
-                                    alert("Location information is unavailable.");
-                                    break;
+                                    dialogin("Informasi lokasi kamu tidak tersedia");
+                                    dialogin;
                                 case error.TIMEOUT:
-                                    alert("The request to get user location timed out.");
+                                    dialogin("Terlalu lama untuk menemukan lokasi kamu");
                                     break;
                                 case error.UNKNOWN_ERROR:
-                                    alert("An unknown error occurred.");
+                                    dialogin("Terjadi kesalahan teknis");
                                     break;
                             }
                         }
                         $('.sekitar').on('click', function () {
                             //alert("di klik");
                             if ($.cookie("ijin") != 1) {
-                                var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
-                                if (check == true) {
+                                
                                     // Kalo udah di setujui, akses user posisi
                                     // load modernizr dinamicly buat akses html5 geolocation
                                     $.getScript('<?= URLSITUS ?>src/geograpi/modernizr-geo.js', function () {
@@ -113,10 +116,7 @@ $userList = User_seperjalanan();
 
                                         }
                                     });
-                                }
-                                else {
-                                    return false;
-                                }
+                                
                             } else {
                                 $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
                                 transition: 'flip',
@@ -154,7 +154,7 @@ $userList = User_seperjalanan();
                 <ul data-role="listview" data-inset="true">
                     <form id="f_pencarian">
                         <li class="ui-field-contain">
-                            <label for="t_tujuan">Menuju ke</label>
+                            <label for="t_tujuan">Sekitar</label>
                             <input type="text" name="t_tujuan" id="t_tujuan" value="" data-clear-btn="true" required="required">
                             <div id="hasil"> 
                                 <input name="location" type="hidden" value="">
@@ -164,21 +164,7 @@ $userList = User_seperjalanan();
 <!--					<span name="administrative_area_level_1" id="lokasi"></span>-->
                             </div>	
                         </li>
-                        <li class="ui-field-contain">
-                            <label for="t_ttl">Dari tanggal</label>
-                            <input type="date" name="t_ttl" id="t_ttl" value="<?php echo date('Y-m-d'); ?>" data-clear-btn="true" min="<?php echo date('Y-m-d'); ?>">
-                        </li>
-                        <li class="ui-field-contain">
-                            <label for="s_jk">Jenis Kelamin</label>
-                            <select name="s_jk" id="s_jk" data-role="slider" data-theme="b">
-                                <option value="L">L</option>
-                                <option value="P" selected="">P</option>
-                            </select>
-                        </li>
-                        <li class="ui-field-contain">
-                            <label for="t_judul">Umur</label>
-                            <input type="number" name="t_judul" id="t_judul" value="" data-clear-btn="true" min="17">
-                        </li>
+                        
                         <li class="ui-field-contain">
                             <button id="b_cari">Cari</button>
                         </li>
@@ -197,7 +183,8 @@ $userList = User_seperjalanan();
 
                         $('#f_pencarian').on('submit', function (e) {
                             e.preventDefault();
-                            alert('proses pencarian');
+                            var data = $(this).serialize();
+                            alert('proses pencarian '+data);
                         });
 
 //                        $('.sekitar').on('click', function () {
@@ -232,7 +219,6 @@ $userList = User_seperjalanan();
                         <li><a href="#cari">Cari detail</a></li>
                     </ul>
                 </div><!-- /navbar -->
-                sekitar member
                 <ul data-role="listview" data-inset="true" data-divider-theme="a" id="listUserSekitar">
                         <li>
                             <a href="" data-ajax="false">
@@ -251,15 +237,20 @@ $userList = User_seperjalanan();
                         //console.log("kirim "+latLng);
                         var URL = '<?= URLSITUS ?>';
                         customAjax('<?= URLSITUS ?>api/usersekitar/',latLng,function (data) {
-                            console.log(data);
-                            //$('#listUserSekitar').empty();
+                            //console.log(data);
+                            $('#listUserSekitar').empty();
+                            if (data.length > 1){
                                     for(i=0; i<data.length; i++) {
                                         //alert(obj.tagName);
                                          var html = '<li><a href="" data-ajax="false"><img src="'+URL+'_gambar/user/'+data[i].user_foto+'" class="ui-li-thumb"/><h2>'+data[i].user_username+'</h2><p>'+data[i].user_info+'</p><p class="ui-li-aside garisKotak">'+data[i].distance+' Km</p></a></li>';
                                          $('#listUserSekitar').append(html);
                                     };
                                     $('#listUserSekitar').listview('refresh');
+                              }else{
+                                 dialogin("Hmm.. sepertinya belum ada temanbackpacker disekitar kamu (>_<)");
+                                 }
                                  });
+                                 
                     });
                 </script>
             </article>
