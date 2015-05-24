@@ -16,7 +16,7 @@ $userList = User_seperjalanan();
         // memiliki argumen title halaman
         get_meta('TemanBackpacker.com');
         ?>
-
+        <script src="<?= URLSITUS ?>js/jquery.cookie.js"></script>
     </head>
     <body>
         <section data-role="page" id="home">
@@ -30,12 +30,12 @@ $userList = User_seperjalanan();
             <article role="main" class="ui-content">
                 <div id="listHeader">
                     <p>Bertemu dengan teman backpacker, yang punya tempat tujuan dan waktu yang pas dengan kamu</p>
-                    <p>Atau kamu juga bisa buat <a href="<?= URLSITUS?>trip/baru/" data-ajax="false">rencana perjalananmu</a> sendiri</p>
+                    <p>Atau kamu juga bisa buat <a href="<?= URLSITUS ?>trip/baru/" data-ajax="false">rencana perjalananmu</a> sendiri</p>
                 </div>
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#" class="ui-btn-active">Rencana Teman</a></li>
-                        <li><a href="#">Teman sekitarmu</a></li>
+                        <li><a href="#" class="sekitar">Teman sekitarmu</a></li>
                         <li><a href="#cari" data-transition="flip">Cari detail</a></li>
                     </ul>
                 </div><!-- /navbar -->
@@ -49,7 +49,7 @@ $userList = User_seperjalanan();
                         <li>
                             <a href="<?= URLSITUS . "username/" . make_seo_name(@$u['user_username']) ?>/" data-ajax="false">
                                 <img src="<?= URLSITUS . "_gambar/user/" . @$u['user_foto'] ?>" class="ui-li-thumb">
-                                <h2><?= @$u['user_username'] . $u['konjungsi']." ke " . @$u['trip_tujuan'] ?></h2>
+                                <h2><?= @$u['user_username'] . $u['konjungsi'] . " ke " . @$u['trip_tujuan'] ?></h2>
                                 <p><?= @$u['trip_judul'] ?></p>
                                 <p class="ui-li-aside garisKotak"> <?= @$u['trip_date'] ?> </p>
                             </a>
@@ -58,11 +58,80 @@ $userList = User_seperjalanan();
                     }
                     ?>
                 </ul>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        function showPosition(position) {
+                            // simpan posisi user di cookie, selama membuka browser
+                            $.cookie("lat", position.coords.latitude);
+                            $.cookie("lng", position.coords.longitude);
+                            $.cookie("ijin", 1, { expires: 3 });
+                            $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
+                                transition: 'flip',
+                                showLoadMsg: true
+                            });
+                            //alert(position.coords.latitude +"<br>" + position.coords.longitude);
+
+                        }
+
+                        function showError(error) {
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    alert("User denied the request for Geolocation.");
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    alert("Location information is unavailable.");
+                                    break;
+                                case error.TIMEOUT:
+                                    alert("The request to get user location timed out.");
+                                    break;
+                                case error.UNKNOWN_ERROR:
+                                    alert("An unknown error occurred.");
+                                    break;
+                            }
+                        }
+                        $('.sekitar').on('click', function () {
+                            //alert("di klik");
+                            if ($.cookie("ijin") != 1) {
+                                var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
+                                if (check == true) {
+                                    // Kalo udah di setujui, akses user posisi
+                                    // load modernizr dinamicly buat akses html5 geolocation
+                                    $.getScript('<?= URLSITUS ?>src/geograpi/modernizr-geo.js', function () {
+                                        if (Modernizr.geolocation) {
+                                            //elem.innerHTML = 'Your browser supports geolocation.';
+                                            navigator.geolocation.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
+                                        } else {
+                                            //'Your browser does not support geolocation.';
+                                            // gunakan plugin js geoposition kalo tidak mendukung html5
+                                            $.getScript('<?= URLSITUS ?>src/geograpi/geoPosition.js', function () {
+                                                if (geoPosition.init()) {  // Geolocation Initialisation
+                                                    geoPosition.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
+                                                } else {
+                                                    // You cannot use Geolocation in this device
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                }
+                                else {
+                                    return false;
+                                }
+                            } else {
+                                $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
+                                transition: 'flip',
+                                showLoadMsg: true
+                            });
+                            }
+                        });
+                    });
+                </script>
             </article><!-- /content -->
             <?php
             get_footer();
             ?>
         </section><!-- /page -->
+
         <section data-role="page" id="cari">
             <?php
             // Memanggil fungsi untuk generate panel samping
@@ -78,7 +147,7 @@ $userList = User_seperjalanan();
                 <div data-role="navbar">
                     <ul>
                         <li><a href="#home" data-transition="flip">Rencana Teman</a></li>
-                        <li><a href="#">Teman sekitarmu</a></li>
+                        <li><a href="#" class="sekitar">Teman sekitarmu</a></li>
                         <li><a href="#cari" class="ui-btn-active">Cari detail</a></li>
                     </ul>
                 </div><!-- /navbar -->
@@ -121,17 +190,79 @@ $userList = User_seperjalanan();
             <script src="<?= URLSITUS ?>js/jquery.geocomplete.min.js"></script>
             <!-- End Peta -->
             <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#t_tujuan").geocomplete({
-                        details: "#hasil"
+                    $(document).ready(function () {
+                        $("#t_tujuan").geocomplete({
+                            details: "#hasil"
+                        });
+
+                        $('#f_pencarian').on('submit', function (e) {
+                            e.preventDefault();
+                            alert('proses pencarian');
+                        });
+
+//                        $('.sekitar').on('click', function () {
+//                            //alert("di klik");
+//                            //$(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
+////                            transition: 'flip',
+////                                    changeHash: false,
+////                                    reverse: true,
+////                                    showLoadMsg: true
+////                        });
+//                    });
                     });
-                    
-                    $('#f_pencarian').on('submit', function (e) {
-                        e.preventDefault();
-                        alert('proses pencarian');
-                    });
-                });
             </script>
+        </section>
+
+        <section data-role="page" id="sekitarmu">
+            <?php
+            // Memanggil fungsi untuk generate panel samping
+            get_panel();
+            // Membuat menu header, isinya tombol back dan panel
+            // Memiliki argumen variabel jugul header
+            get_header('Temukan teman seperjalan');
+            ?>
+            <article role="main" class="ui-content">
+                <div id="listHeader">
+                    <p>Mencari teman seperjalanan? Disini kamu bisa menemukan teman yg memiliki tujuan dan waktu yg cocok sama kamu!</p>
+                </div>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#home" data-transition="flip">Rencana Teman</a></li>
+                        <li><a href="#" class="sekitar ui-btn-active">Teman sekitarmu</a></li>
+                        <li><a href="#cari">Cari detail</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+                sekitar member
+                <ul data-role="listview" data-inset="true" data-divider-theme="a" id="listUserSekitar">
+                        <li>
+                            <a href="" data-ajax="false">
+                                <img src="<?= URLSITUS . "_gambar/user/default.gif" ?>" class="ui-li-thumb">
+                                <h2>Nama user</h2>
+                                <p>Biografi user</p>
+                                <p class="ui-li-aside garisKotak"> 2 Km </p>
+                            </a>
+                        </li>
+                </ul>
+                <script src="<?= URLSITUS ?>js/main.js"></script>
+                <script type="text/javascript">
+                    $(document).on("pagebeforeshow", "#sekitarmu", function () { // When entering pagetwo
+                        //alert("pagetwo is about to be shown ");
+                        var latLng = "lat="+ $.cookie("lat")+"&lng="+$.cookie("lng");
+                        //console.log("kirim "+latLng);
+                        var URL = '<?= URLSITUS ?>';
+                        customAjax('<?= URLSITUS ?>api/usersekitar/',latLng,function (data) {
+                            console.log(data);
+                            //$('#listUserSekitar').empty();
+                                    for(i=0; i<data.length; i++) {
+                                        //alert(obj.tagName);
+                                         var html = '<li><a href="" data-ajax="false"><img src="'+URL+'_gambar/user/'+data[i].user_foto+'" class="ui-li-thumb"/><h2>'+data[i].user_username+'</h2><p>'+data[i].user_info+'</p><p class="ui-li-aside garisKotak">'+data[i].distance+' Km</p></a></li>';
+                                         $('#listUserSekitar').append(html);
+                                    };
+                                    $('#listUserSekitar').listview('refresh');
+                                 });
+                    });
+                </script>
+            </article>
         </section>
     </body>
 </html>

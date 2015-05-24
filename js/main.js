@@ -78,7 +78,7 @@ function customAjax(u, d, callback) {
             // This callback function will trigger on unsuccessful action                
             dialogin('Network bermasalah, silahkan coba lagi!');
             $.mobile.loading("hide");
-            grecaptcha.reset(); //reset capcay
+            //grecaptcha.reset(); //reset capcay
             console.log(error);
             console.log(request);
                                     

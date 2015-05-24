@@ -332,6 +332,17 @@ elseif($do == 'pengalamanhapus'){
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
 }
+elseif($do == 'usersekitar'){
+    //*** inisiasi nilai
+    $status = TRUE;
+    $lat    = sanitize($_POST['lat']);
+    $lng    = sanitize($_POST['lng']);
+    $pesan  = "ok";
+    //$hasil = @$_POST;
+    $hasil  = User_sekitar($lat, $lng);
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+    echo json_encode($result);
+}
 else{
     echo 'ada kesalahan';
 }

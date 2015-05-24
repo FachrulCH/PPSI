@@ -6,7 +6,7 @@ if(@$statuskoneksi != 'connected'){
 
 function User_get_by_id($id)
 {
-	$sql = "SELECT * FROM  tb_user WHERE user_id = '{$id}' LIMIT 1";
+	$sql = "SELECT user_id, user_name, user_username, user_email, user_lokasi, user_gender, user_ttl, user_foto, user_bio, user_sosmed, user_info  FROM  tb_user WHERE user_id = '{$id}' LIMIT 1";
 	$sqlDo = good_query_assoc($sql);
         return $sqlDo;
 }
@@ -201,5 +201,17 @@ function User_seperjalanan()
                    );
        }
        return $arr;
+}
+
+function User_sekitar($lat, $lng) 
+{
+    $jarak = 5;
+    // jarak di FLOOR ke bawah
+    $sql = "SELECT user_id,user_name,user_username,user_lokasi,user_gender,IFNULL(user_foto,'default.gif') as user_foto,user_bio,user_info, user_privacy, user_deleted, FLOOR((6371 * ACOS(COS(RADIANS(" . $lat . ")) * COS(RADIANS(u.user_geolat)) * COS(RADIANS(u.user_geolng) - RADIANS(" . $lng . ")) + SIN(RADIANS(" . $lat . ")) * SIN(RADIANS(u.user_geolat))))) AS distance
+            FROM tb_user u
+            HAVING distance < " . $jarak . "
+            and u.user_privacy = 0
+            and u.user_deleted = 0;";
+    return good_query_allrow($sql);
 }
 ?>

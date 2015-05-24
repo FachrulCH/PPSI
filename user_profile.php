@@ -130,7 +130,7 @@ $user_profil    = User_get_profil($user_id);
 
                     <li class="ui-field-contain">
                         <label for="t_ttl">Tanggal Lahir</label>
-                        <input type="date" name="t_ttl" id="t_ttl" value="<?= $user_profil['user_ttl'] ?>" data-clear-btn="true" max="1998-01-01">
+                        <input type="date" name="t_ttl" id="t_ttl" value="<?= $user_profil['user_ttl'] ?>" data-clear-btn="true">
                     </li>
 
                     <li class="ui-field-contain">
