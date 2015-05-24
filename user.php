@@ -5,7 +5,7 @@ include_once "_include/template.php";
 include_once "_include/user.php";
 
 $userList = User_seperjalanan();
-//var_dump($userList);
+//print_r(json_encode($userList));
 //print_r($userList);
 ?>
 <!doctype html>
@@ -29,7 +29,8 @@ $userList = User_seperjalanan();
             ?>
             <article role="main" class="ui-content">
                 <div id="listHeader">
-                    Bertemu dengan teman backpacker, yang punya tempat tujuan dan waktu yang pas dengan kamu
+                    <p>Bertemu dengan teman backpacker, yang punya tempat tujuan dan waktu yang pas dengan kamu</p>
+                    <p>Atau kamu juga bisa buat <a href="<?= URLSITUS?>trip/baru/" data-ajax="false">rencana perjalananmu</a> sendiri</p>
                 </div>
                 <div data-role="navbar">
                     <ul>
@@ -41,40 +42,21 @@ $userList = User_seperjalanan();
                 <ul data-role="listview" data-inset="true" data-divider-theme="a">
                     <?php
                     foreach ($userList as $u) {
-                        if (!empty($u['user_foto'])) {
-                            $foto = $u['user_foto'];
-                        } else {
-                            $foto = "default.gif";
-                        }
-                        $tujuan = "-";
-                        if (!empty($u['trip_tujuan'])) {
-                            // di ambil 2 lokasi terdepan
-                            $tujuan = implode(",", array_slice(explode(",", $u['trip_tujuan']), 0, 2));
-                        }
-
 //                if ($u['trip_date1'] != '0000-00-00'){
 //                    $kata_sambung = "ingin";
 //                }
                         ?>
                         <li>
                             <a href="<?= URLSITUS . "username/" . make_seo_name(@$u['user_username']) ?>/" data-ajax="false">
-                                <img src="<?= URLSITUS . "_gambar/user/" . @$foto ?>" class="ui-li-thumb">
-                                <h2><?= @$u['user_username'] . " berencana ke " . $tujuan ?></h2>
+                                <img src="<?= URLSITUS . "_gambar/user/" . @$u['user_foto'] ?>" class="ui-li-thumb">
+                                <h2><?= @$u['user_username'] . $u['konjungsi']." ke " . @$u['trip_tujuan'] ?></h2>
                                 <p><?= @$u['trip_judul'] ?></p>
-                                <p class="ui-li-aside garisKotak"><?= tanggalan(@$u['trip_date1']) ?> s/d <?= tanggalan(@$u['trip_date2']) ?></p>
+                                <p class="ui-li-aside garisKotak"> <?= @$u['trip_date'] ?> </p>
                             </a>
                         </li>
                         <?php
                     }
                     ?>
-                    <li>
-                        <a href="<?= URLSITUS . "username/" . make_seo_name('pendekar') ?>/" data-ajax="false">
-                            <img src="<?= URLSITUS ?>_gambar/user/3.jpg" class="ui-li-thumb">
-                            <h2>Si Bolang ingin ke Jogja</h2>
-                            <p>Wisata kuliner enak kali ya</p>
-                            <p class="ui-li-aside">Perjalanan Impian</p>
-                        </a>
-                    </li>
                 </ul>
             </article><!-- /content -->
             <?php

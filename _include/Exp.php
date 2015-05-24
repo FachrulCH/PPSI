@@ -1,7 +1,7 @@
 <?php
 // cek kalo belum ada akses ke database, include file database
 if(@$statuskoneksi != 'connected'){
-	require_once 'db_function.php';
+	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'db_function.php';
 }
 
 function Exp_save($t_judul, $t_isi, $location, $lat, $lot, $t_waktu, $kategori, $komen, $budgetAmt, $budgetFor){

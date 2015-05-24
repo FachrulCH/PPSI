@@ -25,12 +25,17 @@ ErrorDocument 404 /404.php
 # Disable directory browsing
 Options All -Indexes
 
+# menambahkan slash di akhir kalo gada
+#RewriteCond %{REQUEST_URI} /+[^\.]+$
+#RewriteRule ^(.+[^/])$ %{REQUEST_URI}/ [R=301,L]
+
 # NC makes the rule non case sensitive
 # L makes this the last rule that this specific condition will match
 # $ in the regular expression makes the matching stop so that "customblah" will not work
 RewriteRule ^api/([a-zA-Z0-9]+)/$ ajax.php?do=$1 [NC,L]
 RewriteRule ^upload/([a-zA-Z0-9]+)/$ upload.php?do=$1 [NC,L]
 RewriteRule ^trip/$ trip.php [NC,L]
+RewriteRule ^trip/baru/$ trip_new.php [NC,L]
 RewriteRule ^trip/lihat/(.*)/([0-9]+)/$ trip_view.php?id=$2 [NC,L]
 RewriteRule ^user/$ user.php [NC,L]
 RewriteRule ^user/login/$ user_login.php [NC,L]

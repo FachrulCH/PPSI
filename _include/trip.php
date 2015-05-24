@@ -1,7 +1,7 @@
 <?php
 // cek kalo belum ada akses ke database, include file database
 if(@$statuskoneksi != 'connected'){
-	require_once 'db_function.php';
+	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'db_function.php';
 }
 
 function trip_save($trip_user_id, $trip_judul, $trip_tujuan,$trip_tuj_provinsi,$trip_tuj_kota, $trip_tujuan_geolat, $trip_tujuan_geolng, 

@@ -2,7 +2,7 @@
 //if (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) ob_start("ob_gzhandler"); else ob_start();
 include_once "_include/db_function.php";
 include_once "_include/template.php";
-
+harus_login();
 seqid_generate('sq_trip');              // Generate ID Trip
 $trip_id = seqid_getlast('sq_trip');    // ambil ID terahir
 //$_SESSION['user_id'] = 2;

@@ -212,7 +212,7 @@ $_SESSION['user_id'] = 1;
 }
 </style>
 <body>
- 
+<!-- 
  <script type="text/javascript">
      $(document).ready(function() {
         $('#userpic').fileapi({
@@ -279,6 +279,10 @@ $_SESSION['user_id'] = 1;
         <div style="margin: 0 0 5px; text-align: center;">
                 <div class="js-upload btn btn_browse btn_browse_small">Upload</div>
         </div>
-</div>
+</div>-->
+<?php
+$u = User_seperjalanan();
+print_r(json_encode($u));
+?>
 </body>
 </html>

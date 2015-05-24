@@ -28,10 +28,11 @@ function get_panel()
 {
     //*** Kalau user sudah login
     if (isLogin()){
-        include_once 'user.php';
+        require_once dirname(__FILE__).DIRECTORY_SEPARATOR."user.php";;
         $user_id = $_SESSION['user_id'];
         $user = User_get_by_id($user_id);
         $tripnya_user = User_member_trip($user_id); //==> ambil data user's trip
+
         echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
 		<div class="ketengah">

@@ -1,6 +1,6 @@
 <?php
 //pastikan chat di include/require setelah db_function.php
-require_once 'db_function.php';
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'db_function.php';
 //karena chat.php akan menggunakan fungsi dari sana
 
 function Chat_save_tanya($chat_trip_id,$chat_sender,$chat_mesej){

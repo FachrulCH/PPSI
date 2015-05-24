@@ -67,10 +67,10 @@ function customAjax(u, d, callback) {
                     callback(result.data);
                 }
             } else {
-                dialogin(result.pesan);
+                alert(result.pesan);
                 if (result.status == false){
                     //reset capcay kalo status false
-                    grecaptcha.reset(); 
+                    //grecaptcha.reset(); 
                 }
             }
         },

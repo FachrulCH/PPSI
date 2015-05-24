@@ -4,6 +4,8 @@ include_once "_include/db_function.php";
 include_once "_include/template.php";
 include_once "_include/user.php";
 
+harus_login();
+
 $user_id        = $_SESSION['user_id'];
 $user_profil    = User_get_profil($user_id); 
 

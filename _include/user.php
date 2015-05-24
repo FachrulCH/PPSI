@@ -1,7 +1,7 @@
 <?php
 // cek kalo belum ada akses ke database, include file database
 if(@$statuskoneksi != 'connected'){
-	require_once 'db_function.php';
+	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'db_function.php';
 }
 
 function User_get_by_id($id)
@@ -169,6 +169,37 @@ function User_seperjalanan()
             FROM tb_user A, tb_trip B
             WHERE A.user_id = B.trip_user_id
             ORDER BY B.trip_created_date DESC";
-    return good_query_allrow($sql);
+    //return good_query_allrow($sql);
+    $result = good_query($sql);
+   while ($row = mysqli_fetch_assoc($result)){
+           if (!empty($row['user_foto'])) {
+                $foto = $row['user_foto'];
+            } else {
+                $foto = "default.gif";
+            }
+            $tujuan = "-";
+            if (!empty($row['trip_tujuan'])) {
+                // di ambil 2 lokasi terdepan
+                $tujuan = implode(",", array_slice(explode(",", $row['trip_tujuan']), 0, 2));
+            }
+            // Perjalanan impian / rencana perjalanan
+            if ($row['trip_date1'] == "0000-00-00"){
+                $konjungsi = " ingin";
+                $tgl = "Perjalanan Impian";
+            }else{
+                $konjungsi = " berencana";
+                $tgl = tanggalan($row['trip_date1']) ." s/d ".tanggalan($row['trip_date2']);
+            }
+           $arr[] = array("user_username"   =>$row['user_username'], 
+                        "user_foto"         =>$foto, 
+                        "trip_id"           =>$row['trip_id'],
+                        "trip_judul"        =>$row['trip_judul'], 
+                        "trip_tujuan"       =>$tujuan, 
+                        "trip_date"        =>$tgl,
+                        "trip_created_date" =>$row['trip_created_date'],
+                        "konjungsi"         =>$konjungsi
+                   );
+       }
+       return $arr;
 }
 ?>
