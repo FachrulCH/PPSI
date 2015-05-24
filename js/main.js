@@ -57,7 +57,7 @@ function customAjax(u, d, callback) {
         },
         success: function (result) {
             $.mobile.loading("hide");
-            if (result.status == '1') {
+            if (result.status == 1) {
                 // kalo status nya true
                 if (result.pesan != null){
                     // jika pesannya tidak kosong isinya maka tampil alert
@@ -68,8 +68,8 @@ function customAjax(u, d, callback) {
                     callback(result.data);
                 }
             } else {
-                alert(result.pesan);
-                if (result.status == false){
+                dialogin(result.pesan);
+                if (result.status == 3){
                     //reset capcay kalo status false
                     //grecaptcha.reset(); 
                 }

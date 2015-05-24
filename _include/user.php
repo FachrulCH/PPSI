@@ -205,13 +205,14 @@ function User_seperjalanan()
 
 function User_sekitar($lat, $lng) 
 {
-    $jarak = 5;
+    $jarak = 10;
     // jarak di FLOOR ke bawah
     $sql = "SELECT user_id,user_name,user_username,user_lokasi,user_gender,IFNULL(user_foto,'default.gif') as user_foto,user_bio,user_info, user_privacy, user_deleted, FLOOR((6371 * ACOS(COS(RADIANS(" . $lat . ")) * COS(RADIANS(u.user_geolat)) * COS(RADIANS(u.user_geolng) - RADIANS(" . $lng . ")) + SIN(RADIANS(" . $lat . ")) * SIN(RADIANS(u.user_geolat))))) AS distance
             FROM tb_user u
             HAVING distance < " . $jarak . "
             and u.user_privacy = 0
-            and u.user_deleted = 0;";
+            and u.user_deleted = 0
+            Order by distance ASC;";
     return good_query_allrow($sql);
 }
 ?>

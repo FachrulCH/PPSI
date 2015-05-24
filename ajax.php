@@ -229,7 +229,7 @@ elseif($do == 'login'){
 elseif($do == 'updatemember'){
     //*** inisiasi nilai
     $status = false;
-    $pesan  = "berhasil di update";
+    $pesan  = "";
     $hasil  = $_POST;
     $lokasi = isset($_POST['location'])? explode(',', $_POST['location']): NULL;
     $hasil  = User_update($_POST['t_bio'], $_POST['t_nama_lengkap'], 
@@ -238,10 +238,13 @@ elseif($do == 'updatemember'){
                             $_POST['t_sosmed'], $_POST['t_lokasi'], @$lokasi[0], @$lokasi[1]);
     
     if ($hasil == 1){
+        //$status = TRUE;
         $pesan = "Tidak ada data yg terupdate";
     }elseif ($hasil == 2) {
+        $status = 1;
         $pesan = "Datamu berhasil terupdate";
     }else{
+        $status = 3;
         $pesan = "Kesalahan dalam mengupdate data";
     }
     

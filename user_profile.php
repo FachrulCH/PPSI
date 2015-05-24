@@ -331,7 +331,7 @@ $user_profil    = User_get_profil($user_id);
                         </select>
                     </li>
                     <li class="ui-field-contain">
-                        <a href="#popupLogin" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-lock ui-btn-icon-left ui-btn-b" data-transition="pop" id="b_ubah">Ubah kata sandi</a>
+                        <a href="#popupGanti" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-lock ui-btn-icon-left ui-btn-b" data-transition="pop" id="b_ubah">Ubah kata sandi</a>
                     </li>
                     <li class="ui-field-contain">
                         <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Hapus Akun</a>
@@ -340,14 +340,14 @@ $user_profil    = User_get_profil($user_id);
             </div>
             
 
-<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+<div data-role="popup" id="popupGanti" data-theme="a" class="ui-corner-all">
 <form>
 <div style="padding:10px 20px;">
 <h3>Konfirmasi</h3>
 <input type="password" name="pass" id="pw" value="" placeholder="Kata sandi sebelumnya:">
 <input type="password" name="pass" id="pw" value="" placeholder="Kata sandi baru">
 <input type="password" name="pass" id="pw" value="" placeholder="Ulangi kata sandi baru">
-<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Ubah</button>
+<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" onclick="alert('Proses ganti password');">Ubah</button>
 </div>
 </form>
 </div>
@@ -361,7 +361,7 @@ $user_profil    = User_get_profil($user_id);
 <h3 class="ui-title">Apa kamu yakin mau menghapus akun ini?</h3>
 <p>Aksi ini ga bisa di cancel loh ya</p>
 <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Batal</a>
-<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Hapus</a>
+<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-transition="flow" onclick="alert('Proses delete');">Hapus</a>
 </div>
 </div>
 	</article><!-- /content -->
