@@ -36,6 +36,10 @@
 .profilHeader{
     width: 300px;
 }
+.left {float:left}
+.right {float:right}
+.clear {clear:both}
+
 .profilFoto{
     
 }

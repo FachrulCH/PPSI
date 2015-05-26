@@ -34,7 +34,7 @@ function get_panel()
         $tripnya_user = User_member_trip($user_id); //==> ambil data user's trip
 
         echo '
-	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
+	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="push">
 		<div class="ketengah">
 			<a href="#">';
         if (empty($user['user_foto'])){                
@@ -90,7 +90,7 @@ function get_panel()
 function get_panel_search()
 {
 echo '
-	<div data-role="panel" id="panelSearch" data-position="right" data-position-fixed="true" data-display="overlay">
+	<div data-role="panel" id="panelSearch" data-position="right" data-position-fixed="true" data-display="push">
             <form action="#" method="get">
                 <input type="search" placeholder="Mau jalan jalan kemana?" class="ui-btn-inline">
                 <button class="ui-btn ui-icon-search ui-btn-icon-left ui-mini">Cari</button>

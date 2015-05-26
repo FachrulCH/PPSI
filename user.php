@@ -17,6 +17,7 @@ $userList = User_seperjalanan();
         get_meta('TemanBackpacker.com');
         ?>
         <script src="<?= URLSITUS ?>js/jquery.cookie.js"></script>
+        <script src="<?= URLSITUS ?>src/geograpi/modernizr-geo.js" type="text/javascript"></script>
     </head>
     <body>
         <section data-role="page" id="home">
@@ -58,74 +59,6 @@ $userList = User_seperjalanan();
                     }
                     ?>
                 </ul>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        function showPosition(position) {
-                            var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
-                            if (check == true) {
-                                // simpan posisi user di cookie, selama membuka browser
-                                $.cookie("lat", position.coords.latitude);
-                                $.cookie("lng", position.coords.longitude);
-                                $.cookie("ijin", 1, {expires: 3});
-                                $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
-                                    transition: 'flip',
-                                    showLoadMsg: true
-                                });
-                                //alert(position.coords.latitude +"<br>" + position.coords.longitude);
-                            } else {
-                                return false;
-                            }
-                        }
-
-                        function showError(error) {
-                            switch (error.code) {
-                                case error.PERMISSION_DENIED:
-                                    dialogin("Kamu tidak mengijinkan TemanBackpacker mengakses lokasi kamu :( <br/> <a href='<?= URLSITUS ?>faq.php#geolocation'>lihat penjelasan</a>");
-                                    break;
-                                case error.POSITION_UNAVAILABLE:
-                                    dialogin("Informasi lokasi kamu tidak tersedia");
-                                    dialogin;
-                                case error.TIMEOUT:
-                                    dialogin("Terlalu lama untuk menemukan lokasi kamu");
-                                    break;
-                                case error.UNKNOWN_ERROR:
-                                    dialogin("Terjadi kesalahan teknis");
-                                    break;
-                            }
-                        }
-                        $('.sekitar').on('click', function () {
-                            //alert("di klik");
-                            if ($.cookie("ijin") != 1) {
-
-                                // Kalo udah di setujui, akses user posisi
-                                // load modernizr dinamicly buat akses html5 geolocation
-                                $.getScript('<?= URLSITUS ?>src/geograpi/modernizr-geo.js', function () {
-                                    if (Modernizr.geolocation) {
-                                        //elem.innerHTML = 'Your browser supports geolocation.';
-                                        navigator.geolocation.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
-                                    } else {
-                                        //'Your browser does not support geolocation.';
-                                        // gunakan plugin js geoposition kalo tidak mendukung html5
-                                        $.getScript('<?= URLSITUS ?>src/geograpi/geoPosition.js', function () {
-                                            if (geoPosition.init()) {  // Geolocation Initialisation
-                                                geoPosition.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
-                                            } else {
-                                                // You cannot use Geolocation in this device
-                                            }
-                                        });
-
-                                    }
-                                });
-
-                            } else {
-                                $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
-                                    transition: 'flip',
-                                    showLoadMsg: true
-                                });
-                            }
-                        });
-                    });
-                </script>
             </article><!-- /content -->
             <?php
             get_footer();
@@ -173,119 +106,6 @@ $userList = User_seperjalanan();
                 </ul>
 
             </article>
-            <!-- Peta -->
-            <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-            <script src="<?= URLSITUS ?>js/jquery.geocomplete.min.js"></script>
-            <!-- End Peta -->
-            <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#t_tujuan").geocomplete({
-                            details: "#hasil"
-                        });
-
-                        var URL = '<?= URLSITUS ?>';
-
-                        $('#f_pencarian').on('submit', function (e) {
-                            e.preventDefault();
-                            //var data = $(this).serialize();
-                            var data = $("#t_location").val().split(',');
-                            var latLng = "lat=" + data[0] + "&lng=" + data[1];
-                            console.log('proses pencarian ' + latLng);
-                            customAjax('<?= URLSITUS ?>api/usersekitar/', latLng, function (data) {
-                                //console.log(data);
-                                $('#listCari').empty();
-                                if (data.length > 1) {
-                                    for (i = 0; i < data.length; i++) {
-                                        //alert(obj.tagName);
-                                        var html = '<li><a href="' + URL + 'username/' + data[i].user_username.toLowerCase() + '/" data-ajax="false"><img src="' + URL + '_gambar/user/' + data[i].user_foto + '" class="ui-li-thumb"/><h2>' + data[i].user_username + '</h2><p>' + data[i].user_lokasi.split(',').splice(0, 2) + '</p><p class="ui-li-aside garisKotak">' + data[i].distance + ' Km</p></a></li>';
-                                        $('#listCari').append(html);
-                                    }
-                                    ;
-                                    $('#listCari').listview('refresh');
-                                } else {
-                                    var html = "Hmm.. sepertinya belum ada temanbackpacker disekitar kamu (>_<)";
-                                    dialogin(html);
-                                    $('#listCari').append(html);
-                                }
-                            });
-                        });
-
-//                        $('.sekitar').on('click', function () {
-//                            //alert("di klik");
-//                            //$(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
-////                            transition: 'flip',
-////                                    changeHash: false,
-////                                    reverse: true,
-////                                    showLoadMsg: true
-////                        });
-//                    });
-
-                        function showPosition(position) {
-                            var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
-                            if (check == true) {
-                                // simpan posisi user di cookie, selama membuka browser
-                                $.cookie("lat", position.coords.latitude);
-                                $.cookie("lng", position.coords.longitude);
-                                $.cookie("ijin", 1, {expires: 3});
-                                $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
-                                    transition: 'flip',
-                                    showLoadMsg: true
-                                });
-                                //alert(position.coords.latitude +"<br>" + position.coords.longitude);
-                            } else {
-                                return false;
-                            }
-                        }
-
-                        function showError(error) {
-                            switch (error.code) {
-                                case error.PERMISSION_DENIED:
-                                    dialogin("Kamu tidak mengijinkan TemanBackpacker mengakses lokasi kamu :( <br/> <a href='<?= URLSITUS ?>faq.php#geolocation'>lihat penjelasan</a>");
-                                    break;
-                                case error.POSITION_UNAVAILABLE:
-                                    dialogin("Informasi lokasi kamu tidak tersedia");
-                                    dialogin;
-                                case error.TIMEOUT:
-                                    dialogin("Terlalu lama untuk menemukan lokasi kamu");
-                                    break;
-                                case error.UNKNOWN_ERROR:
-                                    dialogin("Terjadi kesalahan teknis");
-                                    break;
-                            }
-                        }
-                        $('.sekitar').on('click', function () {
-                            //alert("di klik");
-                            if ($.cookie("ijin") != 1) {
-
-                                // Kalo udah di setujui, akses user posisi
-                                // load modernizr dinamicly buat akses html5 geolocation
-                                $.getScript('<?= URLSITUS ?>src/geograpi/modernizr-geo.js', function () {
-                                    if (Modernizr.geolocation) {
-                                        //elem.innerHTML = 'Your browser supports geolocation.';
-                                        navigator.geolocation.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
-                                    } else {
-                                        //'Your browser does not support geolocation.';
-                                        // gunakan plugin js geoposition kalo tidak mendukung html5
-                                        $.getScript('<?= URLSITUS ?>src/geograpi/geoPosition.js', function () {
-                                            if (geoPosition.init()) {  // Geolocation Initialisation
-                                                geoPosition.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
-                                            } else {
-                                                // You cannot use Geolocation in this device
-                                            }
-                                        });
-
-                                    }
-                                });
-
-                            } else {
-                                $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
-                                    transition: 'flip',
-                                    showLoadMsg: true
-                                });
-                            }
-                        });
-                    });
-            </script>
         </section>
 
         <section data-role="page" id="sekitarmu">
@@ -317,34 +137,138 @@ $userList = User_seperjalanan();
                         </a>
                     </li>
                 </ul>
-                <script src="<?= URLSITUS ?>js/main.js"></script>
-                <script type="text/javascript">
-                    $(document).on("pagebeforeshow", "#sekitarmu", function () { // When entering pagetwo
-                        //alert("pagetwo is about to be shown ");
-                        var latLng = "lat=" + $.cookie("lat") + "&lng=" + $.cookie("lng");
-                        //console.log("kirim "+latLng);
-                        var URL = '<?= URLSITUS ?>';
-                        customAjax('<?= URLSITUS ?>api/usersekitar/', latLng, function (data) {
-                            //console.log(data);
-                            $('#listUserSekitar').empty();
-                            if (data.length > 1) {
-                                for (i = 0; i < data.length; i++) {
-                                    //alert(obj.tagName);
-                                    var html = '<li><a href="' + URL + 'username/' + data[i].user_username.toLowerCase() + '/" data-ajax="false"><img src="' + URL + '_gambar/user/' + data[i].user_foto + '" class="ui-li-thumb"/><h2>' + data[i].user_username + '</h2><p>' + data[i].user_info + '</p><p class="ui-li-aside garisKotak">' + data[i].distance + ' Km</p></a></li>';
-                                    $('#listUserSekitar').append(html);
-                                };
-                                $('#listUserSekitar').listview('refresh');
-                            } else {
-                                var html = "Hmm.. sepertinya belum ada temanbackpacker disekitar kamu (>_<)";
-                                dialogin(html);
-                                $('#listUserSekitar').append(html);
-                            }
-                        });
-
-                    });
-                </script>
             </article>
         </section>
+        <!-- Peta -->
+        <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <script src="<?= URLSITUS ?>js/jquery.geocomplete.min.js"></script>
+        <!-- End Peta -->
+        <script src="<?= URLSITUS ?>js/main.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#t_tujuan").geocomplete({
+                    details: "#hasil"
+                });
+
+                var URL = '<?= URLSITUS ?>';
+
+                $('#f_pencarian').on('submit', function (e) {
+                    e.preventDefault();
+                    //var data = $(this).serialize();
+                    var data = $("#t_location").val().split(',');
+                    var latLng = "lat=" + data[0] + "&lng=" + data[1];
+                    console.log('proses pencarian ' + latLng);
+                    customAjax('<?= URLSITUS ?>api/usersekitar/', latLng, function (data) {
+                        //console.log(data);
+                        $('#listCari').empty();
+                        if (data.length > 1) {
+                            for (i = 0; i < data.length; i++) {
+                                //alert(obj.tagName);
+                                var html = '<li><a href="' + URL + 'username/' + data[i].user_username.toLowerCase() + '/" data-ajax="false"><img src="' + URL + '_gambar/user/' + data[i].user_foto + '" class="ui-li-thumb"/><h2>' + data[i].user_username + '</h2><p>' + data[i].user_lokasi.split(',').splice(0, 2) + '</p><p class="ui-li-aside garisKotak">' + data[i].distance + ' Km</p></a></li>';
+                                $('#listCari').append(html);
+                            }
+                            ;
+                            $('#listCari').listview('refresh');
+                        } else {
+                            var html = "Hmm.. sepertinya belum ada temanbackpacker disekitar kamu (>_<)";
+                            dialogin(html);
+                            $('#listCari').append(html);
+                        }
+                    });
+                });
+
+
+                function showPosition(position) {
+                    var check = confirm("TemanBackpacker.com perlu ijin untuk mengakses lokasi kamu sekarang");
+                    if (check == true) {
+                        // simpan posisi user di cookie, selama membuka browser
+                        $.cookie("lat", position.coords.latitude);
+                        $.cookie("lng", position.coords.longitude);
+                        $.cookie("ijin", 1, {expires: 3});
+                        $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
+                            transition: 'flip',
+                            showLoadMsg: true
+                        });
+                        //alert(position.coords.latitude +"<br>" + position.coords.longitude);
+                    } else {
+                        return false;
+                    }
+                }
+
+                function showError(error) {
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            dialogin("Kamu tidak mengijinkan TemanBackpacker mengakses lokasi kamu :( <br/> <a href='<?= URLSITUS ?>faq.php#geolocation'>lihat penjelasan</a>");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            dialogin("Informasi lokasi kamu tidak tersedia");
+                            dialogin;
+                        case error.TIMEOUT:
+                            dialogin("Terlalu lama untuk menemukan lokasi kamu");
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            dialogin("Terjadi kesalahan teknis");
+                            break;
+                    }
+                }
+                $('.sekitar').on('click', function () {
+                    //alert("di klik");
+                    if ($.cookie("ijin") != 1) {
+
+                        // Kalo udah di setujui, akses user posisi
+                        // load modernizr dinamicly buat akses html5 geolocation
+                        //$.getScript('<?= URLSITUS ?>src/geograpi/modernizr-geo.js', function () {
+                        if (Modernizr.geolocation) {
+                            //elem.innerHTML = 'Your browser supports geolocation.';
+                            navigator.geolocation.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
+                        } else {
+                            //'Your browser does not support geolocation.';
+                            // gunakan plugin js geoposition kalo tidak mendukung html5
+                            $.getScript('<?= URLSITUS ?>src/geograpi/geoPosition.js', function () {
+                                if (geoPosition.init()) {  // Geolocation Initialisation
+                                    geoPosition.getCurrentPosition(showPosition, showError, {maximumAge: 600000});
+                                } else {
+                                    // You cannot use Geolocation in this device
+                                }
+                            });
+
+                        }
+                        //});
+
+                    } else {
+                        $(':mobile-pagecontainer').pagecontainer('change', '#sekitarmu', {
+                            transition: 'flip',
+                            showLoadMsg: true
+                        });
+                    }
+                });
+            });
+
+            $(document).on("pagebeforeshow", "#sekitarmu", function () { // When entering pagetwo
+                //alert("pagetwo is about to be shown ");
+                var latLng = "lat=" + $.cookie("lat") + "&lng=" + $.cookie("lng");
+                //console.log("kirim "+latLng);
+                var URL = '<?= URLSITUS ?>';
+                customAjax('<?= URLSITUS ?>api/usersekitar/', latLng, function (data) {
+                    //console.log(data);
+                    $('#listUserSekitar').empty();
+                    if (data.length > 1) {
+                        for (i = 0; i < data.length; i++) {
+                            //alert(obj.tagName);
+                            var html = '<li><a href="' + URL + 'username/' + data[i].user_username.toLowerCase() + '/" data-ajax="false"><img src="' + URL + '_gambar/user/' + data[i].user_foto + '" class="ui-li-thumb"/><h2>' + data[i].user_username + '</h2><p>' + data[i].user_info + '</p><p class="ui-li-aside garisKotak">' + data[i].distance + ' Km</p></a></li>';
+                            $('#listUserSekitar').append(html);
+                        }
+                        ;
+                        $('#listUserSekitar').listview('refresh');
+                    } else {
+                        var html = "Hmm.. sepertinya belum ada temanbackpacker disekitar sini (>_<)";
+                        dialogin(html);
+                        $('#listUserSekitar').append(html);
+                    }
+                });
+
+            });
+        </script>
     </body>
 </html>
 <?php

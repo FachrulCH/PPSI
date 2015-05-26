@@ -70,8 +70,8 @@ function customAjax(u, d, callback) {
             } else {
                 dialogin(result.pesan);
                 if (result.status == 3){
-                    //reset capcay kalo status false
-                    //grecaptcha.reset(); 
+                    //reset capcay kalo status 3
+                    grecaptcha.reset(); 
                 }
             }
         },
@@ -87,4 +87,13 @@ function customAjax(u, d, callback) {
     });
 }
 
-
+$(document).on("swipeleft", "#home", function (e) {
+// We check if there is no open panel on the page because otherwise
+// a swipe to close the left panel would also open the right panel (and v.v.).
+// We do this by checking the data that the framework stores on the page element (panel: open).
+    if ($(".ui-page-active").jqmData("panel") !== "open") {
+        if (e.type === "swipeleft") {
+            $("#menuPanel").panel("open");
+        } 
+    }
+});

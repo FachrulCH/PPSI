@@ -71,6 +71,30 @@ if ($do == 'tanya'){
         
 // =========================================================================== //	
 }
+elseif ($do == 'chatpm'){
+    $captcha   = $_POST['t_capcay'];
+    $t_judul    = $_POST['t_judul'];
+    $t_pm_pesan = $_POST['t_pm_pesan'];
+    $chat_for_id = (int) dekripsi($_POST['u']);
+    $chat_sender = @$_SESSION['user_id'];
+    
+    ///***** Validasi capcay****///
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User anda tidak lolos captcha";
+       $status  = 3; //reset captcha
+       $hasil   = NULL;
+    } else {
+        // user valid
+        $result = Chat_save_pm($chat_for_id, $chat_sender, $t_pm_pesan, $t_judul);
+        if ($result){$status = 1;}
+        $pesan	= "Pertanyaanmu berhasil di kirimkan";
+    }
+        $hasil 	= array('status' => $status, 'pesan' => $pesan);
+	echo json_encode($hasil);
+// =========================================================================== //
+}
 elseif ($do == 'ijingabung'){
 	$status = true;
 	$pesan	= "Permintaan gabung berhasil. Tunggu approval penyelenggara trip ya";

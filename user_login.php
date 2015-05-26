@@ -64,7 +64,7 @@ include_once "_include/template.php";
 				var kirim = $("#formLogin").serialize();
                                 //console.log(kirim);
 				customAjax('<?= URLSITUS ?>api/login/',kirim,function (data) {
-					alert(data);
+					//alert(data);
                                         <?php
                                             if (isset($_GET['red'])){
                                                 //kalo ada pilihan red berarti setelah login kembali ke halaman sebelumnya

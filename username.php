@@ -6,6 +6,7 @@ include_once "_include/user.php";
 
 $username = $_GET['id'];
 $u = User_get_profil_by_name($username);
+$user_idnya = enkripsi($u['user_id']);
 
 if (empty($u['user_foto'])){                
     $foto = URLSITUS.'css/images/profile.jpg';
@@ -28,6 +29,7 @@ if (empty($u['user_foto'])){
                 text-decoration: none;
             }
         </style>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
         <section data-role="page" id="home">
@@ -88,16 +90,20 @@ if ($u['user_id'] != @$_SESSION['user_id']) {
 <?php
 }else{
 ?>
-                <div style="text-align: right">
+                <div class="left">
+                    <a href="#inbox" class="ui-btn ui-btn-inline ui-icon-mail ui-btn-icon-left" data-ajax="false">Kotak Masuk</a>
+                </div>
+                <div class="right">
                     <a href="<?= URLSITUS ?>user/profil/" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit Profil</a>
                 </div>
+                <div style="clear: both"></div>
 <?php
 }
 ?>
                 <ul data-role="listview" data-inset="true">
                     <li class="ui-field-contain"><label for="t_bio">Lokasi</label><p id="t_bio"><?= $u['user_lokasi'] ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Umur</label><p id="t_bio"><?= umur($u['user_ttl'])?> tahun</p></li>
-                    <li class="ui-field-contain"><label for="t_bio">Perjalanan Paling disukai</label><p id="t_bio"><?= $u['user_exp'] ?></p></li>
+                    <li class="ui-field-contain"><label for="t_bio">Perjalanan Favorit</label><p id="t_bio"><?= $u['user_exp'] ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Akun sosmed</label><p id="t_bio"><?= $u['user_sosmed'] ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Jenis Kelamin</label><p id="t_bio"><?= ($u['user_gender'] == 'P') ? 'Perempuan' : 'Laki-laki'; ?></p></li>
                     <li class="ui-field-contain"><label for="t_bio">Label</label><p id="t_bio"><?= $u['user_reputasi'] ?></p></li>
@@ -106,10 +112,11 @@ if ($u['user_id'] != @$_SESSION['user_id']) {
                 <div data-role="popup" id="popupPM" data-theme="a" class="ui-corner-all">
                         <div style="padding:10px 20px;">
                             <h3>Pesan Pribadi</h3>
-                            <label for="un" class="ui-hidden-accessible">Judul:</label>
-                            <input type="text" name="t_judul" id="un" value="" placeholder="Judul Pesan">
-                            <label for="pw" class="ui-hidden-accessible">Pesan:</label>
-                            <textarea cols="50"></textarea>
+                            <label for="t_pm_judul" class="ui-hidden-accessible">Judul:</label>
+                            <input type="text" name="t_pm_judul" id="t_pm_judul" maxlength="25" placeholder="Judul Pesan">
+                            <label for="t_pm_pesan" class="ui-hidden-accessible">Pesan:</label>
+                            <textarea cols="50" id="t_pm_pesan" maxlength="250" placeholder="Pesan"></textarea>
+                            <div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div>
                             <button type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check" id="b_pesan">Kirim</button>
                         </div>
                 </div>
@@ -118,6 +125,46 @@ if ($u['user_id'] != @$_SESSION['user_id']) {
             get_footer();
             ?>
         </section><!-- /page -->
+        
+        <section data-role="page" id="inbox">
+<?php
+        // Memanggil fungsi untuk generate panel samping
+        get_panel();
+        // Membuat menu header, isinya tombol back dan panel
+        // Memiliki argumen variabel jugul header
+        get_header('Inbox');
+?>
+	<article role="main" class="ui-content">
+            <div data-role="collapsibleset" data-theme="b" data-content-theme="b" data-mini="true" data-collapsed-icon="arrow-r" data-expanded-icon="arrow-d">
+                <div data-role="collapsible">
+                    <h3>si udin :: ini judulnya <abbr class="right">Sejam lalu</abbr></h3>
+                    <p>Specify the open and close icons on the set to apply it to all the collapsibles within.</p>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Dari si apah | 2 jam lalu</h3>
+                    <p>This collapsible also gets the icon from the set.</p>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Dari tadi | sehari lalu</h3>
+                    <p>This collapsible also gets the icon from the set.</p>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Icon set on the set</h3>
+                    <p>This collapsible also gets the icon from the set.</p>
+                </div>
+                <div data-role="collapsible">
+                    <h3>Icon set on the set</h3>
+                    <p>This collapsible also gets the icon from the set.</p>
+                </div>
+
+            </div>
+            
+	</article><!-- /content -->
+<?php
+        get_footer();
+?>
+</section><!-- /page -->
+
 <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
 <script type="text/javascript" src="<?= URLSITUS ?>js/main.js" ></script>
 <script type="text/javascript">
@@ -125,7 +172,29 @@ if ($u['user_id'] != @$_SESSION['user_id']) {
         jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
         
         $('#b_pesan').on('click', function () {
-           alert("Proses simpan")    
+            
+           //alert("Proses simpan")
+           var judulpm = $('#t_pm_judul').val();
+           var pesanpm = $('#t_pm_pesan').val();
+           
+           if (judulpm.trim() == "" || pesanpm.trim() == ""){
+               alert("Isi dengan lengkap");
+               $('#t_pm_judul').focus();
+               return false;
+           }
+           if(grecaptcha.getResponse() == ""){
+                alert("Klik captcha dahulu");
+                return false;
+            }
+            
+           var kirim = "t_capcay="+$('#g-recaptcha-response').val()+"&u=<?= $user_idnya ?>&t_judul="+judulpm+"&t_pm_pesan="+pesanpm;
+           $( "#popupPM" ).popup( "close" );
+           customAjax('<?= URLSITUS ?>api/chatpm/', kirim, function (data) {
+                //console.log(data);
+                
+                $('#t_pm_judul').val("");
+                $('#t_pm_pesan').val("");
+            });
         });
     });
 </script>

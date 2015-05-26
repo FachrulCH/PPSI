@@ -192,8 +192,8 @@ $_SESSION['user_id'] = 1;
 <head>
 	<title></title>
 	<!-- validator -->
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<!-- validator -->
+<!--	<script type="text/javascript" src="js/jquery.js"></script>
+	 validator 
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="js/jquery.timeago.js"></script>
         <script src="src/trianglify/trianglify.min.js"></script>
@@ -204,7 +204,7 @@ $_SESSION['user_id'] = 1;
         <script src="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.js"></script>
         <script src="<?= URLSITUS ?>js/jquery.modal.js"></script>
         <link rel="stylesheet" href="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.css" />
-        <link rel="stylesheet" href="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.css" />
+        <link rel="stylesheet" href="<?= URLSITUS ?>src/jcrop/jquery.Jcrop.min.css" />-->
 </head>
 <style type="text/css">
     .popup__body {
@@ -280,9 +280,14 @@ $_SESSION['user_id'] = 1;
                 <div class="js-upload btn btn_browse btn_browse_small">Upload</div>
         </div>
 </div>-->
+<?php //
+//$u = User_seperjalanan();
+//print_r(json_encode($u));
+?>
+
 <?php
-$u = User_seperjalanan();
-print_r(json_encode($u));
+echo "ini hasilnya coy=>" . dekripsi("313233343536373832");
+
 ?>
 </body>
 </html>

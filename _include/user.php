@@ -156,7 +156,7 @@ function User_member_trip($user_id)
 function User_get_profil_by_name($username) 
 {
     $username = strtolower(sanitize($username));
-    $sql = "select A.*,
+    $sql = "select A.user_id,A.user_name,A.user_username,A.user_email,A.user_lokasi, A.user_ttl, A.user_foto, A.user_bio,A.user_reg_date,A.user_info,A.user_geolat,A.user_geolng,A.user_exp,A.user_reputasi,A.user_sosmed, A.user_gender,
         (select count(1) from tb_pengalaman B where B.pengalaman_user_id = A.user_id) as user_pengalaman, 
         (select count(1) from tb_trip_member C where C.member_status in ('A','C') and C.member_user_id = A.user_id) as user_perjalanan 
         from tb_user A where LOWER(A.user_username) = '{$username}'; ";

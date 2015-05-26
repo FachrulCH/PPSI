@@ -146,9 +146,7 @@ $user_profil    = User_get_profil($user_id);
                         <label for="t_lokasi">Lokasi sekarang </label>
                         <input type="text" name="t_lokasi" id="t_lokasi" value="<?= $user_profil['user_lokasi'] ?>" data-clear-btn="true" required="required">
                         <div id="hasil"> 
-					<input name="location" type="hidden" value="">
-                                        <input name="administrative_area_level_1" type="hidden" value="">
-                                        <input name="administrative_area_level_2" type="hidden" value="">
+					<input name="location" type="hidden" value="<?= $user_profil['user_geolat'] .",". $user_profil['user_geolng'] ?>">
 					<input name="formatted_address" type="hidden" value="" id="lokasi2">
 <!--					<span name="administrative_area_level_1" id="lokasi"></span>-->
 			</div>	
