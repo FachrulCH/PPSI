@@ -118,7 +118,7 @@ function User_loginbyemail($email, $password)
 function User_get_profil($user_id) 
 {
     $user_id = (int) sanitize($user_id);
-    $sql = "SELECT * FROM tb_user WHERE user_id = {$user_id}";
+    $sql = "SELECT b.user_id,b.user_name,b.user_username,b.user_email,b.user_lokasi, b.user_ttl, b.user_foto, b.user_bio,b.user_reg_date,b.user_info,b.user_geolat,b.user_geolng,b.user_exp FROM tb_user b WHERE b.user_id = {$user_id}";
     return good_query_assoc($sql);
 }
 
@@ -206,6 +206,13 @@ function User_seperjalanan()
 function User_sekitar($lat, $lng) 
 {
     $jarak = 10;
+    
+    if ($lat == 'undefined' OR $lng == 'undefined'){
+        $ip = get_user_ip();
+        $query = @unserialize(file_get_contents('http://ip-api.com/php/'.$ip));
+        $lat = @$query['lat'];
+        $lng = @$query['lon'];
+    }
     // jarak di FLOOR ke bawah
     $sql = "SELECT user_id,user_name,user_username,user_lokasi,user_gender,IFNULL(user_foto,'default.gif') as user_foto,user_bio,user_info, user_privacy, user_deleted, FLOOR((6371 * ACOS(COS(RADIANS(" . $lat . ")) * COS(RADIANS(u.user_geolat)) * COS(RADIANS(u.user_geolng) - RADIANS(" . $lng . ")) + SIN(RADIANS(" . $lat . ")) * SIN(RADIANS(u.user_geolat))))) AS distance
             FROM tb_user u
