@@ -183,7 +183,7 @@ function User_seperjalanan()
                 $tujuan = implode(",", array_slice(explode(",", $row['trip_tujuan']), 0, 2));
             }
             // Perjalanan impian / rencana perjalanan
-            if ($row['trip_date1'] == "0000-00-00"){
+            if (trim($row['trip_date1']) == "0000-00-00"){
                 $konjungsi = " ingin";
                 $tgl = "Perjalanan Impian";
             }else{
@@ -210,8 +210,8 @@ function User_sekitar($lat, $lng)
     if ($lat == 'undefined' OR $lng == 'undefined'){
         $ip = get_user_ip();
         $query = @unserialize(file_get_contents('http://ip-api.com/php/'.$ip));
-        $lat = @$query['lat'];
-        $lng = @$query['lon'];
+        $lat = (float) @$query['lat'];
+        $lng = (float) @$query['lon'];
     }
     // jarak di FLOOR ke bawah
     $sql = "SELECT user_id,user_name,user_username,user_lokasi,user_gender,IFNULL(user_foto,'default.gif') as user_foto,user_bio,user_info, user_privacy, user_deleted, FLOOR((6371 * ACOS(COS(RADIANS(" . $lat . ")) * COS(RADIANS(u.user_geolat)) * COS(RADIANS(u.user_geolng) - RADIANS(" . $lng . ")) + SIN(RADIANS(" . $lat . ")) * SIN(RADIANS(u.user_geolat))))) AS distance

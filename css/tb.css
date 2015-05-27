@@ -8,6 +8,12 @@
 .hrfKecil{
     font-size: .8em;
 }
+.hrfKecilBgt{
+    font-size: .6em !important;
+}
+.normalin{
+    white-space:normal !important;
+}
 .blur-filter {
     -webkit-filter: blur(2px);
     -moz-filter: blur(2px);

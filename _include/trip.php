@@ -149,6 +149,45 @@ function Trip_total()
     return $sqlSelect['jum'];
 }
 
+function Tripnya ($sql)
+{
+    $result = good_query($sql);
+    while ($row = mysqli_fetch_assoc($result)){
+        $tujuan = "-";
+        if (!empty($row['trip_tujuan'])) {
+            // di ambil 2 lokasi terdepan
+            $tujuan = implode(",", array_slice(explode(",", $row['trip_tujuan']), 0, 1));
+        }
+        
+       if (trim($row['trip_date1']) == '0000-00-00'){
+           $trip_date = "<i>Perjalanan impian</i>";
+           $konjungsi = " ingin";
+       }else{
+           $trip_date = "Waktu: ".tanggalan($row['trip_date1']) ." s/d ". tanggalan($row['trip_date2']);
+           $konjungsi = " berencana";
+       }
+       
+       if (!empty($row['trip_gambar'])) {
+            $foto = $row['trip_gambar'];
+        } else {
+            $foto = "default.gif";
+        }
+        
+        $label = "<b>". $row['user_username'] ."</b>". $konjungsi ." ke ". $tujuan;
+                
+        $arr[] = array("trip_id"                => $row['trip_id'], 
+                        "trip_judul"            => $row['trip_judul'],
+                        "label"                 => $row['user_username'],
+                        "trip_created_date"     => $row['trip_created_date'],
+                        "chat"                  => @$row['chat'],
+                        "trip_gambar"           => $foto,
+                        "trip_date"             => $trip_date,
+                        "label"                 => $label
+                        );
+    }
+    return $arr;
+}
+
 function Trip_load_new($page, $batas)
 {
     $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
@@ -157,7 +196,8 @@ function Trip_load_new($page, $batas)
             from v_trip_list 
             limit {$posisi}, {$batas}" ;
     //return good_query_all($sql);
-    return good_query($sql);
+    //return good_query($sql);
+    return Tripnya($sql);
 }
 
 function Trip_load_hot($page, $batas)
@@ -166,10 +206,11 @@ function Trip_load_hot($page, $batas)
     // mengambil data HOT trip dari view
     $sql = "select a.*, (select count(1) from tb_chat b where b.chat_trip_id = a.trip_id) as chat 
             from v_trip_list a 
-            where a.trip_created_date between date_sub(now(),INTERVAL 1 WEEK) and now() 
+            where a.trip_created_date between date_sub(now(),INTERVAL 11 WEEK) and now() 
             order by chat desc limit {$posisi}, {$batas};";
     //return good_query_all($sql);
-    return good_query($sql);
+    //return good_query($sql);
+    return Tripnya($sql);
 }
 
 
