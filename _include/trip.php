@@ -7,68 +7,89 @@ if(@$statuskoneksi != 'connected'){
 function trip_save($trip_user_id, $trip_judul, $trip_tujuan,$trip_tuj_provinsi,$trip_tuj_kota, $trip_tujuan_geolat, $trip_tujuan_geolng, 
 					$trip_kategori, $trip_quota, $trip_date1, $trip_date2, $trip_info, $trip_transport, $trip_meeting_point)
 {
+//
+//	// Pembersihan variabel input sebelum masuk database
+//	$trip_user_id       = sanitize($trip_user_id);
+//	$trip_judul         = sanitize($trip_judul);
+//	$trip_tujuan        = sanitize($trip_tujuan);
+//        //$trip_tujuan_lengkap = sanitize($trip_tujuan_lengkap);
+//        $trip_tuj_provinsi  = sanitize($trip_tuj_provinsi);
+//        $trip_tuj_kota      = sanitize($trip_tuj_kota);
+//	$trip_tujuan_geolat = sanitize($trip_tujuan_geolat);
+//	$trip_tujuan_geolng = sanitize($trip_tujuan_geolng); 
+//	$trip_kategori      = sanitize($trip_kategori);
+//	$trip_quota         = sanitize($trip_quota);
+//	$trip_date1         = sanitize($trip_date1);
+//	$trip_date2         = sanitize($trip_date2);
+//	$trip_info          = sanitize($trip_info);
+//	$trip_transport     = sanitize($trip_transport);
+//	$trip_meeting_point = sanitize($trip_meeting_point);
+//	$trip_id            = $_SESSION['trip_id']; 			// Ambil ID trip nya dari session
+//	
+//        // turn off auto-commit
+//        global $db;
+//        mysqli_autocommit($db, FALSE);
+//	
+//        $hasil = 2;
+//        // insert data trip
+//	$sql = "INSERT INTO tb_trip 
+//                    (trip_id, trip_user_id, 
+//                    trip_judul, trip_tujuan, 
+//                    trip_tujuan_provinsi, trip_tujuan_kota, 
+//                    trip_tujuan_geolat, trip_tujuan_geolng, 
+//                    trip_kategori, trip_quota, 
+//                    trip_date1, trip_date2, 
+//                    trip_info, trip_transport, 
+//                    trip_meeting_point) 
+//		VALUES 	
+//                    ('{$trip_id}', '{$trip_user_id}',
+//                    '{$trip_judul}', '{$trip_tujuan}',
+//                    '{$trip_tuj_provinsi}','{$trip_tuj_kota}', 
+//                    '{$trip_tujuan_geolat}', '{$trip_tujuan_geolng}', 
+//                    '{$trip_kategori}', '{$trip_quota}', 
+//                    '{$trip_date1}', '{$trip_date2}', 
+//                    '{$trip_info}', '{$trip_transport}', 
+//                    '{$trip_meeting_point}');";
+//	$saveSql = good_query($sql);
+//	
+//        if ($saveSql !== TRUE) {
+//            mysqli_rollback($db);  // if error, roll back transaction
+//            $hasil = $hasil-1;
+//        }
+//	// insert ke trip member, user pembuat dengan status HOST
+//	$sqlM = "INSERT INTO tb_trip_member (member_trip_id, member_user_id, member_status) VALUES ('{$trip_id}', '{$trip_user_id}', 'A')";
+//	$sqlMdo = good_query($sqlM);
+//        
+//        if ($sqlMdo !== TRUE) {
+//            mysqli_rollback($db);  // if error, roll back transaction
+//            $hasil = $hasil-1;
+//        }
+//        
+//        // assuming no errors, commit transaction
+//        mysqli_commit($db);
+//        
+//        return $hasil;
+}
 
-	// Pembersihan variabel input sebelum masuk database
-	$trip_user_id       = sanitize($trip_user_id);
-	$trip_judul         = sanitize($trip_judul);
-	$trip_tujuan        = sanitize($trip_tujuan);
-        //$trip_tujuan_lengkap = sanitize($trip_tujuan_lengkap);
-        $trip_tuj_provinsi  = sanitize($trip_tuj_provinsi);
-        $trip_tuj_kota      = sanitize($trip_tuj_kota);
-	$trip_tujuan_geolat = sanitize($trip_tujuan_geolat);
-	$trip_tujuan_geolng = sanitize($trip_tujuan_geolng); 
-	$trip_kategori      = sanitize($trip_kategori);
-	$trip_quota         = sanitize($trip_quota);
-	$trip_date1         = sanitize($trip_date1);
-	$trip_date2         = sanitize($trip_date2);
-	$trip_info          = sanitize($trip_info);
-	$trip_transport     = sanitize($trip_transport);
-	$trip_meeting_point = sanitize($trip_meeting_point);
-	$trip_id            = $_SESSION['trip_id']; 			// Ambil ID trip nya dari session
-	
-        // turn off auto-commit
-        global $db;
-        mysqli_autocommit($db, FALSE);
-	
-        $hasil = 2;
-        // insert data trip
-	$sql = "INSERT INTO tb_trip 
-                    (trip_id, trip_user_id, 
-                    trip_judul, trip_tujuan, 
-                    trip_tujuan_provinsi, trip_tujuan_kota, 
-                    trip_tujuan_geolat, trip_tujuan_geolng, 
-                    trip_kategori, trip_quota, 
-                    trip_date1, trip_date2, 
-                    trip_info, trip_transport, 
-                    trip_meeting_point) 
-		VALUES 	
-                    ('{$trip_id}', '{$trip_user_id}',
-                    '{$trip_judul}', '{$trip_tujuan}',
-                    '{$trip_tuj_provinsi}','{$trip_tuj_kota}', 
-                    '{$trip_tujuan_geolat}', '{$trip_tujuan_geolng}', 
-                    '{$trip_kategori}', '{$trip_quota}', 
-                    '{$trip_date1}', '{$trip_date2}', 
-                    '{$trip_info}', '{$trip_transport}', 
-                    '{$trip_meeting_point}');";
-	$saveSql = good_query($sql);
-	
-        if ($saveSql !== TRUE) {
-            mysqli_rollback($db);  // if error, roll back transaction
-            $hasil = $hasil-1;
-        }
-	// insert ke trip member, user pembuat dengan status HOST
-	$sqlM = "INSERT INTO tb_trip_member (member_trip_id, member_user_id, member_status) VALUES ('{$trip_id}', '{$trip_user_id}', 'A')";
-	$sqlMdo = good_query($sqlM);
-        
-        if ($sqlMdo !== TRUE) {
-            mysqli_rollback($db);  // if error, roll back transaction
-            $hasil = $hasil-1;
-        }
-        
-        // assuming no errors, commit transaction
-        mysqli_commit($db);
-        
-        return $hasil;
+function Trip_new($t_judul, $t_isi, 
+                    $asal, $asal_lat, 
+                    $asal_lng, $t_tujuan, 
+                    $tujuan_lat, $tujuan_lng, 
+                    $t_tgl1, $t_tgl2, 
+                    $s_jenis, $kategori2, 
+                    $s_komen, $s_join, 
+                    $tgl){
+    $trip_id = @$_SESSION['exp_id'];
+    $user_id = @$_SESSION['user_id'];
+    $sql = "Insert into tb_trip (a.trip_id, a.trip_user_id, a.trip_judul, a.trip_tujuan, a.trip_tujuan_geolat, a.trip_tujuan_geolng, a.trip_asal, a.trip_asal_lat, a.trip_asal_lng, a.trip_jenis, a.trip_kategori, a.trip_date1, a.trip_date2, a.trip_detail, a.trip_flag_comm, a.trip_flag_join, a.trip_created_date) "
+            . "         Values ($trip_id, $user_id, $t_judul, $tujuan_lat, $tujuan_lng, $asal, $asal_lat, $asal_lng, $s_jenis, $kategori2
+                    $asal, $asal_
+                    $asal_lng, $t_tujuan, 
+                    $tujuan_lat, $tujuan_lng, 
+                    $t_tgl1, $t_tgl2, 
+                    $s_jenis, $kategori2, 
+                    $s_komen, $s_join, 
+                    $tgl)";
 }
 
 function trip_get_by_id($trip_id){
@@ -213,5 +234,21 @@ function Trip_load_hot($page, $batas)
     return Tripnya($sql);
 }
 
+function Trip_list($trip_list) {
+    if (empty($trip_list)) {
+        echo 'Data Trip tidak ditemukan';
+    } else {
+        foreach ($trip_list as $t) {
+            echo '<li>
+                    <a href="' . URLSITUS . 'trip/lihat/' . make_seo_name($t['trip_judul']) . '/' . $t['trip_id'] . '/" data-ajax="false">
+                        <img src="' . URLSITUS . '_gambar/galeri/thumb2/' . $t['trip_gambar'] . '" class="ui-li-thumb">
+                        <p class="normalin"><b>' . $t['trip_judul'] .'</b></p>
+                        <p class="hrfKecilBgt">' . @$t['label'] . '</p>
+                        <p class="hrfKecilBgt normalin">' . $t['trip_date'] . '</p>
+                    </a>
+                 </li>';
+        }
+    }
+}
 
 ?>

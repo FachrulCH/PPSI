@@ -60,7 +60,7 @@
     position: relative;
     display: block;
     overflow: hidden;
-    clear: both;
+/*    clear: both;*/
     font-size: .9em;
 }
 .breadcrumb li {

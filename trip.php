@@ -9,9 +9,9 @@ include_once "_include/trip.php";
 
 $m = isset($_GET['m']) ? $_GET['m'] : 'new';
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1; // mengambil data trip
-$batas = 5;                                       // jumlah trip perhalaman
-$jumData = Trip_total();                             //Jumlah halaman
-$JmlHalaman = ceil($jumData / $batas);                    //ceil digunakan untuk pembulatan keatas
+$batas = 5;                                             // jumlah trip perhalaman
+$jumData = Trip_total();                                //Jumlah halaman
+$JmlHalaman = ceil($jumData / $batas);                  //ceil digunakan untuk pembulatan keatas
 
 $breadcumb = array
     (array("link" => URLSITUS, "text" => "Home"),
@@ -23,16 +23,22 @@ if ($page > $JmlHalaman) {
     $page = $JmlHalaman;
 }
 
-if ($m == 'hot') {
-    // Karena hot trip cuma 10 trip dengan jumlah komentar teratas maka perlu di set default value
-    $page = 1;
-    $batas = 10;
-    $trip = Trip_load_hot($page, $batas);
-    $JmlHalaman = 1;
-    $breadcumb[] = array("link" => URLSITUS . "trip/?m=hot", "text" => "Hot");
-} else {
-    $trip = Trip_load_new($page, $batas);
-}
+//if ($m == 'hot') {
+//    // Karena hot trip cuma 10 trip dengan jumlah komentar teratas maka perlu di set default value
+//    $page = 1;
+//    $batas = 10;
+//    $trip = Trip_load_hot($page, $batas);
+//    $JmlHalaman = 1;
+//    $breadcumb[] = array("link" => URLSITUS . "trip/?m=hot", "text" => "Hot");
+//} else {
+//    $trip = Trip_load_new($page, $batas);
+//}
+
+//*** LOad hot trip
+
+
+$hot_trip = Trip_load_hot(1, 10);
+$new_trip = Trip_load_new($page, $batas);
 
 //Navigasi ke sebelumnya
 if ($page > 1) {
@@ -76,13 +82,95 @@ $loadKategori1 = Tmplt_get_kategori1();
         </style>
     </head>
     <body>
-        <section data-role="page" id="home" class="trip-grid">
+        <section data-role="page" id="new" class="trip-grid">
             <?php
             // Memanggil fungsi untuk generate panel samping
             get_panel();
             // Membuat menu header, isinya tombol back dan panel
             // Memiliki argumen variabel jugul header
             get_header('Rencana Perjalanan');
+            ?>
+            <article role="main" class="ui-content" class="ui-content" >
+                <span class="left">
+                    <span class="breadcrumb">
+                        <span id="brdcmb">
+                            <ul>
+                                <?php
+                                Tmplt_generate_breadcumb($breadcumb);
+                                ?>
+                            </ul>
+                        </span>
+                    </span>
+                </span>
+<?php
+if (isLogin()){
+    // User udah login
+?>
+                <span class="right">
+                    <a href="<?= URLSITUS ?>trip/baru/" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Buat trip baru</a>
+                </span>
+<?php
+}else{
+?>
+                <span class="right">
+                    <a href="<?= URLSITUS ?>trip/baru/" class="ui-btn ui-btn-inline ui-icon-edit ui-btn-icon-left" data-ajax="false">Buat trip baru</a>
+                </span>
+<?php                
+}
+?>
+                <div class="clear"></div>
+                <hr/>
+                <div class="ui-body ui-body-a ketengah">
+                    Temukan, diskusi bersama, dan atur ide petualanganmu bersama
+                </div>
+                <hr/>
+                <div data-role="navbar">
+                    <ul>
+<!--                        <li><a href="?m=new" data-transition="flip" <?php
+//                            if (!isset($_GET['m']) OR $_GET['m'] == 'new') {
+//                                echo 'class="ui-btn-active"';
+//                            }
+//                            ?> >New Trip</a></li>
+                        <li><a href="?m=hot" data-transition="fade" //<?php
+//                            if (@$_GET['m'] == 'hot') {
+//                                echo 'class="ui-btn-active"';
+//                            }
+                            ?>>Hot Trip</a></li>-->
+                            
+                        <li><a href="#new" data-transition="flip" class="ui-btn-active">New Trip</a></li>
+                        <li><a href="#hot" data-transition="fade">Hot Trip</a></li>
+                        <li><a href="#browse" data-transition="pop">Cari Trip</a></li>
+                    </ul>
+                </div><!-- /navbar -->
+
+                <ul data-role="listview" data-inset="true">
+<?php
+                            Trip_list($new_trip);
+?>
+                </ul>
+                <div style="text-align: center; clear: both" data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <?php
+                    if ($JmlHalaman != '1') {
+                        // Kalo jumlah halaman ada lebih dari 1, tampil paging
+                        // Tampilkan navigasi
+                        echo $prev . $nmr . $next;
+                    }
+                    ?>
+                </div>
+            </article><!-- /content -->
+            <?php
+            get_footer();
+            ?>
+        </section><!-- /page -->
+        
+        
+         <section data-role="page" id="hot" class="trip-grid">
+            <?php
+            // Memanggil fungsi untuk generate panel samping
+            get_panel();
+            // Membuat menu header, isinya tombol back dan panel
+            // Memiliki argumen variabel jugul header
+            get_header('Hot Trip');
             ?>
             <article role="main" class="ui-content" class="ui-content" >
                 <span class="left clear">
@@ -109,58 +197,25 @@ if (isLogin()){
                 <div class="clear"></div>
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="?m=new" data-transition="flip" <?php
-                            if (!isset($_GET['m']) OR $_GET['m'] == 'new') {
-                                echo 'class="ui-btn-active"';
-                            }
-                            ?> >New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="fade" <?php
-                            if (@$_GET['m'] == 'hot') {
-                                echo 'class="ui-btn-active"';
-                            }
-                            ?>>Hot Trip</a></li>
+                        <li><a href="#new" data-transition="flip">New Trip</a></li>
+                        <li><a href="#hot" data-transition="fade" class="ui-btn-active">Hot Trip</a></li>
                         <li><a href="#browse" data-transition="pop">Cari Trip</a></li>
                     </ul>
                 </div><!-- /navbar -->
 
                 <hr/>
                 <ul data-role="listview" data-inset="true">
-                    <?php
-                    if ($trip == FALSE) {
-                        echo 'Data Trip tidak ditemukan';
-                    } else {
-                        // Looping data trip terbaru
-                        //foreach (mysqli_fetch_assoc($trip) as $t){
-                        //while ($t = mysqli_fetch_assoc($trip)){
-                        foreach ($trip as $t) {
-                            ?>
-                            <li><a href="<?= URLSITUS . "trip/lihat/" . make_seo_name($t['trip_judul']) . "/" . $t['trip_id'] ?>/" data-ajax="false">
-                                    <img src="<?= URLSITUS ?>_gambar/galeri/thumb2/<?= $t['trip_gambar'] ?>" class="ui-li-thumb">
-                                    <p class="normalin"><b><?= $t['trip_judul'] ?></b></p>
-                                    <p class="hrfKecilBgt"><?= $t['label'] ?></p>
-                                    <p class="hrfKecilBgt normalin"><?= $t['trip_date'] ?></p>
-        <!--                            <p class="ui-li-aside"><?= $t['param_name'] ?></p>-->
-                                </a>
-                            </li>
-        <?php
-    }
-}
+<?php
+                Trip_list($hot_trip);
 ?>
                 </ul>
-                <div style="text-align: center; clear: both" data-role="controlgroup" data-type="horizontal" data-mini="true">
-                    <?php
-                    if ($JmlHalaman != '1') {
-                        // Kalo jumlah halaman ada lebih dari 1, tampil paging
-                        // Tampilkan navigasi
-                        echo $prev . $nmr . $next;
-                    }
-                    ?>
-                </div>
+                
             </article><!-- /content -->
             <?php
             get_footer();
             ?>
         </section><!-- /page -->
+        
         <section data-role="page" id="browse">
             <?php
             // Memanggil fungsi untuk generate panel samping
@@ -175,7 +230,7 @@ if (isLogin()){
                         <div id="brdcmb">
                             <ul>
 <?php
-Tmplt_generate_breadcumb($breadcumb);
+                            Tmplt_generate_breadcumb($breadcumb);
 ?>
                                 <li><a href="#browse" data-ajax="false">Browse</a></li>
                             </ul>
@@ -187,8 +242,8 @@ Tmplt_generate_breadcumb($breadcumb);
 
                 <div data-role="navbar">
                     <ul>
-                        <li><a href="?m=new" data-transition="flip">New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="slideup">Hot Trip</a></li>
+                        <li><a href="#new" data-transition="flip">New Trip</a></li>
+                        <li><a href="#hot" data-transition="fade">Hot Trip</a></li>
                         <li><a href="#browse" data-transition="pop" class="ui-btn-active">Cari Trip</a></li>
                     </ul>
                 </div><!-- /navbar -->
@@ -213,7 +268,7 @@ Tmplt_generate_breadcumb($breadcumb);
                             foreach ($loadKategori1 as $k) {
                                 ?>
                                 <option value="<?= $k['param_id'] ?>"><?= $k['param_name'] ?></option>
-    <?php
+<?php
 }
 ?>
                         </select>                     

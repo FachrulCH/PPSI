@@ -359,6 +359,44 @@ elseif($do == 'pengalamanhapus'){
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $_POST);
     echo json_encode($result);
 }
+elseif($do == 'rencanabaru'){
+    //*** inisiasi nilai
+    $status = FALSE;
+    $pesan  = "";
+    ///***** Validasi capcay****///
+    $captcha    = isset($_POST['g-recaptcha-response'])? $_POST['g-recaptcha-response'] : null;
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";
+       $status  = false;
+       $hasil   = NULL;
+    } else {
+        //***** user tervalidasi capcay
+        $tgl    = date("Y-m-d");
+        $lokasi_asal    = isset($_POST['asal_lokasi'])? explode(',', $_POST['asal_lokasi']): null;
+        $lokasi_tujuan  = isset($_POST['location'])? explode(',', $_POST['location']): null;
+        $hasil          = Trip_new(sanitize($_POST['t_judul']), clean_text($_POST['t_isi']), 
+                                    sanitize($_POST['t_asal']), sanitize($lokasi_asal[0]), 
+                                    sanitize($lokasi_asal[1]),  sanitize($_POST['t_tujuan']), 
+                                    sanitize($lokasi_tujuan[0]),sanitize($lokasi_tujuan[1]), 
+                                    sanitize($_POST['t_tgl1']), sanitize($_POST['t_tgl2']), 
+                                    sanitize($_POST['s_jenis']),sanitize($_POST['kategori2']), 
+                                    sanitize($_POST['s_komen']),sanitize($_POST['s_join']),
+                                    $tgl);
+        
+        if ($hasil == TRUE){
+            $status = TRUE;
+            $pesan = "Perjalananmu berhasil di simpan";
+        }else{
+            $status = FALSE;
+            $pesan = "Gagal tersimpan";
+        }
+    }
+    
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => "OK");
+    echo json_encode($result);
+}
 elseif($do == 'usersekitar'){
     //*** inisiasi nilai
     $status = TRUE;

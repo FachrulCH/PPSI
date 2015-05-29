@@ -128,7 +128,7 @@ function get_footer()
         // kalo user belum login, muncul tomobl pop up
         $tombolLogin = '<li><a href = "#popupLogin" data-rel = "popup" data-position-to = "window" class = "ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition = "pop">Login | Pendaftaran</a></li>';
         echo '
-            <div data-role = "popup" id = "popupLogin" data-theme = "a" class = "ui-corner-all">
+            <div data-role ="popup" id="popupLogin" data-theme = "a" class = "ui-corner-all">
             <div style = "padding:10px 20px;">
             <h3>Hai kamu, selamat datang :)</h3>
             <label for = "lg" class = "ui-hidden-accessible">Sudah terdaftar?</label>
@@ -307,6 +307,14 @@ function Tmplt_get_kategori1(){
 function Tmplt_get_kategori2($id){
     $id  = (int) $id;
     $sql = "SELECT * FROM tb_param WHERE param_parent = {$id} 
+        order by param_name ";
+    $selectSql = good_query_allrow($sql);
+    return $selectSql;
+}
+
+function Tmplt_get_jenis_trip(){
+    // Mengambil jenis trip seperti Open trip, share cost, travel
+    $sql = "SELECT * FROM tb_param WHERE param_parent = 26 
         order by param_name ";
     $selectSql = good_query_allrow($sql);
     return $selectSql;
