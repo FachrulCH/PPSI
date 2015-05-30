@@ -57,7 +57,7 @@ $loadJenis          = Tmplt_get_jenis_trip();
                         </li>
                         
                         <li class="ui-field-contain">
-                            <label for="t_asal">Asal</label>
+                            <label for="t_asal">Meeting poin</label>
                             <input type="text" name="t_asal" id="t_asal" value="" data-clear-btn="true">
                             <div id="hasil_asal"> 
                                 <input name="asal_lokasi" data-geo="location" type="hidden" value="">
@@ -235,7 +235,7 @@ $loadJenis          = Tmplt_get_jenis_trip();
                         });
                         $('#multiupload').fileapi({
                             multiple: true,
-                            url: '<?= URLSITUS ?>upload_galeri.php',
+                            url: '<?= URLSITUS ?>upload/trip/',
                             elements: {
                                 ctrl: {upload: '.js-upload'},
                                 empty: {show: '.b-upload__hint'},
@@ -276,8 +276,8 @@ $loadJenis          = Tmplt_get_jenis_trip();
                             $('#t_isi').html($('.summernote').code());
                             var data = $('#formTrip').serialize();
                             //data += '&t_isi='+$('.summernote').code();
-                            alert(data);
-                            console.log(data);
+                            //alert("Proses save");
+                            //console.log(data);
                             customAjax('<?= URLSITUS ?>api/rencanabaru/', data, function (data) {
                                 //console.log(data);
                                 setTimeout('window.location.href = "<?= URLSITUS ?>trip/"', 2500);

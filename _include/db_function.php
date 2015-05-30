@@ -1,6 +1,6 @@
 <?php
 //include_once 'config.php';
-include_once 'fungsi.php';
+include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'fungsi.php';
 
 defined('DBHOST') ? null : define("DBHOST", "localhost");
 defined('DBUSER') ? null : define("DBUSER", "root");
@@ -8,7 +8,6 @@ defined('DBPASS') ? null : define("DBPASS", "");
 defined('DBNAME') ? null : define("DBNAME", "db_temanbackpacker");
 
 defined("URLSITUS") ? null : define("URLSITUS", "http://localhost/PPSIoop/"); // ==> URL web nya, buat <a href> 
-
 
 
 
@@ -32,9 +31,9 @@ function good_query($string, $debug=0)
     if ($result == false)
     {
     	// harus di remark ini biar ga tampil di web
-        error_log("SQL error: ".mysqli_error($db)."\n\nOriginal query: $string\n");
+        error_log("SQL na error euy: ".mysqli_error($db)."\n\n Query Aslina mah: $string\n");
 		// Remove following line from production servers 
-        die("SQL error: ".mysqli_error($db)."\b<br>\n<br>Original query: $string \n<br>\n<br>");
+        die("SQL na error euy: ".mysqli_error($db)."\b<br>\n<br>Query Aslina mah: $string \n<br>\n<br>");
     }
     return $result;
 }
@@ -113,6 +112,25 @@ function good_update($sql)
     return $status;
 }
 
+function good_insert($sql) 
+{
+    global $db;
+    /* set autocommit to off */
+    $db->autocommit(FALSE);
+    $result = $db->query($sql);
+    $status = TRUE;
+    
+    if ($result !== TRUE) {
+        $db->rollback();  // if error, roll back transaction
+        $status = FALSE;
+    }
+    // assuming no errors, commit transaction
+    /* commit transaction */
+    $db->commit();
+    
+    return $status;
+}
+
 function get_db_param($name){
     $sql    = "SELECT * FROM tb_parameter WHERE parameter_name ='{$name}'";
     $doSql  = good_query_assoc($sql);
@@ -170,5 +188,5 @@ function harus_login()
 }
 
 session_cek();
-
+date_default_timezone_set("Asia/Jakarta");
 ?>

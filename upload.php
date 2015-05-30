@@ -3,9 +3,10 @@ include_once './_include/db_function.php';
 // Setelah berhasil di save, lalu di resize lah
 include('src/abeautifulsite/SimpleImage.php');
 
-$do = $_GET['do'];
-$nama           = make_image_name($_FILES["filedata"]["name"]);
+$do     = $_GET['do'];
+$nama   = make_image_name($_FILES["filedata"]["name"]);
 //echo $nama;
+$tgl    = date("Y-m-d H:i:s");
 
 
 if ($do == 'profile'){
@@ -45,8 +46,7 @@ elseif ($do == 'trip') {
 
     // 3. upload file nya di move ke folder _gambar/galeri/o/
     $upload         = move_uploaded_file($_FILES["filedata"]["tmp_name"], $target_file);
-
-
+    
     // 4. Manipulasi replikasi dari folder _gambar/galeri/o/
     try {
         $img = new abeautifulsite\SimpleImage($target_file);
@@ -59,6 +59,11 @@ elseif ($do == 'trip') {
     } catch(Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
+    
+    //Simpan ke database:
+    $sql = "INSERT INTO tb_galeri (galeri_trip_id,galeri_foto_id,galeri_foto_url,galeri_foto_judul,galeri_date)
+                        VALUES ('{$_SESSION['exp_id']}','{$_SESSION['user_id']}','{$nama}','{$nama}','{$tgl}');";
+     good_query($sql);
 }
 else{
     null;

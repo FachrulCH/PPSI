@@ -71,33 +71,51 @@ function trip_save($trip_user_id, $trip_judul, $trip_tujuan,$trip_tuj_provinsi,$
 //        return $hasil;
 }
 
-function Trip_new($t_judul, $t_isi, 
+function Trip_simpan($t_judul, $t_isi, 
                     $asal, $asal_lat, 
                     $asal_lng, $t_tujuan, 
                     $tujuan_lat, $tujuan_lng, 
                     $t_tgl1, $t_tgl2, 
                     $s_jenis, $kategori2, 
                     $s_komen, $s_join, 
-                    $tgl){
-    $trip_id = @$_SESSION['exp_id'];
-    $user_id = @$_SESSION['user_id'];
-    $sql = "Insert into tb_trip (a.trip_id, a.trip_user_id, a.trip_judul, a.trip_tujuan, a.trip_tujuan_geolat, a.trip_tujuan_geolng, a.trip_asal, a.trip_asal_lat, a.trip_asal_lng, a.trip_jenis, a.trip_kategori, a.trip_date1, a.trip_date2, a.trip_detail, a.trip_flag_comm, a.trip_flag_join, a.trip_created_date) "
-            . "         Values ($trip_id, $user_id, $t_judul, $tujuan_lat, $tujuan_lng, $asal, $asal_lat, $asal_lng, $s_jenis, $kategori2
-                    $asal, $asal_
-                    $asal_lng, $t_tujuan, 
-                    $tujuan_lat, $tujuan_lng, 
-                    $t_tgl1, $t_tgl2, 
-                    $s_jenis, $kategori2, 
-                    $s_komen, $s_join, 
-                    $tgl)";
+                    $tgl,$trip_id,
+                    $user_id){
+    // variabel yg dikirimkan udah di sanitize di lemparannya dari ajax.php/rencanabaru
+    // turn off auto-commit
+    global $db;
+    mysqli_autocommit($db, FALSE);
+    
+    //Dokumentasi MySQL => REPLACE works exactly like INSERT, except that if an old row in the table has the same value as a new row for a PRIMARY KEY or a UNIQUE index, the old row is deleted before the new row is inserted.
+    $sql = "REPLACE INTO tb_trip (trip_id, trip_user_id, trip_judul, trip_tujuan, trip_tujuan_geolat, trip_tujuan_geolng, trip_asal, trip_asal_lat, trip_asal_lng, trip_jenis, trip_kategori, trip_date1, trip_date2, trip_detail, trip_flag_comm, trip_flag_join, trip_created_date) "
+            . "VALUES ('{$trip_id}', '{$user_id}', '{$t_judul}', '{$t_tujuan}', '{$tujuan_lat}', '{$tujuan_lng}', '{$asal}', '{$asal_lat}', '{$asal_lng}', '{$s_jenis}', '{$kategori2}', '{$t_tgl1}', '{$t_tgl2}', '{$t_isi}', '{$s_komen}', '{$s_join}', '{$tgl}')";
+    
+    $simpan_trip = good_query($sql);
+    $simpan_host = Trip_add_user($trip_id, $user_id, 'A'); // insert ke trip member, user pembuat dengan status HOST
+    
+    if ($simpan_trip !== TRUE OR $simpan_host !== TRUE) {
+        mysqli_rollback($db);  // if error, roll back transaction
+        $hasil = FALSE;
+    } else {
+        // assuming no errors, commit transaction
+        mysqli_commit($db);
+        $hasil = TRUE;
+    }
+    return $hasil;
 }
 
-function trip_get_by_id($trip_id){
+function Trip_add_user($trip_id,$user_id,$status = 'B'){
+    // insert ke trip member, 
+    // A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
+    $sqlM   = "REPLACE INTO tb_trip_member (member_trip_id, member_user_id, member_status) VALUES ('{$trip_id}', '{$user_id}', '{$status}')";
+    return good_query($sqlM);
+}
+
+function Trip_get_by_id($trip_id){
 	// escape html and real escape
 	$trip_id = (int) amankan($trip_id);
 	
-	$sql = "SELECT * 
-                FROM tb_trip 
+	$sql = "SELECT a.*, (select u.user_username from tb_user u where u.user_id = a.trip_user_id) as username
+                FROM tb_trip a 
 		WHERE trip_id = '{$trip_id}' LIMIT 1";
 	$data = good_query_assoc($sql);
 	return $data;
@@ -251,4 +269,17 @@ function Trip_list($trip_list) {
     }
 }
 
+function Trip_viewed($trip_id)
+{
+    $trip_id = (int) $trip_id;
+    $sql = "UPDATE tb_trip SET trip_stats = trip_stats+1
+            WHERE trip_id = '{$trip_id}'";
+    good_query($sql);
+}
+
+function Trip_galeri($trip_id)
+{
+    $sql = "select g.galeri_trip_id,g.galeri_foto_id,g.galeri_foto_url,g.galeri_foto_judul,g.galeri_date from tb_galeri g where g.galeri_trip_id = '{$trip_id}' ";
+    return good_query_allrow($sql);
+}
 ?>

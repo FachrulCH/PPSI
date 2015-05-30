@@ -9,13 +9,13 @@ $exp = Exp_get_by_id($exp_id);
 
 Exp_viewed($exp_id); //==>> update statistik experienced
 
-$exp_kategori = getKategori($exp['pengalaman_kategori']);
+$exp_kategori = Tmplt_getKategori($exp['pengalaman_kategori']);
         
 $gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg","air-terjun-gitgit-bal.jpg","anak-band.jpg","kitchenadventurercheesecakebrownie.jpg"));
 $breadcumb = array
                (array("link"=> URLSITUS, "text"=>"Home"),
                 array("link"=> URLSITUS."pengalaman/#home", "text"=>"Pengalaman"),
-                array("link"=> URLSITUS."pengalaman/". $exp_kategori[0]['parent_name'] ."/", "text"=> $exp_kategori[0]['parent_name']),
+                array("link"=> URLSITUS."pengalaman/". $exp_kategori['parent_name'] ."/", "text"=> $exp_kategori['parent_name']),
                 array("link"=> URLSITUS ."pengalaman/lihat/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] , "text"=>$exp['pengalaman_judul'])
                );
 
@@ -30,12 +30,7 @@ $breadcumb = array
         ?>
         
 
-        <style type="text/css">
-            .g-recaptcha{
-                float: right;
-            }
-        </style>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        
         <!--        PHOTOSWIPE     -->
         <!-- Core CSS file -->
         <link rel="stylesheet" href="<?= URLSITUS ?>src/photoswipe/photoswipe.css"> 
@@ -134,6 +129,12 @@ $breadcumb = array
 //*** Kalo flag komentar aktif
 if ($exp['pengalaman_flag_komen'] == 1){
 ?>
+                <style type="text/css">
+                .g-recaptcha{
+                    float: right;
+                }
+                </style>
+                <script src='https://www.google.com/recaptcha/api.js'></script>
                 <div class="ui-bar ui-bar-a">
                     <h3>Komentar</h3>
                 </div>

@@ -365,10 +365,10 @@ function Tmplt_generate_breadcumb($breadcumb)
     }
 }
 
-function getKategori($id) 
+function Tmplt_getKategori($id) 
 {
     $id = (int) $id;
     $sql = "SELECT * FROM v_param_parent WHERE param_id = '{$id}'";
-    return good_query_allrow($sql);
+    return good_query_assoc($sql);
 }
 ?>

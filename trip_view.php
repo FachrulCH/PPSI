@@ -1,15 +1,29 @@
 <?php
 //fungsi template ada di sini
 include_once "_include/template.php";
-include_once "_include/trip.php";
+include_once "_include/Trip.php";
 
 //ambil data trip dari database, lemparan adalah trip_id
 $trip_id = (int) $_GET['id'];
-$trip_id_rahasia = enkripsi($trip_id);
-$db_trip = trip_get_by_id($trip_id);
-//$_SESSION['user_id'] = 2;
-$user_id = $_SESSION['user_id'];
-$user_id_rahasia = enkripsi($user_id);
+$trip = Trip_get_by_id($trip_id);
+// catat di session buat kalo di edit
+$_SESSION['lihatTrip'] = $trip_id; 
+
+Trip_viewed($trip_id); //==>> update statistik experienced
+
+$trip_kategori  = Tmplt_getKategori($trip['trip_kategori']);
+$trip_jenis     = Tmplt_getKategori($trip['trip_jenis']);
+$lokasi         = implode(",", array_slice(explode(",", $trip['trip_tujuan']), 0, 2));
+        
+//$gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg","air-terjun-gitgit-bal.jpg","anak-band.jpg","kitchenadventurercheesecakebrownie.jpg"));
+$gambar = Trip_galeri($trip_id);
+$breadcumb = array
+               (array("link"=> URLSITUS, "text"=>"Home"),
+                array("link"=> URLSITUS."trip/#home", "text"=>"Trip"),
+                array("link"=> URLSITUS."trip/". $trip_kategori['parent_name'] ."/", "text"=> $trip_kategori['parent_name']),
+                array("link"=> URLSITUS ."trip/lihat/". make_seo_name($trip['trip_judul']) ."/".$trip['trip_id'] , "text"=>$trip['trip_judul'])
+               );
+
 ?>
 <!doctype html>
 <html>
@@ -18,69 +32,43 @@ $user_id_rahasia = enkripsi($user_id);
         // memanggil fungsi untuk generate meta tag dan include file CSS & JS yg diperlukan
         // memiliki argumen title halaman
         get_meta('TemanBackpacker.com');
-        ?>
-        <!-- Plug-in untuk carousel -->
-        <!-- Carousel -->
-        <link rel="stylesheet" href="<?= URLSITUS ?>css/flexslider.css" type="text/css" media="screen" />
-        <script defer src="<?= URLSITUS ?>js/jquery.flexslider.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                SyntaxHighlighter.all();
-            });
-            $(window).load(function () {
-                $('.flexslider').flexslider({
-                    animation: "slide",
-                    controlNav: "thumbnails",
-                    start: function (slider) {
-                        $('body').removeClass('loading');
-                    }
-                });
-            });
-        </script>
+  
+?>
+        <!--        PHOTOSWIPE     -->
+        <!-- Core CSS file -->
+        <link rel="stylesheet" href="<?= URLSITUS ?>src/photoswipe/photoswipe.css"> 
 
+        <!-- Skin CSS file (styling of UI - buttons, caption, etc.)
+             In the folder of skin CSS file there are also:
+             - .png and .svg icons sprite, 
+             - preloader.gif (for browsers that do not support CSS animations) -->
+        <link rel="stylesheet" href="<?= URLSITUS ?>src/photoswipe/default-skin/default-skin.css"> 
+
+        <!-- Core JS file -->
+        <script src="<?= URLSITUS ?>src/photoswipe/photoswipe.min.js"></script> 
+
+        <!-- UI JS file -->
+        <script src="<?= URLSITUS ?>src/photoswipe/photoswipe-ui-default.min.js"></script>
         <style type="text/css">
-            .thumb{
-                width: 32px;
-                float: left;
-                margin-right: 5px;
-
-            }
-            .usr{
-                overflow: hidden;
-                font-size: .875em;
-
-            }
-            .usrHdr{
-                font-size: .7500em;
-                padding-right: 5px;
-                font-style: italic;
-            }
-            .usrDtl{
-                font-size: .800em;
-                text-align: justify;
-
-            }
-            p{
-                white-space:pre-wrap;
-                text-align: justify;
-            }
-            .blur-filter {
-                -webkit-filter: blur(2px);
-                -moz-filter: blur(2px);
-                -o-filter: blur(2px);
-                -ms-filter: blur(2px);
-                filter: blur(2px);
-            }
-            .carouselWrap{
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .g-recaptcha{
-                float: right;
-            }
-        </style>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        .picture {
+          width: 100%;
+          float: left;
+        }
+        .picture img {
+          width: 100%;
+          height: auto;
+        }
+        .picture figure {
+          display: block;
+          float: left;
+          margin: 0 5px 5px 0;
+          width: 80px;
+        }
+        .picture figcaption {
+          display: none;
+        }
+        </style> 
+        <!--   end PHOTOSWIPE     -->
     </head>
     <body>
         <section data-role="page" id="home">
@@ -93,101 +81,110 @@ $user_id_rahasia = enkripsi($user_id);
             get_header('Rencana Perjalanan');
 ?>
             <article role="main" class="ui-content">
-                <h3 class="ui-bar ui-bar-a"><?= $db_trip['trip_judul'] ?></h3>
-                <!-- Carousel -->
-                <div class="carouselWrap">
-                     <section class="slider">
-                        <div class="flexslider">
-                            <ul class="slides">
-                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg">
-                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg" />
-                                </li>
-                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg">
-                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
-                                </li>
-                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/bajak.jpg">
-                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/bajak.jpg" />
-                                </li>
-                                <li data-thumb="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg">
-                                    <img src="<?= URLSITUS ?>_gambar/galeri/fit/kitchenadventurercaramel.jpg" />
-                                </li>
+                <span style="float:left;">
+                    <div class="breadcrumb">
+                        <div id="brdcmb">
+                            <ul>
+<!--                                <li><a href="" data-ajax="false">Home</a></li>
+                                <li><a href="trip/#home">Pengalaman</a></li>-->
+<?php
+                                Tmplt_generate_breadcumb($breadcumb);
+?>
                             </ul>
                         </div>
-                    </section>
-                </div>
-                <!-- End Carousel -->
-                <fieldset data-role="controlgroup" data-type="horizontal" class="ketengah">
+                    </div>
+                </span>
+                <span style="float: right"><a href="<?= URLSITUS ."trip/edit/". make_seo_name($trip['trip_judul']) ."/".$trip['trip_id'] ?>/" class="ui-btn ui-shadow ui-icon-edit ui-btn-icon-left" data-ajax="false">Edit</a></span>
+                <h3 class="ui-bar ui-bar-a"><?= $trip['trip_judul'] ?></h3>
+                <p class="ketengah"><?= tautan('username/'.  make_seo_name($trip['username']).'/', $trip['username']) ." | ". $lokasi ." | ". tanggalan($trip['trip_date1']) ." s/d ". tanggalan($trip['trip_date2']) ?></p>
+                
+                <div class="ditengah">
+                <!--     PHOTOSWIPE     -->
+                <div class="picture" itemscope>
 <?php
-                Tmplt_button_user(Trip_cek_status_user($user_id));
+            foreach ($gambar as $g) {
+                $uri = "_gambar/galeri/o/". $g['galeri_foto_url'];
+                $url = URLSITUS ."_gambar/galeri/o/". $g['galeri_foto_url'];
+                list($width, $height, $type, $attr) = getimagesize($uri);
+                //list($width, $height) = getimagesize($uri);
+                echo "<figure itemprop='associatedMedia' itemscope>
+		   <a href=".$url." itemprop='contentUrl' data-size=". $width ."x". $height ." data-index='0'>
+		   <img src=".URLSITUS ."_gambar/galeri/thumb2/". $g['galeri_foto_url'] ." itemprop='thumbnail' alt='".$g['galeri_foto_judul']."' />
+		    </a>
+		  </figure>";
+                
+                //echo "dimensions: " . $width . "x" . $height;
+            }
+                
+                //print_r($gambar);
+
 ?>
-                </fieldset>
 
-                <br/>
-
-                <div class="ui-bar ui-bar-a">
-                    <h3>Info Rencana Perjalanan</h3>
+		</div>
+                <!--    END PHOTOSWIPE     -->
                 </div>
+                <ul data-role="listview" data-inset="true">
+                    <li class="ui-field-contain">
+                        <label for="tujuan">Tujuan</label>
+                        <p id="tujuan"><?= $trip['trip_tujuan'] ?></p>
+                    </li>
+                    <li class="ui-field-contain">
+                        <label for="tujuan">Meeting poin</label>
+                        <p id="tujuan"><?= $trip['trip_asal'] ?></p>
+                    </li>
+                    <li class="ui-field-contain">
+                        <label for="tujuan">Jenis Trip</label>
+                        <p id="tujuan"><?= $trip_jenis['param_name'] ?></p>
+                    </li>
+                    <li class="ui-field-contain">
+                        <label for="tujuan">Kategori Trip</label>
+                        <p id="tujuan"><?= $trip_kategori['parent_name'] ." - ". $trip_kategori['param_name'] ?></p>
+                    </li>
+                </ul>
+        
+                <h3 class="blok">Detail rencana</h3>
+                
                 <div class="ui-body ui-body-a">
-                    <?= $db_trip['trip_info'] ?>	
+                    <?= $trip['trip_detail'] ?>	
                 </div>
 
                 <br/>
-
+<?php
+//*** Kalo flag komentar aktif
+if ($trip['trip_flag_comm'] == 1){
+?>
+                <style type="text/css">
+                    .g-recaptcha{
+                        float: right;
+                    }
+                </style>
+                <script src='https://www.google.com/recaptcha/api.js'></script>
                 <div class="ui-bar ui-bar-a">
-                    <h3>Detail Rencana Perjalanan</h3>
-                </div>
-                <div class="ui-body ui-body-a">
-                    <ol data-role="listview">
-                        <li>Jenis kegiatan: <?= Trip_kategori_view($db_trip['trip_kategori']) ?></li>
-                        <li>Meeting Point: <?= $db_trip['trip_meeting_point'] ?></li>
-                        <li>Waktu Perjalanan : <?= $db_trip['trip_date1'] ?> s/d <?= $db_trip['trip_date2'] ?></li>
-                        <li>Jumlah teman yg di cari: <?= Trip_count_member_joined($trip_id) . "/" . $db_trip['trip_quota'] ?> </li>
-                    </ol>
-                </div>
-
-                <br/>
-
-                <div class="ui-bar ui-bar-a">
-                    <h3>Tanya-Jawab</h3>
+                    <h3>Komentar</h3>
                 </div>
 
                 <div class="ui-body ui-body-a">
                     <form id="tanyajawab">
-                        <input type="hidden" value="<?= $trip_id ?>" name="tid">
-                        <input type="hidden" value="<?= $user_id ?>" name="uid">
+                        <input type="hidden" value="" name="tid">
+                        <input type="hidden" value="" name="uid">
                         <textarea cols="40" rows="8" name="t_tanya" id="Ttanya" maxlength="250"></textarea>
                         <button class="ui-btn ui-btn-inline ui-mini ui-btn-icon-left ui-icon-edit" id="btn_tanya">Tanya</button>
                          <div class="g-recaptcha" data-sitekey="6LeO_QUTAAAAAJnyTjLm5B9lxRlB6a9Eod8ietRP"></div>
                     </form>
                     <div style="clear: both;"></div>
                     <div id="listTanya">
-<?php
-                    $kosong = true;                 // list tanya default nya kosong
-                    Tmplt_comment_trip1($trip_id);  // tampilan list pertanyaan
-?>
+
                     </div>
-<?php
-                    if ($kosong != true){           // Kalo list tanya tidak kosong maka muncul berikut
-?>
+
                     <div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
                     <a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>
+
+                </div>
 <?php
-}
+    }
 ?>
-                </div>
                 <br/>
-
-                <div id="memberJoin">	
-                    <div class="ui-bar ui-bar-a">
-                        <h3>Member yang join</h3>
-                    </div>
-
-                    <div class="ui-body ui-body-a">
-<?php 
-                    Tmplt_trip_member_join($trip_id) 
-?>
-                    </div>
-                </div>
+                
                 <script type="text/javascript" src="<?= URLSITUS ?>js/jquery.timeago.js"></script> <!-- konversi ke waktu relative -->
                 <script type="text/javascript" src="<?= URLSITUS ?>js/main.js" ></script>
                 <script type="text/javascript">
@@ -199,10 +196,7 @@ $user_id_rahasia = enkripsi($user_id);
                                 dialogin("Klik captcha dahulu");
                                 return false;
                             }
-                            var pertanyaan = $('#Ttanya').val();
-                            var capcay = $('#g-recaptcha-response').val();
-                            var kirim = 'id=<?= $user_id_rahasia ?>&i=<?= $trip_id ?>&pertanyaan='+ pertanyaan +'&capcay='+capcay  ;
-                            
+                           
                             //var kirim = $("#tanyajawab").serialize();
                             console.log(kirim);
                             if (pertanyaan.length > 0) {
@@ -268,6 +262,95 @@ $user_id_rahasia = enkripsi($user_id);
             get_footer();
             ?>
         </section><!-- /page -->
+<!--     PHOTOSWIPE     -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+ 
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+ 
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	(function($) {
+    var $pswp = $('.pswp')[0];
+    var image = [];
 
+    $('.picture').each( function() {
+        var $pic     = $(this),
+            getItems = function() {
+                var items = [];
+                $pic.find('a').each(function() {
+                    var $href   = $(this).attr('href'),
+                        $size   = $(this).data('size').split('x'),
+                        $width  = $size[0],
+                        $height = $size[1];
+
+                    var item = {
+                        src : $href,
+                        w   : $width,
+                        h   : $height
+                    }
+
+                    items.push(item);
+                });
+                return items;
+            }
+
+        var items = getItems();
+
+        $.each(items, function(index, value) {
+            image[index]     = new Image();
+            image[index].src = value['src'];
+        });
+
+        $pic.on('click', 'figure', function(event) {
+            event.preventDefault();
+            
+            var $index = $(this).index();
+            var options = {
+                index: $index,
+                bgOpacity: 0.7,
+                showHideOpacity: true
+            }
+
+            var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
+            lightBox.init();
+        });
+    });
+})(jQuery);
+
+</script>
+<!--   END PHOTOSWIPE     -->
     </body>
 </html>

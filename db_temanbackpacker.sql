@@ -10,89 +10,102 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+-- Dumping database structure for db_temanbackpacker
+DROP DATABASE IF EXISTS `db_temanbackpacker`;
+CREATE DATABASE IF NOT EXISTS `db_temanbackpacker` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `db_temanbackpacker`;
+
+
 -- Dumping structure for table db_temanbackpacker.tb_chat
 DROP TABLE IF EXISTS `tb_chat`;
 CREATE TABLE IF NOT EXISTS `tb_chat` (
   `chat_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id chat',
   `chat_trip_id` int(11) NOT NULL,
   `chat_sender` int(11) NOT NULL,
-  `chat_type` char(1) DEFAULT NULL COMMENT '2: tanya | 3: diskusi',
+  `chat_type` char(1) NOT NULL COMMENT '1:PM | 2: tanya | 3: diskusi',
   `chat_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `chat_mesej` text,
+  `chat_mesej` tinytext,
   `chat_deleted` int(11) NOT NULL COMMENT '0: aktif | 1: deleted',
+  `chat_title` varchar(25) DEFAULT NULL COMMENT 'utk chat type 1 (PM)',
   PRIMARY KEY (`chat_id`),
   KEY `FK_chat_trip` (`chat_trip_id`),
   KEY `FK_chat_user` (`chat_sender`),
-  CONSTRAINT `FK_chat_trip` FOREIGN KEY (`chat_trip_id`) REFERENCES `tb_trip` (`trip_id`),
   CONSTRAINT `FK_chat_user` FOREIGN KEY (`chat_sender`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_chat: ~59 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_chat: ~70 rows (approximately)
 /*!40000 ALTER TABLE `tb_chat` DISABLE KEYS */;
-REPLACE INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `chat_date`, `chat_mesej`, `chat_deleted`) VALUES
-	(1, 110, 1, '2', '2015-04-18 02:24:35', 'ini pertanyaan test', 0),
-	(2, 110, 1, '2', '2015-04-18 02:26:06', 'ini pertanyaan by menu loch', 0),
-	(3, 110, 1, '2', '2015-04-18 04:32:28', 'Coba input dari hape', 0),
-	(4, 110, 1, '2', '2015-04-18 17:43:20', 'ini percobaan isi\nenter\nenter\nenter\nenter\nahir', 0),
-	(5, 110, 1, '2', '2015-04-18 18:28:37', 'tambah baru ini', 0),
-	(6, 110, 1, '2', '2015-04-18 18:31:16', 'keduax ini tambah baru lagi gan', 0),
-	(7, 110, 1, '2', '2015-04-18 18:33:52', 'ketigax kalinya', 0),
-	(8, 110, 1, '2', '2015-04-18 18:36:56', 'coba ke empat kalinya\n\nsfhkashfka\nsfjhaskfhaks\naskjfhakjshfka', 0),
-	(9, 110, 1, '2', '2015-04-18 19:15:17', 'ga jadi di pindahin ajax nya', 0),
-	(10, 110, 1, '2', '2015-04-19 17:00:26', 'perubahan ajax reload nya', 0),
-	(11, 110, 1, '2', '2015-04-19 17:13:51', 'apakah ini akan tampil brojQuery21100897971021477133_1429438420066', 0),
-	(12, 110, 1, '2', '2015-04-19 17:15:06', 'ini parse error deuh', 0),
-	(13, 110, 1, '2', '2015-04-19 17:50:04', 'apakah jadi nih perubahan gw', 0),
-	(14, 110, 1, '2', '2015-04-19 17:50:18', 'mantap gan', 0),
-	(15, 110, 1, '2', '2015-04-19 18:06:34', 'ini karta coy', 0),
-	(25, 110, 2, '2', '2015-04-19 21:55:02', 'Pujangga', 0),
-	(26, 110, 3, '2', '2015-04-19 22:28:25', 'ini bahur', 0),
-	(27, 110, 3, '2', '2015-04-19 22:38:21', 'asem', 0),
-	(28, 110, 3, '2', '2015-04-19 22:38:22', 'asem', 0),
-	(29, 110, 3, '2', '2015-04-19 22:39:21', 'tanya donk bro', 0),
-	(30, 110, 3, '2', '2015-04-20 00:42:13', 'tes waktu', 0),
-	(31, 110, 3, '2', '2015-04-20 00:43:31', 'cek lagi', 0),
-	(32, 110, 3, '2', '2015-04-20 00:54:45', 'cek waktu', 0),
-	(33, 110, 3, '2', '2015-04-20 01:05:04', 'tes waktu', 0),
-	(34, 110, 3, '2', '2015-04-20 21:38:36', 'Rikson ini dia', 0),
-	(35, 110, 3, '2', '2015-04-20 21:40:31', 'asoy geboy', 0),
-	(36, 110, 3, '2', '2015-04-20 21:41:05', 'coba lagi aaah', 0),
-	(37, 110, 3, '2', '2015-04-21 05:10:28', 'duaaar', 0),
-	(38, 110, 3, '2', '2015-04-21 15:58:56', 'asoy', 0),
-	(39, 110, 3, '2', '2015-04-21 21:23:05', 'peningkatan', 0),
-	(42, 110, 3, '2', '2015-04-21 21:50:47', 'masih eror ternyata', 0),
-	(43, 110, 3, '2', '2015-04-21 21:54:47', 'avenger', 0),
-	(44, 110, 3, '2', '2015-04-21 21:55:16', '"tanya \' ku\'tip" ', 0),
-	(45, 110, 3, '2', '2015-04-21 21:56:00', '', 0),
-	(46, 110, 3, '2', '2015-04-21 21:57:59', 'masa sih bro?', 0),
-	(47, 0, 3, '2', '2015-04-21 22:41:07', 'bs?', 0),
-	(48, 0, 3, '2', '2015-04-21 22:43:54', 'sadadasda', 0),
-	(49, 110, 3, '2', '2015-04-21 23:19:49', 'sadada', 0),
-	(50, 110, 3, '2', '2015-04-21 23:26:56', 'return baru', 0),
-	(51, 110, 3, '2', '2015-04-21 23:32:15', 'list', 0),
-	(52, 110, 3, '2', '2015-04-21 23:38:36', 'jebraw', 0),
-	(53, 110, 3, '2', '2015-04-21 23:40:03', 'mamam', 0),
-	(54, 110, 3, '2', '2015-04-21 23:41:18', 'andaiiii', 0),
-	(55, 110, 3, '2', '2015-04-21 23:41:49', 'sadada', 0),
-	(56, 110, 3, '2', '2015-04-21 23:49:26', 'Json mode', 0),
-	(57, 110, 3, '2', '2015-04-21 23:50:30', 'Json lagi', 0),
-	(58, 110, 3, '2', '2015-04-21 23:50:44', 'HOREEEEEEEEEE berhasil', 0),
-	(59, 110, 1, '2', '2015-04-21 23:51:52', 'Mantap kan', 0),
-	(60, 110, 1, '2', '2015-04-21 23:56:22', 'Setelah ini mau diedit', 0),
-	(61, 110, 1, '2', '2015-04-22 00:00:35', 'ut A String To A Specified Length With PHP\n\nThursday, April 17, 2008 - 09:54\n\nCutting a string to a specified length is accomplished with the substr() function. For example, the following string variable, which we will cut to a maximum of 30 char', 0),
-	(62, 110, 1, '2', '2015-04-22 00:31:10', 'new jquery ajax', 0),
-	(63, 110, 1, '2', '2015-04-22 00:31:52', 'masa sih', 0),
-	(64, 110, 1, '2', '2015-04-22 00:34:15', 'asoy', 0),
-	(65, 110, 1, '2', '2015-04-22 00:40:07', 'Chelsea', 0),
-	(66, 110, 1, '2', '2015-04-22 00:41:15', 'Hazard', 0),
-	(67, 110, 1, '2', '2015-04-22 00:42:52', 'ajax di pindahin ke luar', 0),
-	(68, 110, 1, '2', '2015-04-22 00:44:52', 'Cukup untuk hari ini yaaa', 0),
-	(69, 110, 2, '2', '2015-04-22 00:50:52', 'Oke Baiklah', 0),
-	(70, 110, 2, '2', '2015-04-23 05:30:25', 'cek brow', 0),
-	(71, 1104, 2, '2', '2015-04-25 12:21:51', 'ijin tanya gan', 0),
-	(72, 1129, 2, '2', '2015-04-25 18:33:14', 'tanya doonk', 0),
-	(73, 1129, 2, '2', '2015-04-25 18:33:21', 'fklsdjalfjlasjflas', 0),
-	(74, 1129, 2, '2', '2015-04-29 00:32:31', 'aseeek capcay', 0);
+INSERT INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `chat_date`, `chat_mesej`, `chat_deleted`, `chat_title`) VALUES
+	(1, 110, 1, '2', '2015-04-18 02:24:35', 'ini pertanyaan test', 0, NULL),
+	(2, 110, 1, '2', '2015-04-18 02:26:06', 'ini pertanyaan by menu loch', 0, NULL),
+	(3, 110, 1, '2', '2015-04-18 04:32:28', 'Coba input dari hape', 0, NULL),
+	(4, 110, 1, '2', '2015-04-18 17:43:20', 'ini percobaan isi\nenter\nenter\nenter\nenter\nahir', 0, NULL),
+	(5, 110, 1, '2', '2015-04-18 18:28:37', 'tambah baru ini', 0, NULL),
+	(6, 110, 1, '2', '2015-04-18 18:31:16', 'keduax ini tambah baru lagi gan', 0, NULL),
+	(7, 110, 1, '2', '2015-04-18 18:33:52', 'ketigax kalinya', 0, NULL),
+	(8, 110, 1, '2', '2015-04-18 18:36:56', 'coba ke empat kalinya\n\nsfhkashfka\nsfjhaskfhaks\naskjfhakjshfka', 0, NULL),
+	(9, 110, 1, '2', '2015-04-18 19:15:17', 'ga jadi di pindahin ajax nya', 0, NULL),
+	(10, 110, 1, '2', '2015-04-19 17:00:26', 'perubahan ajax reload nya', 0, NULL),
+	(11, 110, 1, '2', '2015-04-19 17:13:51', 'apakah ini akan tampil brojQuery21100897971021477133_1429438420066', 0, NULL),
+	(12, 110, 1, '2', '2015-04-19 17:15:06', 'ini parse error deuh', 0, NULL),
+	(13, 110, 1, '2', '2015-04-19 17:50:04', 'apakah jadi nih perubahan gw', 0, NULL),
+	(14, 110, 1, '2', '2015-04-19 17:50:18', 'mantap gan', 0, NULL),
+	(15, 110, 1, '2', '2015-04-19 18:06:34', 'ini karta coy', 0, NULL),
+	(25, 110, 2, '2', '2015-04-19 21:55:02', 'Pujangga', 0, NULL),
+	(26, 110, 3, '2', '2015-04-19 22:28:25', 'ini bahur', 0, NULL),
+	(27, 110, 3, '2', '2015-04-19 22:38:21', 'asem', 0, NULL),
+	(28, 110, 3, '2', '2015-04-19 22:38:22', 'asem', 0, NULL),
+	(29, 110, 3, '2', '2015-04-19 22:39:21', 'tanya donk bro', 0, NULL),
+	(30, 110, 3, '2', '2015-04-20 00:42:13', 'tes waktu', 0, NULL),
+	(31, 110, 3, '2', '2015-04-20 00:43:31', 'cek lagi', 0, NULL),
+	(32, 110, 3, '2', '2015-04-20 00:54:45', 'cek waktu', 0, NULL),
+	(33, 110, 3, '2', '2015-04-20 01:05:04', 'tes waktu', 0, NULL),
+	(34, 110, 3, '2', '2015-04-20 21:38:36', 'Rikson ini dia', 0, NULL),
+	(35, 110, 3, '2', '2015-04-20 21:40:31', 'asoy geboy', 0, NULL),
+	(36, 110, 3, '2', '2015-04-20 21:41:05', 'coba lagi aaah', 0, NULL),
+	(37, 110, 3, '2', '2015-04-21 05:10:28', 'duaaar', 0, NULL),
+	(38, 110, 3, '2', '2015-04-21 15:58:56', 'asoy', 0, NULL),
+	(39, 110, 3, '2', '2015-04-21 21:23:05', 'peningkatan', 0, NULL),
+	(42, 110, 3, '2', '2015-04-21 21:50:47', 'masih eror ternyata', 0, NULL),
+	(43, 110, 3, '2', '2015-04-21 21:54:47', 'avenger', 0, NULL),
+	(44, 110, 3, '2', '2015-04-21 21:55:16', '"tanya \' ku\'tip" ', 0, NULL),
+	(45, 110, 3, '2', '2015-04-21 21:56:00', '', 0, NULL),
+	(46, 110, 3, '2', '2015-04-21 21:57:59', 'masa sih bro?', 0, NULL),
+	(47, 0, 3, '2', '2015-04-21 22:41:07', 'bs?', 0, NULL),
+	(48, 0, 3, '2', '2015-04-21 22:43:54', 'sadadasda', 0, NULL),
+	(49, 110, 3, '2', '2015-04-21 23:19:49', 'sadada', 0, NULL),
+	(50, 110, 3, '2', '2015-04-21 23:26:56', 'return baru', 0, NULL),
+	(51, 110, 3, '2', '2015-04-21 23:32:15', 'list', 0, NULL),
+	(52, 110, 3, '2', '2015-04-21 23:38:36', 'jebraw', 0, NULL),
+	(53, 110, 3, '2', '2015-04-21 23:40:03', 'mamam', 0, NULL),
+	(54, 110, 3, '2', '2015-04-21 23:41:18', 'andaiiii', 0, NULL),
+	(55, 110, 3, '2', '2015-04-21 23:41:49', 'sadada', 0, NULL),
+	(56, 110, 3, '2', '2015-04-21 23:49:26', 'Json mode', 0, NULL),
+	(57, 110, 3, '2', '2015-04-21 23:50:30', 'Json lagi', 0, NULL),
+	(58, 110, 3, '2', '2015-04-21 23:50:44', 'HOREEEEEEEEEE berhasil', 0, NULL),
+	(59, 110, 1, '2', '2015-04-21 23:51:52', 'Mantap kan', 0, NULL),
+	(60, 110, 1, '2', '2015-04-21 23:56:22', 'Setelah ini mau diedit', 0, NULL),
+	(61, 110, 1, '2', '2015-04-22 00:00:35', 'ut A String To A Specified Length With PHP\n\nThursday, April 17, 2008 - 09:54\n\nCutting a string to a specified length is accomplished with the substr() function. For example, the following string variable, which we will cut to a maximum of 30 char', 0, NULL),
+	(62, 110, 1, '2', '2015-04-22 00:31:10', 'new jquery ajax', 0, NULL),
+	(63, 110, 1, '2', '2015-04-22 00:31:52', 'masa sih', 0, NULL),
+	(64, 110, 1, '2', '2015-04-22 00:34:15', 'asoy', 0, NULL),
+	(65, 110, 1, '2', '2015-04-22 00:40:07', 'Chelsea', 0, NULL),
+	(66, 110, 1, '2', '2015-04-22 00:41:15', 'Hazard', 0, NULL),
+	(67, 110, 1, '2', '2015-04-22 00:42:52', 'ajax di pindahin ke luar', 0, NULL),
+	(68, 110, 1, '2', '2015-04-22 00:44:52', 'Cukup untuk hari ini yaaa', 0, NULL),
+	(69, 110, 2, '2', '2015-04-22 00:50:52', 'Oke Baiklah', 0, NULL),
+	(70, 110, 2, '2', '2015-04-23 05:30:25', 'cek brow', 0, NULL),
+	(71, 1104, 2, '2', '2015-04-25 12:21:51', 'ijin tanya gan', 0, NULL),
+	(72, 1129, 2, '2', '2015-04-25 18:33:14', 'tanya doonk', 0, NULL),
+	(73, 1129, 2, '2', '2015-04-25 18:33:21', 'fklsdjalfjlasjflas', 0, NULL),
+	(74, 1129, 2, '2', '2015-04-29 00:32:31', 'aseeek capcay', 0, NULL),
+	(78, 2, 12, '1', '2015-05-26 22:54:18', 'ini judul pesan pertamaxini judul pesan pertamax', 0, 'ini judul pesan pertamax'),
+	(79, 2, 12, '1', '2015-05-26 22:57:15', 'adfklajklfjakljfla', 0, 'ini tanya lagi coy'),
+	(80, 2, 12, '1', '2015-05-26 23:00:42', 'akfjakfjla', 0, 'ini coba set time out'),
+	(81, 2, 12, '1', '2015-05-26 23:01:28', 'ajfkajlfasdf', 0, 'ini di coba lagi coy'),
+	(82, 2, 12, '1', '2015-05-26 23:04:30', 'akfhkjahfkjahkjfa', 0, 'alert nya muncul?'),
+	(83, 2, 12, '1', '2015-05-26 23:06:01', '123123123123131232e324249284792387baskjdhakjshdkjahsdkuay824871298371982379839871923713791379379kajhdkjahsdkjahdkjahkjdhakjhdkjahdkjhakjdhkahdkjhakdhakjhdkjahdkjahkjdhajkhdkjahdkjhkajhdkjhkjdhakjhdkahkjdhakjhdkjahdjkhakjhakjdhkjahdahdhajkhdjahjdhsjkh', 0, 'alertnya ada?'),
+	(84, 2, 12, '1', '2015-05-26 23:08:41', 'kjaelkfajflkjaljflkajldfsfsf', 0, 'alert masih ga munucl');
 /*!40000 ALTER TABLE `tb_chat` ENABLE KEYS */;
 
 
@@ -113,9 +126,9 @@ CREATE TABLE IF NOT EXISTS `tb_galeri` (
   KEY `galeri_foto_id` (`galeri_foto_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_galeri: ~7 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_galeri: ~12 rows (approximately)
 /*!40000 ALTER TABLE `tb_galeri` DISABLE KEYS */;
-REPLACE INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
+INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
 	(5, 193, '', 'masjid-jawa-tengah.jpg', 'kitchen_adventurer_caramel', '2015-04-23 00:00:00'),
 	(6, 194, '', 'badak.jpg', 'kitchen_adventurer_donut', '2015-04-23 00:00:00'),
 	(7, 110, '', 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-23 00:00:00'),
@@ -124,7 +137,10 @@ REPLACE INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `gale
 	(11, 1109, '', 'background-blur-1.jpg', 'background-blur', '2015-04-29 00:09:15'),
 	(12, 1108, '', 'dancer-on-the-stage.jpg', 'dancer-on-the-stage', '2015-04-29 00:10:00'),
 	(13, 1104, '', 'masjid-jawa-tengah.jpg', NULL, '2015-04-29 00:10:27'),
-	(14, 45, 'badak.jpg', 'badak.jpg', 'badak.jpg', '2015-05-09 02:31:19');
+	(14, 45, 'badak.jpg', 'badak.jpg', 'badak.jpg', '2015-05-09 02:31:19'),
+	(15, 1237, 'tumblrmgaqc1lh1g1rid89jo1400.jpg.jpeg', 'tumblrmgaqc1lh1g1rid89jo1400.jpg.jpeg', 'tumblrmgaqc1lh1g1rid89jo1400.jpg.jpeg', '2015-05-30 08:32:15'),
+	(16, 1237, 'tumblrmgarvwkbsi1rid89jo1400.jpg.jpeg', 'tumblrmgarvwkbsi1rid89jo1400.jpg.jpeg', 'tumblrmgarvwkbsi1rid89jo1400.jpg.jpeg', '2015-05-30 08:32:15'),
+	(17, 1238, '12', 'kungfu-panda-film-lucu.jpg', 'kungfu-panda-film-lucu.jpg', '2015-05-30 08:41:13');
 /*!40000 ALTER TABLE `tb_galeri` ENABLE KEYS */;
 
 
@@ -138,11 +154,11 @@ CREATE TABLE IF NOT EXISTS `tb_param` (
   PRIMARY KEY (`param_id`),
   UNIQUE KEY `param_id` (`param_id`),
   KEY `idx_param` (`param_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_param: ~22 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_param: ~30 rows (approximately)
 /*!40000 ALTER TABLE `tb_param` DISABLE KEYS */;
-REPLACE INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) VALUES
+INSERT INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) VALUES
 	(1, 0, 2, 'Lain-lain'),
 	(2, 0, 2, 'Wisata Kota'),
 	(3, 0, 2, 'Wisata Alam'),
@@ -166,7 +182,13 @@ REPLACE INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) 
 	(21, 3, 3, 'Waduk'),
 	(22, 3, 3, 'Rawa'),
 	(23, 3, 3, 'Mata Air'),
-	(25, 1, 3, 'Lain-lain');
+	(25, 1, 3, 'Lain-lain'),
+	(26, 0, 0, 'Kategori Trip'),
+	(27, 26, 1, 'Open Trip'),
+	(28, 26, 2, 'Share Cost'),
+	(29, 26, 3, 'Kere Hore'),
+	(30, 26, 4, 'Rencana Pribadi'),
+	(31, 26, 4, 'Travel');
 /*!40000 ALTER TABLE `tb_param` ENABLE KEYS */;
 
 
@@ -182,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
 
 -- Dumping data for table db_temanbackpacker.tb_parameter: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tb_parameter` DISABLE KEYS */;
-REPLACE INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
+INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
 	(1, 'status_trip', '{"status_trip":[\n{"id":"1", "name":"Wisata Kota"}, \n{"id":"2", "name":"Wisata Alam"}, \n{"id":"3", "name":"Wisata Kuliner"},\n{"id":"4", "name":"Wisata Sejarah"},\n{"id":"5", "name":"Backpacking"}\n]}'),
 	(2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
 /*!40000 ALTER TABLE `tb_parameter` ENABLE KEYS */;
@@ -214,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
 
 -- Dumping data for table db_temanbackpacker.tb_pengalaman: ~27 rows (approximately)
 /*!40000 ALTER TABLE `tb_pengalaman` DISABLE KEYS */;
-REPLACE INTO `tb_pengalaman` (`pengalaman_id`, `pengalaman_user_id`, `pengalaman_judul`, `pengalaman_isi`, `pengalaman_lokasi`, `pengalaman_lat`, `pengalaman_lot`, `pengalaman_date`, `pengalaman_kategori`, `pengalaman_flag_komen`, `pengalaman_stats`, `pengalaman_created`, `pengalaman_budget`) VALUES
+INSERT INTO `tb_pengalaman` (`pengalaman_id`, `pengalaman_user_id`, `pengalaman_judul`, `pengalaman_isi`, `pengalaman_lokasi`, `pengalaman_lat`, `pengalaman_lot`, `pengalaman_date`, `pengalaman_kategori`, `pengalaman_flag_komen`, `pengalaman_stats`, `pengalaman_created`, `pengalaman_budget`) VALUES
 	(45, 2, 'pertamax coy', 'iasjfhkjashfkalfalsfjklsjdf', '-6.23827,106.975573', -6.23827, 106.975573, '2015-05-01', 8, 1, 2, '2015-05-01 20:04:19', NULL),
 	(412, 1, 'Taman Impian Jaya Ancol', '<dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Pantai dan Taman</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Taman dan pantai merupakan wahana hiburan yang menawarkan kesegaran suasana pantai bagi semua kalangan dan usia. Pantai dan Taman memiliki 5 pantai (Pantai Festival, Indah, Elok, Ria dan Carnival Beach Club) dan Danau Impian, sepanjang kurang lebih 5Â km, dengan promenade sepanjang 4Â km.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Dunia Fantasi ( Dufan )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Dunia Fantasi yang dibuka untuk umum pada 29 Agustus 1986, dan popular dengan sebutanÂ <b>Dufan</b>, merupakan theme park pertama yang dikembangkan oleh Ancol. Dufan merupakan pusat hiburan outdoor terbesar di Indonesia yang memanjakan pengunjung dengan Fantasi Keliling Dunia, melalui berbagai content wahana permainan berteknologi tinggi, yang terbagi dalam 8 kawasan, yaitu: Indonesia, Jakarta, Asia, Eropa, Amerika, Yunani, Hikayat dan Balada Kera. Perseroan juga menjadikan Dufan sebagai salah satu pusat edutainment yang ada di Ancol yakni dengan dibukanya Fisika Dunia Fantasi (Fidufa) dan Pentas Prestasi. Dufan telah memiliki sertifikat ISO 9001:2008 sejak 2009.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Atlantis Water Adventure ( Atlantis )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Atlantis Water Adventure (AWA) merupakan theme park kedua yang dikembangkan oleh Ancol dan berdiri diatas lahan seluas 5 hektare. AWA merupakan hasil revitalisasi Taman Rekreasi Air Gelanggang Renang Ancol yang akan memberi pengunjung petualangan wisata air dengan 8 kolam utama, yaitu: Poseidon, Antila, Plaza Atlas, Aquarius, Octopus, Atlantean, dan Kiddy Pool.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Gelanggang Samudra ( Samudra )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Gelanggang Samudra Ancol ("Samudra") merupakan theme park ketiga yang dikembangkan oleh Ancol. Samudra merupakan edutainment theme park bernuansa konservasi alam yang memberikan pengalaman kepada pengunjung untuk mengenal lebih dekat dan menyayangi aneka satwa, antara lain lumba-lumba, paus putih, anjing laut, dan sinema 4D. Di Sinema 4D atau pertunjukan 4 dimensi, Anda harus mengantri untuk masuk ke dalam bangunan teater ini. Di dalam, petugas akan membagikan kacamata 3 dimensi. Setelah menunggu beberapa lama di depan pintu, penonton akan masuk ke dalam teater. Film yang disajikan berdurasi kurang lebih 15 menit. Dengan memakai kacamata 3 dimensi, Anda akan merasakan gambar ada di depan Anda dan seolah dapat disentuh, ditambah dengan kursi yang dapat bergoyang-goyang dan semburan air atau angin pada adegan tertentu sehingga Anda dapat mesakana suasana sesungguhnya. Ada 5 pilihan jadwal pada hari Senin sampai Sabtu dan 2 kali ekstra pertunjukan pada hari Minggu dan hari Libur. Tapi, Anda hanya dapat menontonnya satu kali karena untuk masuk ke dalam wahana ini harus menggunakan tiket yang terdapat pada tiket masuk.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Sea World</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Sea World adalah underwater aquarium pertama dan satu-satunya di Indonesia, dengan area seluas 2 Ha (dikelola dengan format BOT).</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Putri Duyung Cottages</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Penginapan tepi pantai bergaya unik berbentuk cottages dengan 133 kamar ini memiliki berbagai fasilitas khusus, sepertiÂ : ruang serba guna, ruang rapat dan lokasi pesta pantai. Putri Duyung juga menawarkan fasilitas olahraga, seperti kolam renang, tenis meja, sepeda, lapangan tenis, serta lapanan voli pantai. Arsitektur artistik Putri Duyung Ancol kental dengan perpaduan gaya posmo dan romantisme Indonesia Timur, ditata selaras dengan lingkungan pantai untuk menciptakan suasana yang berselera dan eksotik.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Padang Golf Ancol</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Padang Golf bernuansa pantai di tengah-tengah kawasan wisata yang memiliki 18 hole dengan desain lapangan unik. Lokasinya strategis dan mudah dicapai dari seluruh penjuru Jakarta.</p>', 'Ancol, Pademangan, Kota Jakarta Utara, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, '2015-04-02', 11, 1, 20, '2015-05-03 21:04:19', NULL),
 	(423, 1, 'Pengalaman ke tiga', 'haha cikiwir', 'Pangandaran, Cinere, Kota Depok, Jawa Barat 16514, Indonesia', -6.318115, 106.78166, '2015-05-09', 12, 1, 1, '2015-04-12 21:04:19', NULL),
@@ -241,7 +263,7 @@ REPLACE INTO `tb_pengalaman` (`pengalaman_id`, `pengalaman_user_id`, `pengalaman
 	(497, 2, 'oke baiklah', '', '', 0, 0, '0000-00-00', 25, 1, 1, '2015-05-15 20:26:16', ''),
 	(498, 2, 'masihkah?', '<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Ini merupakan pengalaman terlama bagiku dengan menggunakan kapal laut, menaiki KM. Awu selama 3 hari 3 malam dengan tujuan kotaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Ende</a>Â di pulau Flores dari kota Surabaya menjadi titik awal perjalananku dalam berkelana di Pulau Flores.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Sedatangnya dari Malang setelah pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung Semeru</a>Â bersama team ElKaPe Indonesia selama 4 hari, dari Stasiun Gubeng di Surabaya saya segera menuju Kantor PT. Pelni untuk membeli tiket kapal laut. Ternyata jamnya berubah dari yang sebelumnya pukul 13.00 menjadi pukul 19.00, sehingga saya masih punya waktu untuk bersantai di kota Surabaya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Pukul setengah enam sore saya menuju Pelabuhan Tanjung Perak Surabaya dengan diantarkan oleh kekasih tercinta, ternyata di pelabuhan sangat penuh oleh manusia, hingga banyak yang menggelar tikar di depan pelabuhan, saya berharap di kapal tidak sepenuh itu, namun ternyata begitu memasuki KM. Awu ternyata tidak ada lagi tempat kosong di dalam kabin, saya berkeliling mencari tempat hingga semua ruangan saya masuki namun tetap saya semua sudah ada orang yang mengisinya, akhirnya saya duduk di samping kapal untuk makan dan baru setelah itu mencari tempat untuk menggelar matras. Ternyata kapalnya sudah sandar dari pukul 15.00 jadi mereka yang sudah menunggu berhari-hari di pelabuhan langsung menguasai bagian dalam kapal.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Untung saja saya membeli matras di kota Malang sebelum pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung SemeruÂ </a>kemaren, setelah ngobrol dengan seorang bapak dari kota Solo akhirnya saya menggelar matras di dekatnya di dek bagian belakang kapal di lantai 3. Sleeping bag yang saya gunakan menolong saya dari dinginnya angin malam di atas laut, dan sayapun langsung tertidur lelap.</span><a href="http://1.bp.blogspot.com/-Kwb7XkZbL0s/TrdiU88xUcI/AAAAAAAAAVg/UziRQG6AJRk/s1600/indra+011.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-4vL6zE7B72M/TrdiJBa6qVI/AAAAAAAAAVY/bQIy0XOViXc/s1600/indra+010.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Saya terbangun di pagi hari karena mendengar azan subuh dari Mosholla kapal yang tepat di belakan saya, walaupun sang mentari belum muncul namun di ufuk timur terlihat semburat warna merah yang indah sekali, kemudian cahaya merah tersebut perlahan-lahan hilang berganti dengan munculnya benda bulat berwarna merah seperti kue Untuk-untuk (Kue dari Kalimantan), perlahan-lahan seperti keluar dari garis horizon samudra, sungguh pagi yang indah.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Di atas kapal</span>Â buatan 1991<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Â ini tidak banyak yang bisa dilakukan selain jalan-jalan keliling kapal, tidur dan ngobrol-ngobrol dengan penumpang lain, ternyata kebanyakan penumpang di dek sekitar saya adalah orang-orang dari Jawa yang ingin memcari kerja di NTT, namun saya juga sempat ngobrol dengan soerang pemuda asal Maumere bernama Bangka (hehe.. kebetulan waktu nulis ini di lewat dan nyolek saya). Dibalik penampilannya yang sangar seperti preman dengan rambut gondrongnya ternyata dia teman ngobrol yang baik. Dia berkerja di singapura sebagai operator alat berat di Bandar, di bercerita tentang disiplinnya orang di sana tentang kebersihan, diapun pernah di kurung karena waktu pertama kali datang di merokok di tempat umum.</span><a href="http://1.bp.blogspot.com/-nJmyNolnd44/TrditkgLnVI/AAAAAAAAAVw/1t9paKsa-ME/s1600/indra+018.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://4.bp.blogspot.com/-9YL3cwYXpQI/Trdigx2J0pI/AAAAAAAAAVo/MwIHMBPY7F4/s1600/indra+013.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap penumpang di kapal ini mendapat jatah makan 3 kali sehari, ketika waktu makan tiba kru kapal mengumumkannya di pengeras suara lalu berbondong-bondonglah para penumbang untuk menuju tempat pengambilan ransum makanan, panjangya antrian para penumpang yang hendak mengambil makan hingga mengelilingi ruang makan sampai ke sebelah kapal, walaupun sudah tiga bari namun tetap saja karena banyaknya penumpang kita harus menunggu hingga setengah jam lebih, seperti di penjara saja kata bapak yang juga mengantri di belakangku.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Ternyata menu makannyapun ala kadarnya, di pagi hari menunya adalah nasi yang agak keras di tambah dengan telur dadar yang sudah di potong entah menjadi berapa bagian, di tambah sedikit sambal yang tidak pedas menurut saya, sungguh menu yang sangat tidak menggiurkan, apalagi menu makan siang dan malam tambah parah, hanya ikan yang rasanya hampir busuk di tambah dengan dua potong terong yang dimasak seperti sejenis kareh.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap hari para awak kapal membersihkan kapal, namun membuat kita terkejut ketika sampahnya berterbangan di samping kita, selidik punya selitik ternyata mereka membuang langsung sampahnya ke laut dari samping kapal, sampah plastik, sherefoam, dan bekas makanan segera berhamburan di atas laut. Sungguh disayangkan seharusnya mereka tidak membuannya ke laut, pihak Pelni selaku pengelola pasti tau bagaimana dampaknya kalau membuang sampah di laut dan ikut menjaga kebersihan laut kita, tidak heran kejadian seperti di Pantai Kute bali yang tiba-tiba diserbua oleh ribuan sampah masuk majalah di luar negri.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Terombang ambing di laut membuat saya lapar, walau saya tahu harga di atas kapal pastilah mahal namun saya ingin mencobanya, saya memesan segelas Popmie di cafetaria, ternyata harganya Rp, 7.000,-. Namun baru dua suapan saya menikmatinya sudah ada panggilan untuk mengambil jatah makan siang, akhirnya saya memutuskan untuk mengambil nasi kemudian mencampurnya dengan Popmie tadi agar nasinya lebih berasa.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Perjalanan dengan kapal menjadi makin lama karena kita tidak berjalan lurus, namun mengelilingi beberapa pulau yang kita lewati, kita berhenti di beberapa kota untuk menurunkan dan menaikan penumpang, seperti di Pelabuhan Benoa (Bali), Pelabuhan Lembar (Lombok), Pelabuhan Bima (NTB), Pelabuhan Waingapu (Pulau Sumba), ketika mengelilingi selatan pulau Bali menjadi pengalaman yang berbeda bagi saya, di iringi oleh Lumba-lumba yang berloncatan saya bisa melihat Pura Uluwatu dari sisi yang berbeda dan tidak bisa dinikmati oleh wisatawan biasa, dari kapal terlihat kilatan-kilatan flash dari camera wisatawan yang sedang bernarsisria di pulau bali.Â </span><a href="http://1.bp.blogspot.com/-9qYBLfCXKFE/TrdizgxAlyI/AAAAAAAAAV4/pQPTFNGoZaE/s1600/indra+029.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-fHreDaMJoXI/TrdjIAO1SnI/AAAAAAAAAWA/txYc9jOBvLs/s1600/indra+034.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Kapal merapat di beberapa pelabuhan di atas tadi tidak sebentar, hingga saya memanfaatkannya untuk sekedar menjejakan kaki di darat, seperti di pelabuhan Tanjung Benoa Bali saya sempat melihat-lihat di sekitar pelabuhan, di sini banyak kapal-kapal mewah untuk melayani turis-turis yang sedang sandar seperti kapal Phinisi dan kapal pesiar Quicksilver yang sering dipakai untuk syuting FTV. Di sini saya juga menyempatkan diri untuk mandi di ruang tunggu, karena saya malas mandi di kapal, selain bau dan banjir juga harus menunggu lama, namun sayangnya colokan tidak ada yang kosong hingga saya tidak bisa mengisi ulang baterai HP saya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; font-family: \'Istok Web\', sans-serif; line-height: normal; white-space: normal; background-color: rgb(249, 249, 249);">Begitu juga di pelabuhan lain pasti saya sempatkan untuk turun, sekedat melepas kebosanan karena berhari-hari di atas kapal maupun untuk membeli makan untuk mengganti menu di atas kapal yang membuat eneg. Sekalian menjejakan kaki di pulau yang belum sempat saya explore, seperti di pulau SumbaÂ  yang terkenal dengan kuda dan upacara Pasolanya, kalau di tanya pernahkah ke pulau Sumba?paling tidak saya bisa menjawab â€œYaâ€ dengan yakin, walau hanya di pelabuhannya saja..:-)</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; font-family: \'Istok Web\', sans-serif; line-height: normal; white-space: normal; background-color: rgb(249, 249, 249);"></span>', '', 0, 0, '0000-00-00', 25, 1, 2, '2015-05-15 20:38:19', ''),
 	(499, 2, 'gambar lolos', '', '', 0, 0, '2015-05-15', 25, 1, 1, '2015-05-15 20:45:38', ''),
-	(4101, 2, 'cekidot lagi', '<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; font-family: \'Istok Web\', sans-serif; line-height: normal; white-space: normal; background-color: rgb(249, 249, 249);">Ini merupakan pengalaman terlama bagiku dengan menggunakan kapal laut, menaiki KM. Awu selama 3 hari 3 malam dengan tujuan kotaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Ende</a>Â di pulau Flores dari kota Surabaya menjadi titik awal perjalananku dalam berkelana di Pulau Flores.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Sedatangnya dari Malang setelah pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung Semeru</a>Â bersama team ElKaPe Indonesia selama 4 hari, dari Stasiun Gubeng di Surabaya saya segera menuju Kantor PT. Pelni untuk membeli tiket kapal laut. Ternyata jamnya berubah dari yang sebelumnya pukul 13.00 menjadi pukul 19.00, sehingga saya masih punya waktu untuk bersantai di kota Surabaya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Pukul setengah enam sore saya menuju Pelabuhan Tanjung Perak Surabaya dengan diantarkan oleh kekasih tercinta, ternyata di pelabuhan sangat penuh oleh manusia, hingga banyak yang menggelar tikar di depan pelabuhan, saya berharap di kapal tidak sepenuh itu, namun ternyata begitu memasuki KM. Awu ternyata tidak ada lagi tempat kosong di dalam kabin, saya berkeliling mencari tempat hingga semua ruangan saya masuki namun tetap saya semua sudah ada orang yang mengisinya, akhirnya saya duduk di samping kapal untuk makan dan baru setelah itu mencari tempat untuk menggelar matras. Ternyata kapalnya sudah sandar dari pukul 15.00 jadi mereka yang sudah menunggu berhari-hari di pelabuhan langsung menguasai bagian dalam kapal.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Untung saja saya membeli matras di kota Malang sebelum pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung SemeruÂ </a>kemaren, setelah ngobrol dengan seorang bapak dari kota Solo akhirnya saya menggelar matras di dekatnya di dek bagian belakang kapal di lantai 3. Sleeping bag yang saya gunakan menolong saya dari dinginnya angin malam di atas laut, dan sayapun langsung tertidur lelap.</span><a href="http://1.bp.blogspot.com/-Kwb7XkZbL0s/TrdiU88xUcI/AAAAAAAAAVg/UziRQG6AJRk/s1600/indra+011.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-Kwb7XkZbL0s/TrdiU88xUcI/AAAAAAAAAVg/UziRQG6AJRk/s320/indra+011.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-4vL6zE7B72M/TrdiJBa6qVI/AAAAAAAAAVY/bQIy0XOViXc/s1600/indra+010.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://2.bp.blogspot.com/-4vL6zE7B72M/TrdiJBa6qVI/AAAAAAAAAVY/bQIy0XOViXc/s320/indra+010.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Saya terbangun di pagi hari karena mendengar azan subuh dari Mosholla kapal yang tepat di belakan saya, walaupun sang mentari belum muncul namun di ufuk timur terlihat semburat warna merah yang indah sekali, kemudian cahaya merah tersebut perlahan-lahan hilang berganti dengan munculnya benda bulat berwarna merah seperti kue Untuk-untuk (Kue dari Kalimantan), perlahan-lahan seperti keluar dari garis horizon samudra, sungguh pagi yang indah.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Di atas kapal</span>Â buatan 1991<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Â ini tidak banyak yang bisa dilakukan selain jalan-jalan keliling kapal, tidur dan ngobrol-ngobrol dengan penumpang lain, ternyata kebanyakan penumpang di dek sekitar saya adalah orang-orang dari Jawa yang ingin memcari kerja di NTT, namun saya juga sempat ngobrol dengan soerang pemuda asal Maumere bernama Bangka (hehe.. kebetulan waktu nulis ini di lewat dan nyolek saya). Dibalik penampilannya yang sangar seperti preman dengan rambut gondrongnya ternyata dia teman ngobrol yang baik. Dia berkerja di singapura sebagai operator alat berat di Bandar, di bercerita tentang disiplinnya orang di sana tentang kebersihan, diapun pernah di kurung karena waktu pertama kali datang di merokok di tempat umum.</span><a href="http://1.bp.blogspot.com/-nJmyNolnd44/TrditkgLnVI/AAAAAAAAAVw/1t9paKsa-ME/s1600/indra+018.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-nJmyNolnd44/TrditkgLnVI/AAAAAAAAAVw/1t9paKsa-ME/s320/indra+018.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://4.bp.blogspot.com/-9YL3cwYXpQI/Trdigx2J0pI/AAAAAAAAAVo/MwIHMBPY7F4/s1600/indra+013.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://4.bp.blogspot.com/-9YL3cwYXpQI/Trdigx2J0pI/AAAAAAAAAVo/MwIHMBPY7F4/s320/indra+013.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap penumpang di kapal ini mendapat jatah makan 3 kali sehari, ketika waktu makan tiba kru kapal mengumumkannya di pengeras suara lalu berbondong-bondonglah para penumbang untuk menuju tempat pengambilan ransum makanan, panjangya antrian para penumpang yang hendak mengambil makan hingga mengelilingi ruang makan sampai ke sebelah kapal, walaupun sudah tiga bari namun tetap saja karena banyaknya penumpang kita harus menunggu hingga setengah jam lebih, seperti di penjara saja kata bapak yang juga mengantri di belakangku.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Ternyata menu makannyapun ala kadarnya, di pagi hari menunya adalah nasi yang agak keras di tambah dengan telur dadar yang sudah di potong entah menjadi berapa bagian, di tambah sedikit sambal yang tidak pedas menurut saya, sungguh menu yang sangat tidak menggiurkan, apalagi menu makan siang dan malam tambah parah, hanya ikan yang rasanya hampir busuk di tambah dengan dua potong terong yang dimasak seperti sejenis kareh.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap hari para awak kapal membersihkan kapal, namun membuat kita terkejut ketika sampahnya berterbangan di samping kita, selidik punya selitik ternyata mereka membuang langsung sampahnya ke laut dari samping kapal, sampah plastik, sherefoam, dan bekas makanan segera berhamburan di atas laut. Sungguh disayangkan seharusnya mereka tidak membuannya ke laut, pihak Pelni selaku pengelola pasti tau bagaimana dampaknya kalau membuang sampah di laut dan ikut menjaga kebersihan laut kita, tidak heran kejadian seperti di Pantai Kute bali yang tiba-tiba diserbua oleh ribuan sampah masuk majalah di luar negri.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Terombang ambing di laut membuat saya lapar, walau saya tahu harga di atas kapal pastilah mahal namun saya ingin mencobanya, saya memesan segelas Popmie di cafetaria, ternyata harganya Rp, 7.000,-. Namun baru dua suapan saya menikmatinya sudah ada panggilan untuk mengambil jatah makan siang, akhirnya saya memutuskan untuk mengambil nasi kemudian mencampurnya dengan Popmie tadi agar nasinya lebih berasa.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Perjalanan dengan kapal menjadi makin lama karena kita tidak berjalan lurus, namun mengelilingi beberapa pulau yang kita lewati, kita berhenti di beberapa kota untuk menurunkan dan menaikan penumpang, seperti di Pelabuhan Benoa (Bali), Pelabuhan Lembar (Lombok), Pelabuhan Bima (NTB), Pelabuhan Waingapu (Pulau Sumba), ketika mengelilingi selatan pulau Bali menjadi pengalaman yang berbeda bagi saya, di iringi oleh Lumba-lumba yang berloncatan saya bisa melihat Pura Uluwatu dari sisi yang berbeda dan tidak bisa dinikmati oleh wisatawan biasa, dari kapal terlihat kilatan-kilatan flash dari camera wisatawan yang sedang bernarsisria di pulau bali.Â </span><a href="http://1.bp.blogspot.com/-9qYBLfCXKFE/TrdizgxAlyI/AAAAAAAAAV4/pQPTFNGoZaE/s1600/indra+029.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-9qYBLfCXKFE/TrdizgxAlyI/AAAAAAAAAV4/pQPTFNGoZaE/s320/indra+029.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-fHreDaMJoXI/TrdjIAO1SnI/AAAAAAAAAWA/txYc9jOBvLs/s1600/indra+034.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="214" src="http://2.bp.blogspot.com/-fHreDaMJoXI/TrdjIAO1SnI/AAAAAAAAAWA/txYc9jOBvLs/s320/indra+034.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Kapal merapat di beberapa pelabuhan di atas tadi tidak sebentar, hingga saya memanfaatkannya untuk sekedar menjejakan kaki di darat, seperti di pelabuhan Tanjung Benoa Bali saya sempat melihat-lihat di sekitar pelabuhan, di sini banyak kapal-kapal mewah untuk melayani turis-turis yang sedang sandar seperti kapal Phinisi dan kapal pesiar Quicksilver yang sering dipakai untuk syuting FTV. Di sini saya juga menyempatkan diri untuk mandi di ruang tunggu, karena saya malas mandi di kapal, selain bau dan banjir juga harus menunggu lama, namun sayangnya colokan tidak ada yang kosong hingga saya tidak bisa mengisi ulang baterai HP saya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Begitu juga di pelabuhan lain pasti saya sempatkan untuk turun, sekedat melepas kebosanan karena berhari-hari di atas kapal maupun untuk membeli makan untuk mengganti menu di atas kapal yang membuat eneg. Sekalian menjejakan kaki di pulau yang belum sempat saya explore, seperti di pulau SumbaÂ  yang terkenal dengan kuda dan upacara Pasolanya, kalau di tanya pernahkah ke pulau Sumba?paling tidak saya bisa menjawab â€œYaâ€ dengan yakin, walau hanya di pelabuhannya saja..:-)</span><a href="http://4.bp.blogspot.com/-1X0mdeTffLA/TrdjVotiSQI/AAAAAAAAAWI/XCC10G8UPjw/s1600/indra+049.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://4.bp.blogspot.com/-1X0mdeTffLA/TrdjVotiSQI/AAAAAAAAAWI/XCC10G8UPjw/s320/indra+049.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://3.bp.blogspot.com/-XcM9POZi_zM/TrdjiuqvjwI/AAAAAAAAAWQ/7-I4sx5dfzI/s1600/indra+064.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="320" src="http://3.bp.blogspot.com/-XcM9POZi_zM/TrdjiuqvjwI/AAAAAAAAAWQ/7-I4sx5dfzI/s320/indra+064.jpg" width="213" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Sebenarnya rute yang dilalui kapal ini masih panjang hingga ke Kupang dan Alor, namun karena tujuan saya di Nusa Tenggara Timur ini adalah kotaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Ende</a>Â jadi saya harus meninggalkan kapal ini dengan berat hati (haha..). Kapal merapat di Pelabuhan Ende di malam yang gelap sekitar pukul 2 pagi, namun di pelabuhan sudah banyak orang yang menunggu untuk naik kapal ini. Di sini saya harus berpisah dengan teman-teman baru saya selama perjalanan, mereka menuju kota Maumure sedangkan saya hanya sampai Kota Ende.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Untuk pertualangan saya di Flores danÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Kota Ende</a>Â tunggu postingan saya yang selanjutnyaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">di sini.</a></span>', '', 0, 0, '2015-05-15', 25, 1, 28, '2015-05-15 20:51:44', '');
+	(4101, 2, 'cekidot lagi', '<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; font-family: \'Istok Web\', sans-serif; line-height: normal; white-space: normal; background-color: rgb(249, 249, 249);">Ini merupakan pengalaman terlama bagiku dengan menggunakan kapal laut, menaiki KM. Awu selama 3 hari 3 malam dengan tujuan kotaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Ende</a>Â di pulau Flores dari kota Surabaya menjadi titik awal perjalananku dalam berkelana di Pulau Flores.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Sedatangnya dari Malang setelah pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung Semeru</a>Â bersama team ElKaPe Indonesia selama 4 hari, dari Stasiun Gubeng di Surabaya saya segera menuju Kantor PT. Pelni untuk membeli tiket kapal laut. Ternyata jamnya berubah dari yang sebelumnya pukul 13.00 menjadi pukul 19.00, sehingga saya masih punya waktu untuk bersantai di kota Surabaya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Pukul setengah enam sore saya menuju Pelabuhan Tanjung Perak Surabaya dengan diantarkan oleh kekasih tercinta, ternyata di pelabuhan sangat penuh oleh manusia, hingga banyak yang menggelar tikar di depan pelabuhan, saya berharap di kapal tidak sepenuh itu, namun ternyata begitu memasuki KM. Awu ternyata tidak ada lagi tempat kosong di dalam kabin, saya berkeliling mencari tempat hingga semua ruangan saya masuki namun tetap saya semua sudah ada orang yang mengisinya, akhirnya saya duduk di samping kapal untuk makan dan baru setelah itu mencari tempat untuk menggelar matras. Ternyata kapalnya sudah sandar dari pukul 15.00 jadi mereka yang sudah menunggu berhari-hari di pelabuhan langsung menguasai bagian dalam kapal.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Untung saja saya membeli matras di kota Malang sebelum pendakianÂ <a href="http://ranselnaraituh.blogspot.com/2011/10/tekad-di-gunung-semeru.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Gunung SemeruÂ </a>kemaren, setelah ngobrol dengan seorang bapak dari kota Solo akhirnya saya menggelar matras di dekatnya di dek bagian belakang kapal di lantai 3. Sleeping bag yang saya gunakan menolong saya dari dinginnya angin malam di atas laut, dan sayapun langsung tertidur lelap.</span><a href="http://1.bp.blogspot.com/-Kwb7XkZbL0s/TrdiU88xUcI/AAAAAAAAAVg/UziRQG6AJRk/s1600/indra+011.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-Kwb7XkZbL0s/TrdiU88xUcI/AAAAAAAAAVg/UziRQG6AJRk/s320/indra+011.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-4vL6zE7B72M/TrdiJBa6qVI/AAAAAAAAAVY/bQIy0XOViXc/s1600/indra+010.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://2.bp.blogspot.com/-4vL6zE7B72M/TrdiJBa6qVI/AAAAAAAAAVY/bQIy0XOViXc/s320/indra+010.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Saya terbangun di pagi hari karena mendengar azan subuh dari Mosholla kapal yang tepat di belakan saya, walaupun sang mentari belum muncul namun di ufuk timur terlihat semburat warna merah yang indah sekali, kemudian cahaya merah tersebut perlahan-lahan hilang berganti dengan munculnya benda bulat berwarna merah seperti kue Untuk-untuk (Kue dari Kalimantan), perlahan-lahan seperti keluar dari garis horizon samudra, sungguh pagi yang indah.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Di atas kapal</span>Â buatan 1991<span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Â ini tidak banyak yang bisa dilakukan selain jalan-jalan keliling kapal, tidur dan ngobrol-ngobrol dengan penumpang lain, ternyata kebanyakan penumpang di dek sekitar saya adalah orang-orang dari Jawa yang ingin memcari kerja di NTT, namun saya juga sempat ngobrol dengan soerang pemuda asal Maumere bernama Bangka (hehe.. kebetulan waktu nulis ini di lewat dan nyolek saya). Dibalik penampilannya yang sangar seperti preman dengan rambut gondrongnya ternyata dia teman ngobrol yang baik. Dia berkerja di singapura sebagai operator alat berat di Bandar, di bercerita tentang disiplinnya orang di sana tentang kebersihan, diapun pernah di kurung karena waktu pertama kali datang di merokok di tempat umum.</span><a href="http://1.bp.blogspot.com/-nJmyNolnd44/TrditkgLnVI/AAAAAAAAAVw/1t9paKsa-ME/s1600/indra+018.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-nJmyNolnd44/TrditkgLnVI/AAAAAAAAAVw/1t9paKsa-ME/s320/indra+018.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://4.bp.blogspot.com/-9YL3cwYXpQI/Trdigx2J0pI/AAAAAAAAAVo/MwIHMBPY7F4/s1600/indra+013.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://4.bp.blogspot.com/-9YL3cwYXpQI/Trdigx2J0pI/AAAAAAAAAVo/MwIHMBPY7F4/s320/indra+013.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap penumpang di kapal ini mendapat jatah makan 3 kali sehari, ketika waktu makan tiba kru kapal mengumumkannya di pengeras suara lalu berbondong-bondonglah para penumbang untuk menuju tempat pengambilan ransum makanan, panjangya antrian para penumpang yang hendak mengambil makan hingga mengelilingi ruang makan sampai ke sebelah kapal, walaupun sudah tiga bari namun tetap saja karena banyaknya penumpang kita harus menunggu hingga setengah jam lebih, seperti di penjara saja kata bapak yang juga mengantri di belakangku.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Ternyata menu makannyapun ala kadarnya, di pagi hari menunya adalah nasi yang agak keras di tambah dengan telur dadar yang sudah di potong entah menjadi berapa bagian, di tambah sedikit sambal yang tidak pedas menurut saya, sungguh menu yang sangat tidak menggiurkan, apalagi menu makan siang dan malam tambah parah, hanya ikan yang rasanya hampir busuk di tambah dengan dua potong terong yang dimasak seperti sejenis kareh.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Setiap hari para awak kapal membersihkan kapal, namun membuat kita terkejut ketika sampahnya berterbangan di samping kita, selidik punya selitik ternyata mereka membuang langsung sampahnya ke laut dari samping kapal, sampah plastik, sherefoam, dan bekas makanan segera berhamburan di atas laut. Sungguh disayangkan seharusnya mereka tidak membuannya ke laut, pihak Pelni selaku pengelola pasti tau bagaimana dampaknya kalau membuang sampah di laut dan ikut menjaga kebersihan laut kita, tidak heran kejadian seperti di Pantai Kute bali yang tiba-tiba diserbua oleh ribuan sampah masuk majalah di luar negri.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Terombang ambing di laut membuat saya lapar, walau saya tahu harga di atas kapal pastilah mahal namun saya ingin mencobanya, saya memesan segelas Popmie di cafetaria, ternyata harganya Rp, 7.000,-. Namun baru dua suapan saya menikmatinya sudah ada panggilan untuk mengambil jatah makan siang, akhirnya saya memutuskan untuk mengambil nasi kemudian mencampurnya dengan Popmie tadi agar nasinya lebih berasa.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Perjalanan dengan kapal menjadi makin lama karena kita tidak berjalan lurus, namun mengelilingi beberapa pulau yang kita lewati, kita berhenti di beberapa kota untuk menurunkan dan menaikan penumpang, seperti di Pelabuhan Benoa (Bali), Pelabuhan Lembar (Lombok), Pelabuhan Bima (NTB), Pelabuhan Waingapu (Pulau Sumba), ketika mengelilingi selatan pulau Bali menjadi pengalaman yang berbeda bagi saya, di iringi oleh Lumba-lumba yang berloncatan saya bisa melihat Pura Uluwatu dari sisi yang berbeda dan tidak bisa dinikmati oleh wisatawan biasa, dari kapal terlihat kilatan-kilatan flash dari camera wisatawan yang sedang bernarsisria di pulau bali.Â </span><a href="http://1.bp.blogspot.com/-9qYBLfCXKFE/TrdizgxAlyI/AAAAAAAAAV4/pQPTFNGoZaE/s1600/indra+029.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://1.bp.blogspot.com/-9qYBLfCXKFE/TrdizgxAlyI/AAAAAAAAAV4/pQPTFNGoZaE/s320/indra+029.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://2.bp.blogspot.com/-fHreDaMJoXI/TrdjIAO1SnI/AAAAAAAAAWA/txYc9jOBvLs/s1600/indra+034.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="214" src="http://2.bp.blogspot.com/-fHreDaMJoXI/TrdjIAO1SnI/AAAAAAAAAWA/txYc9jOBvLs/s320/indra+034.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Kapal merapat di beberapa pelabuhan di atas tadi tidak sebentar, hingga saya memanfaatkannya untuk sekedar menjejakan kaki di darat, seperti di pelabuhan Tanjung Benoa Bali saya sempat melihat-lihat di sekitar pelabuhan, di sini banyak kapal-kapal mewah untuk melayani turis-turis yang sedang sandar seperti kapal Phinisi dan kapal pesiar Quicksilver yang sering dipakai untuk syuting FTV. Di sini saya juga menyempatkan diri untuk mandi di ruang tunggu, karena saya malas mandi di kapal, selain bau dan banjir juga harus menunggu lama, namun sayangnya colokan tidak ada yang kosong hingga saya tidak bisa mengisi ulang baterai HP saya.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Begitu juga di pelabuhan lain pasti saya sempatkan untuk turun, sekedat melepas kebosanan karena berhari-hari di atas kapal maupun untuk membeli makan untuk mengganti menu di atas kapal yang membuat eneg. Sekalian menjejakan kaki di pulau yang belum sempat saya explore, seperti di pulau SumbaÂ  yang terkenal dengan kuda dan upacara Pasolanya, kalau di tanya pernahkah ke pulau Sumba?paling tidak saya bisa menjawab â€œYaâ€ dengan yakin, walau hanya di pelabuhannya saja..:-)</span><a href="http://4.bp.blogspot.com/-1X0mdeTffLA/TrdjVotiSQI/AAAAAAAAAWI/XCC10G8UPjw/s1600/indra+049.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="213" src="http://4.bp.blogspot.com/-1X0mdeTffLA/TrdjVotiSQI/AAAAAAAAAWI/XCC10G8UPjw/s320/indra+049.jpg" width="320" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;"></span><a href="http://3.bp.blogspot.com/-XcM9POZi_zM/TrdjiuqvjwI/AAAAAAAAAWQ/7-I4sx5dfzI/s1600/indra+064.jpg" style="margin: 0px 1em; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);"><img border="0" height="320" src="http://3.bp.blogspot.com/-XcM9POZi_zM/TrdjiuqvjwI/AAAAAAAAAWQ/7-I4sx5dfzI/s320/indra+064.jpg" width="213" style="margin: 0px; padding: 0px; list-style: none; border-style: none; outline: none; max-width: 600px;"></a><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Sebenarnya rute yang dilalui kapal ini masih panjang hingga ke Kupang dan Alor, namun karena tujuan saya di Nusa Tenggara Timur ini adalah kotaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Ende</a>Â jadi saya harus meninggalkan kapal ini dengan berat hati (haha..). Kapal merapat di Pelabuhan Ende di malam yang gelap sekitar pukul 2 pagi, namun di pelabuhan sudah banyak orang yang menunggu untuk naik kapal ini. Di sini saya harus berpisah dengan teman-teman baru saya selama perjalanan, mereka menuju kota Maumure sedangkan saya hanya sampai Kota Ende.</span><span lang="IN" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none;">Untuk pertualangan saya di Flores danÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">Kota Ende</a>Â tunggu postingan saya yang selanjutnyaÂ <a href="http://ranselnaraituh.blogspot.com/2011/11/mengunjungi-pengasingan-proklamator-di.html" target="_blank" style="margin: 0px; padding: 0px; list-style: none; border: none; outline: none; color: rgb(0, 0, 0);">di sini.</a></span>', '', 0, 0, '2015-05-15', 25, 1, 35, '2015-05-15 20:51:44', '');
 /*!40000 ALTER TABLE `tb_pengalaman` ENABLE KEYS */;
 
 
@@ -257,13 +279,13 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
   KEY `seq_name_2` (`seq_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_seq: ~5 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_seq: ~4 rows (approximately)
 /*!40000 ALTER TABLE `tb_seq` DISABLE KEYS */;
-REPLACE INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-	(1, 'sq_trip', 1, 180),
+INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
+	(1, 'sq_trip', 1, 238),
 	(2, 'seq_tanya', 2, 0),
 	(3, 'seq_diskusi', 3, 0),
-	(4, 'seq_exp', 4, 101);
+	(4, 'seq_exp', 4, 103);
 /*!40000 ALTER TABLE `tb_seq` ENABLE KEYS */;
 
 
@@ -274,64 +296,75 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_user_id` int(11) NOT NULL,
   `trip_judul` varchar(50) DEFAULT NULL,
   `trip_tujuan` varchar(100) DEFAULT NULL,
-  `trip_tujuan_provinsi` varchar(250) NOT NULL,
-  `trip_tujuan_kota` varchar(100) NOT NULL,
   `trip_tujuan_geolat` double DEFAULT NULL,
   `trip_tujuan_geolng` double DEFAULT NULL,
+  `trip_asal` varchar(100) DEFAULT NULL,
+  `trip_asal_lat` double DEFAULT NULL,
+  `trip_asal_lng` double DEFAULT NULL,
+  `trip_jenis` char(2) DEFAULT NULL,
   `trip_kategori` char(2) DEFAULT NULL,
-  `trip_quota` tinyint(4) DEFAULT NULL,
   `trip_date1` date DEFAULT NULL,
   `trip_date2` date DEFAULT NULL,
-  `trip_info` text,
-  `trip_transport` varchar(100) DEFAULT NULL,
-  `trip_meeting_point` varchar(50) DEFAULT NULL,
+  `trip_detail` text,
+  `trip_flag_comm` char(1) DEFAULT '0' COMMENT '1: ijinkan komentar | 0: tidak diijinkan komentar',
+  `trip_flag_join` char(1) DEFAULT '0' COMMENT '1: ijinkan join | 0: tidak diijinkan join',
   `trip_created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`trip_id`),
-  KEY `FK_tb_trip_tb_user` (`trip_user_id`),
-  CONSTRAINT `FK_tb_trip_tb_user` FOREIGN KEY (`trip_user_id`) REFERENCES `tb_user` (`user_id`)
+  `trip_stats` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`trip_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_trip: ~10 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_trip: ~16 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip` DISABLE KEYS */;
-REPLACE INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_provinsi`, `trip_tujuan_kota`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_kategori`, `trip_quota`, `trip_date1`, `trip_date2`, `trip_info`, `trip_transport`, `trip_meeting_point`, `trip_created_date`) VALUES
-	(0, 1, 'ini judul', 'ini tujuan', '', '', 892349328, 984010, '9', 22, '2015-04-15', '2015-04-16', 'jalan jalan yook', '23', 'jkt', '2015-04-01 23:04:21'),
-	(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', '', '', -6.258244, 106.977183, '8', 11, '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '3', 'Jakarta', '2015-04-02 23:04:21'),
-	(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', '', '', 0, 6, '12', 6, '0000-00-00', '0000-00-00', '', '2', 'di stasiiun kranji', '2015-04-03 23:04:21'),
-	(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', '', '', 0, 6, '15', 14, '2015-04-30', '2015-04-30', '', '2', 'stasiun', '2015-04-04 23:04:21'),
-	(195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', '', '', -7.333333, 108.2, '16', 12, '0000-00-00', '0000-00-00', '', '3', 'alun alun', '2015-04-23 23:04:21'),
-	(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', 'Jawa Barat', 'Kabupaten Bandung Barat', -6.865221, 107.491977, '11', 13, '2015-04-23', '2015-04-25', '', '3', 'meetingpoin', '2015-04-23 23:04:21'),
-	(1104, 2, 'Bambo Rafting Di Loksado', 'Kandangan, Kabupaten Hulu Sungai Selatan, Kalimantan Selatan, Indonesia', 'Kalimantan Selatan', 'Kabupaten Hulu Sungai Selatan', -2.721761, 115.200773, '17', 4, '2015-05-29', '2015-05-31', 'Bambo rafting adalah Sebuah alat tradisional arung jeram menggunakan bambu yang di satukan dengan tali di tengah2nya di sediakan tempat duduk untuk tiga orang, lama pengarungan bambo rafting di sungai amandit loksado sekitar 2,5 jam perjalanan dengan ditemani seorang joki handal, rasakan sensasi arung jeram menggunakan bambo rafting :)', '6', 'Jakarta', '2015-04-25 01:34:36'),
-	(1108, 2, 'Trip Seru, Murah, Penuh Pelajaran Dan Pengalaman K', 'Banten, Indonesia', 'Banten', '', -6.405817, 106.064018, '14', 11, '0000-00-00', '0000-00-00', '', '4', 'kampung rambutan', '2015-04-25 01:43:45'),
-	(1109, 2, 'Ujungkulon 07-09 Agustus 2015 Naek Kano Nginap Di ', '', '', '', 0, 0, '9', 3, '2015-06-19', '2015-06-30', 'Beberapa tempat yang akan kita kunjungi di UK:\r\na. Cidaon Grazing Ground (wildlife viewing)\r\nb. Karang Copong (sunset)\r\nc. Handeuleum Island\r\nd. Canoing (Habit of Rhino)\r\ne. Snorkeling at Peucang dan Citerjun', '5', 'Rambutan', '2015-04-25 01:47:51'),
-	(1129, 2, 'Jalan jalan meruya', 'Jalan Meruya Utara, Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta, Indonesia', 'Daerah Khusus Ibukota Jakarta', 'Kota Jakarta Barat', -6.197561, 106.765292, '7', 14, '0000-00-00', '0000-00-00', 'kajflkajsldfjlas\r\n\r\nsfsdfsdfsd\r\n\r\n\r\nsdfsdfsafdsaf\r\n\r\nd\r\nsdfsdfsdfsfsdfs\r\n', '1', '', '2015-04-25 18:32:45');
+INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_asal`, `trip_asal_lat`, `trip_asal_lng`, `trip_jenis`, `trip_kategori`, `trip_date1`, `trip_date2`, `trip_detail`, `trip_flag_comm`, `trip_flag_join`, `trip_created_date`, `trip_stats`) VALUES
+	(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, '', 0, 0, NULL, '9', '2015-04-15', '2015-04-16', 'jalan jalan yook', '0', '0', '2015-04-01 23:04:21', 0),
+	(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', -6.258244, 106.977183, '', 0, 0, NULL, '8', '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '0', '0', '2015-04-02 23:04:21', 0),
+	(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', 0, 6, '', 0, 0, NULL, '12', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-03 23:04:21', 0),
+	(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', 0, 6, '', 0, 0, NULL, '15', '2015-04-30', '2015-04-30', '', '0', '0', '2015-04-04 23:04:21', 0),
+	(195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', -7.333333, 108.2, '', 0, 0, NULL, '16', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-23 23:04:21', 0),
+	(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', -6.865221, 107.491977, 'Kabupaten Bandung Barat', 0, 0, NULL, '11', '2015-04-23', '2015-04-25', '', '0', '0', '2015-04-23 23:04:21', 0),
+	(1104, 2, 'Bambo Rafting Di Loksado', 'Kandangan, Kabupaten Hulu Sungai Selatan, Kalimantan Selatan, Indonesia', -2.721761, 115.200773, 'Kabupaten Hulu Sungai Selatan', 0, 0, NULL, '17', '2015-05-29', '2015-05-31', 'Bambo rafting adalah Sebuah alat tradisional arung jeram menggunakan bambu yang di satukan dengan tali di tengah2nya di sediakan tempat duduk untuk tiga orang, lama pengarungan bambo rafting di sungai amandit loksado sekitar 2,5 jam perjalanan dengan ditemani seorang joki handal, rasakan sensasi arung jeram menggunakan bambo rafting :)', '0', '0', '2015-04-25 01:34:36', 0),
+	(1108, 2, 'Trip Seru, Murah, Penuh Pelajaran Dan Pengalaman K', 'Banten, Indonesia', -6.405817, 106.064018, '', 0, 0, NULL, '14', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-25 01:43:45', 0),
+	(1109, 2, 'Ujungkulon 07-09 Agustus 2015 Naek Kano Nginap Di ', '', 0, 0, '', 0, 0, NULL, '9', '2015-06-19', '2015-06-30', 'Beberapa tempat yang akan kita kunjungi di UK:\r\na. Cidaon Grazing Ground (wildlife viewing)\r\nb. Karang Copong (sunset)\r\nc. Handeuleum Island\r\nd. Canoing (Habit of Rhino)\r\ne. Snorkeling at Peucang dan Citerjun', '0', '0', '2015-04-25 01:47:51', 0),
+	(1129, 2, 'Jalan jalan meruya', 'Jalan Meruya Utara, Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.197561, 106.765292, 'Kota Jakarta Barat', 0, 0, NULL, '7', '0000-00-00', '0000-00-00', 'kajflkajsldfjlas\r\n\r\nsfsdfsdfsd\r\n\r\n\r\nsdfsdfsafdsaf\r\n\r\nd\r\nsdfsdfsdfsfsdfs\r\n', '0', '0', '2015-04-25 18:32:45', 2),
+	(1231, 12, 'ini judul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '2015-05-30 05:37:58', 0),
+	(1232, 12, 'ini judul webnya roolback', 'Bandung, Jawa Barat, Indonesia', -6.917464, 107.619123, 'Bekasi Barat, Jawa Barat, Indonesia', -6.238203, 106.965376, '30', '11', '2015-05-30', '2015-06-30', 'pppppppppppppppPPPPPPPPPPP', '1', '1', '2015-05-30 06:20:43', 22),
+	(1233, 12, 'Hallo semua', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, 'Bekasi, Jawa Barat, Indonesia', -6.23827, 106.975573, '30', '11', '0000-00-00', '0000-00-00', 'dkfajflkajlkfjakljflkadfsafadfsfsf', '0', '0', '2015-05-30 06:24:00', 0),
+	(1234, 12, 'Pendakian Ceria Gunung Cikuray Garut 12-14 Juni 20', 'Cikuray, Sukamantri, Jawa Barat, Indonesia', -6.769244, 107.875143, 'Kampung Rambutan, Rambutan, Daerah Khusus Ibukota Jakarta, Indonesia', -6.309957, 106.882201, '27', '13', '2015-06-12', '2015-06-14', '<p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">ONLY IDR 350.000/PACKMeeting Point Terminal Kp. Rambutan</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">~~~~~~~~~~~~~`Fasilitas~~~~~~~~~~~~~`1. Transportasi dari Kp. Rambutan â€“ Garut PP2. Transportasi Term. guntur â€“ Pemancar PP3. Ijin Pendakian4. Tenda kapasitas 4 orang5. Guide & Tour Leader6. Makan 2x sebelum dan sesudah pendakian7. T-shirt Pendakian8. Sticker9. Sunrise top cikuray</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Info detail:<a href="https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(19, 93, 177);">https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/</a></p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Informasi dan PendaftaranCarica AdventureAgung: 08999330189 / pin 54228527Adimas: 087782107200 / pin 21E44283Enggo: 087790617227 / pin 79F41E08</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Follow Us OnFB: Carica Adventuretwitter: @CaricaAdvcaricaadventure.wordpress.com</p>', '1', '1', '2015-05-30 07:57:37', 1),
+	(1237, 12, 'Tes upload gambar', 'Ciputat, Banten, Indonesia', -6.307706, 106.717567, 'Jakarta Pusat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.186486, 106.834091, '30', '13', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '1', '1', '2015-05-30 08:35:25', 9),
+	(1238, 12, 'tes Upload galeri trip lagi', 'Puncak, Cisarua, Jawa Barat, Indonesia', -6.712548, 106.954242, 'Cikarang Selatan, Jawa Barat, Indonesia', -6.319337, 107.136637, 'Pi', 'Pi', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '0', '0', '2015-05-30 08:42:05', 1);
 /*!40000 ALTER TABLE `tb_trip` ENABLE KEYS */;
 
 
 -- Dumping structure for table db_temanbackpacker.tb_trip_member
 DROP TABLE IF EXISTS `tb_trip_member`;
 CREATE TABLE IF NOT EXISTS `tb_trip_member` (
-  `member_trip_id` int(11) NOT NULL,
-  `member_user_id` int(11) DEFAULT NULL,
-  `member_status` char(1) DEFAULT NULL COMMENT 'A: host | B: ijin join | C: udah join |  D: cancel | E: kabur',
   `member_id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_trip_id` int(11) NOT NULL,
+  `member_user_id` int(11) NOT NULL,
+  `member_status` char(1) DEFAULT NULL COMMENT 'A: host | B: ijin join | C: udah join |  D: cancel | E: kabur',
   PRIMARY KEY (`member_id`),
-  KEY `FK_tb_trip_member_tb_user` (`member_user_id`),
-  CONSTRAINT `FK_tb_trip_member_tb_user` FOREIGN KEY (`member_user_id`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `unq_member_trip` (`member_trip_id`,`member_user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_trip_member: ~8 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_trip_member: ~16 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip_member` DISABLE KEYS */;
-REPLACE INTO `tb_trip_member` (`member_trip_id`, `member_user_id`, `member_status`, `member_id`) VALUES
-	(110, 1, 'A', 1),
-	(110, 2, 'C', 2),
-	(193, 2, 'A', 3),
-	(194, 2, 'A', 4),
-	(195, 2, 'A', 5),
-	(1100, 2, 'A', 6),
-	(1104, 2, 'A', 7),
-	(1108, 2, 'A', 8),
-	(1109, 2, 'A', 9),
-	(1129, 2, 'A', 10);
+INSERT INTO `tb_trip_member` (`member_id`, `member_trip_id`, `member_user_id`, `member_status`) VALUES
+	(1, 110, 1, 'A'),
+	(2, 110, 2, 'C'),
+	(3, 193, 2, 'A'),
+	(4, 194, 2, 'A'),
+	(5, 195, 2, 'A'),
+	(6, 1100, 2, 'A'),
+	(7, 1104, 2, 'A'),
+	(8, 1108, 2, 'A'),
+	(9, 1109, 2, 'A'),
+	(10, 1129, 2, 'A'),
+	(11, 1232, 0, 'A'),
+	(13, 1232, 12, 'A'),
+	(15, 1233, 12, 'A'),
+	(16, 1234, 12, 'A'),
+	(17, 1237, 12, 'A'),
+	(20, 1238, 12, 'A');
 /*!40000 ALTER TABLE `tb_trip_member` ENABLE KEYS */;
 
 
@@ -363,13 +396,13 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
   KEY `idx_user_name` (`user_name`,`user_password`),
   KEY `idx_search_username` (`user_username`),
   KEY `idx_search_email` (`user_email`,`user_password`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_user: ~10 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_user: ~12 rows (approximately)
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-REPLACE INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_bio`, `user_sosmed`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_ip`, `user_exp`, `user_privacy`, `user_deleted`, `user_reputasi`) VALUES
-	(1, 'FachrulCH', 'Kurawal', 'fachrul.fch@gmail.com', '57917da98d1c3aaa5256cbb7aa7a15af', 'Jakarta', 'P', '1990-04-06', '1prambanan.jpg', 'Ini bio', 'fachrul.fch@gmail.com', '2015-04-06 03:07:29', 'Info si ALu', 0, 0, NULL, '', 0, 0, 0),
-	(2, 'Karta', 'Pendekar', 'karta@email.com', '63954d2707c13cf25472551ea783ae1f', 'Bekasi', 'L', '1989-04-19', '1prambanan.jpg', 'INi bio gw coy jhkjh kjh kjhjkhjkhjkh kj jkhkjhjk ', 'karta@email.com', '2013-02-19 00:00:00', 'gw adalah anak bekasi', 0, 0, NULL, 'Ke gunung gan', 0, 0, 0),
+INSERT INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_bio`, `user_sosmed`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_ip`, `user_exp`, `user_privacy`, `user_deleted`, `user_reputasi`) VALUES
+	(1, 'FachrulCH', 'Kurawal', 'fachrul.fch@gmail.com', '57917da98d1c3aaa5256cbb7aa7a15af', 'Jakarta', 'P', '1990-04-06', '1prambanan.jpg', 'Ini bio', 'fachrul.fch@gmail.com', '2015-04-06 03:07:29', 'Info si ALu', -6.2087634, 106.84559899999999, NULL, '', 0, 0, 0),
+	(2, 'Karta', 'Pendekar', 'karta@email.com', '63954d2707c13cf25472551ea783ae1f', 'Bekasi Barat, Jawa Barat, Indonesia', 'P', '1989-04-19', '1prambanan.jpg', 'INi bio gw coy jhkjh kjh kjhjkhjkhjkh kj jkhkjhjk ', 'karta@email.com', '2013-02-19 00:00:00', 'gw adalah anak bekasi', -6.238203, 106.965376, NULL, 'Ke gunung gan', 0, 0, 0),
 	(3, 'bahur', '', 'bahur@email.com', 'bahur', 'padang', 'L', '2015-04-19', '1.jpg', NULL, NULL, NULL, 'ini bahur', NULL, NULL, NULL, '', 0, 0, 0),
 	(4, 'asoy geboy', 'asoygeboy', 'asoy@geboy.com', 'f9ab2a14de7f36ec1bf7ac3f66498dfa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
 	(5, 'haci kiwir', 'papatong', 'imel@imel.com', '74ee55083a714aa3791f8d594fea00c9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
@@ -377,7 +410,9 @@ REPLACE INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `
 	(7, 'Karta Wijaya', 'karta', 'karta@imel.com', '25b3968e7434ac9cea4a57b40f7a4956', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
 	(8, 'error', 'erorin', 'eror@gmail.com', '25d55ad283aa400af464c76d713c07ad', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
 	(9, 'haiiish', 'hasiiih', 'hasi@imel.com', 'bf1d68ac3efaf911714436c9f2b36cdb', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
-	(10, 'aselole joss', 'aselole', 'ase@gmail.com', 'aedd8ca1ae4ca83a06f9631a323756d1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0);
+	(10, 'aselole joss', 'aselole', 'ase@gmail.com', 'aedd8ca1ae4ca83a06f9631a323756d1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
+	(11, 'Fauzan', 'FauzanFR', 'fauzan@gmail.com', '146aacc4a5e1ffaff3ef09e562f8b1b1', 'Tasikmalaya, Jawa Barat, Indonesia', 'P', '1990-04-02', NULL, '', 'fauzan@gmail.com', '2015-05-24 16:49:54', NULL, 0, 0, '::1', 'Pantai', 0, 0, 0),
+	(12, 'Soekarno', 'Soekarno', 'Soekarno@gmail.com', '2363776cb8d3e2a63c77ff3281314e7b', 'Blitar, Jalan Mastrip, Kepanjen Kidul, Jawa Timur, Indonesia', 'P', '1901-06-01', NULL, 'Presiden pertama coy', 'Soekarno@gmail.com', '2015-05-24 22:52:06', NULL, -8.101281, 112.162814, '::1', 'Ende', 0, 0, 0);
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 
 
@@ -413,12 +448,15 @@ CREATE TABLE `v_param_parent` (
 DROP VIEW IF EXISTS `v_trip_list`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `v_trip_list` (
+	`trip_user_id` INT(11) NOT NULL,
 	`trip_id` INT(11) NOT NULL,
 	`trip_judul` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
-	`trip_tujuan_provinsi` VARCHAR(250) NOT NULL COLLATE 'latin1_swedish_ci',
-	`param_name` VARCHAR(20) NULL COLLATE 'latin1_swedish_ci',
+	`trip_tujuan` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci',
 	`trip_created_date` TIMESTAMP NOT NULL,
-	`trip_gambar` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci'
+	`trip_date1` DATE NULL,
+	`trip_date2` DATE NULL,
+	`trip_gambar` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci',
+	`user_username` VARCHAR(25) NULL COLLATE 'latin1_swedish_ci'
 ) ENGINE=MyISAM;
 
 
@@ -454,7 +492,19 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_param_parent` AS s
 DROP VIEW IF EXISTS `v_trip_list`;
 -- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
 DROP TABLE IF EXISTS `v_trip_list`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_trip_list` AS select a.trip_id, a.trip_judul, a.trip_tujuan_provinsi, (SELECT b.param_name FROM v_param_parent b where b.param_id = a.trip_kategori) AS param_name, a.trip_created_date, (select c.galeri_foto_url from tb_galeri c where (c.galeri_trip_id = a.trip_id) order by rand() limit 0,1) AS trip_gambar from tb_trip a order by a.trip_created_date desc ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_trip_list` AS SELECT a.trip_user_id,a.trip_id, a.trip_judul, a.trip_tujuan, a.trip_created_date, a.trip_date1, a.trip_date2, 
+(
+SELECT c.galeri_foto_url
+FROM tb_galeri c
+WHERE (c.galeri_trip_id = a.trip_id)
+ORDER BY RAND()
+LIMIT 0,1) AS trip_gambar,
+(
+SELECT u.user_username
+FROM tb_user u
+WHERE u.user_id = a.trip_user_id) user_username
+FROM tb_trip a
+ORDER BY a.trip_created_date DESC ;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

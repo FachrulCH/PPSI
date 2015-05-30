@@ -369,28 +369,30 @@ elseif($do == 'rencanabaru'){
 
     if ($response['success'] == false) {
        $pesan   = "User kamu tidak lolos captcha, tolong di ceklis lagi :) ";
-       $status  = false;
+       $status  = 3;
        $hasil   = NULL;
     } else {
         //***** user tervalidasi capcay
-        $tgl    = date("Y-m-d");
-        $lokasi_asal    = isset($_POST['asal_lokasi'])? explode(',', $_POST['asal_lokasi']): null;
-        $lokasi_tujuan  = isset($_POST['location'])? explode(',', $_POST['location']): null;
-        $hasil          = Trip_new(sanitize($_POST['t_judul']), clean_text($_POST['t_isi']), 
-                                    sanitize($_POST['t_asal']), sanitize($lokasi_asal[0]), 
-                                    sanitize($lokasi_asal[1]),  sanitize($_POST['t_tujuan']), 
-                                    sanitize($lokasi_tujuan[0]),sanitize($lokasi_tujuan[1]), 
-                                    sanitize($_POST['t_tgl1']), sanitize($_POST['t_tgl2']), 
-                                    sanitize($_POST['s_jenis']),sanitize($_POST['kategori2']), 
-                                    sanitize($_POST['s_komen']),sanitize($_POST['s_join']),
-                                    $tgl);
+        $tgl    = date("Y-m-d H:i:s");
+        $lokasi_asal    = isset($_POST['asal_lokasi'])? explode(',', $_POST['asal_lokasi']): array(0,0);
+        $lokasi_tujuan  = isset($_POST['location'])? explode(',', $_POST['location']): array(0,0);
+        $trip_id = @$_SESSION['exp_id'];
+        $user_id = @$_SESSION['user_id'];
+        $hasil   = Trip_simpan(sanitize($_POST['t_judul']), clean_text($_POST['t_isi']), 
+                                sanitize($_POST['t_asal']), sanitize($lokasi_asal[0]), 
+                                sanitize($lokasi_asal[1]),  sanitize($_POST['t_tujuan']), 
+                                sanitize($lokasi_tujuan[0]),sanitize($lokasi_tujuan[1]), 
+                                sanitize($_POST['t_tgl1']), sanitize($_POST['t_tgl2']), 
+                                sanitize($_POST['s_jenis']),sanitize($_POST['kategori2']), 
+                                sanitize($_POST['s_komen']),sanitize($_POST['s_join']),
+                                $tgl, $trip_id, $user_id);
         
         if ($hasil == TRUE){
             $status = TRUE;
             $pesan = "Perjalananmu berhasil di simpan";
         }else{
             $status = FALSE;
-            $pesan = "Gagal tersimpan";
+            $pesan = "Gagal tersimpan, kesalahan teknis saat menyimpan rencana kamu";
         }
     }
     
