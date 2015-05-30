@@ -1,7 +1,7 @@
 <?php
 //fungsi template ada di sini
 include_once "_include/template.php";
-include_once "_include/Trip.php";
+include_once "_include/trip.php";
 
 //ambil data trip dari database, lemparan adalah trip_id
 $trip_id = (int) $_GET['id'];
@@ -102,6 +102,7 @@ $breadcumb = array
                 <!--     PHOTOSWIPE     -->
                 <div class="picture" itemscope>
 <?php
+if (!empty($gambar)){
             foreach ($gambar as $g) {
                 $uri = "_gambar/galeri/o/". $g['galeri_foto_url'];
                 $url = URLSITUS ."_gambar/galeri/o/". $g['galeri_foto_url'];
@@ -115,7 +116,7 @@ $breadcumb = array
                 
                 //echo "dimensions: " . $width . "x" . $height;
             }
-                
+}
                 //print_r($gambar);
 
 ?>
