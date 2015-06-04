@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `tb_chat` (
   CONSTRAINT `FK_chat_user` FOREIGN KEY (`chat_sender`) REFERENCES `tb_user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_chat: ~70 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_chat: ~63 rows (approximately)
 /*!40000 ALTER TABLE `tb_chat` DISABLE KEYS */;
-INSERT INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `chat_date`, `chat_mesej`, `chat_deleted`, `chat_title`) VALUES
+REPLACE INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `chat_date`, `chat_mesej`, `chat_deleted`, `chat_title`) VALUES
 	(1, 110, 1, '2', '2015-04-18 02:24:35', 'ini pertanyaan test', 0, NULL),
 	(2, 110, 1, '2', '2015-04-18 02:26:06', 'ini pertanyaan by menu loch', 0, NULL),
 	(3, 110, 1, '2', '2015-04-18 04:32:28', 'Coba input dari hape', 0, NULL),
@@ -124,11 +124,11 @@ CREATE TABLE IF NOT EXISTS `tb_galeri` (
   KEY `galeri_trip_id` (`galeri_trip_id`),
   KEY `galeri_trip_id_2` (`galeri_trip_id`),
   KEY `galeri_foto_id` (`galeri_foto_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_galeri: ~12 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_galeri: ~11 rows (approximately)
 /*!40000 ALTER TABLE `tb_galeri` DISABLE KEYS */;
-INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
+REPLACE INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galeri_foto_url`, `galeri_foto_judul`, `galeri_date`) VALUES
 	(5, 193, '', 'masjid-jawa-tengah.jpg', 'kitchen_adventurer_caramel', '2015-04-23 00:00:00'),
 	(6, 194, '', 'badak.jpg', 'kitchen_adventurer_donut', '2015-04-23 00:00:00'),
 	(7, 110, '', 'kitchen_adventurer_lemon.jpg', 'kitchen_adventurer_lemon', '2015-04-23 00:00:00'),
@@ -144,6 +144,31 @@ INSERT INTO `tb_galeri` (`galeri_id`, `galeri_trip_id`, `galeri_foto_id`, `galer
 /*!40000 ALTER TABLE `tb_galeri` ENABLE KEYS */;
 
 
+-- Dumping structure for table db_temanbackpacker.tb_notifikasi
+DROP TABLE IF EXISTS `tb_notifikasi`;
+CREATE TABLE IF NOT EXISTS `tb_notifikasi` (
+  `notif_id` int(11) NOT NULL AUTO_INCREMENT,
+  `notif_tipe` int(11) NOT NULL COMMENT '1= PM ; 2=chat; 3=trip; 4=pengalaman',
+  `notif_pengirim` varchar(25) NOT NULL COMMENT 'username pengirim',
+  `notif_penerima` int(11) NOT NULL COMMENT 'id penerima',
+  `notif_judul` varchar(50) NOT NULL,
+  `notif_href` varchar(250) DEFAULT NULL,
+  `notif_baru` int(11) NOT NULL DEFAULT '0' COMMENT '0=baru ; 1=sudah dibaca',
+  `notif_waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`notif_id`),
+  KEY `notif_penerima` (`notif_penerima`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table db_temanbackpacker.tb_notifikasi: ~4 rows (approximately)
+/*!40000 ALTER TABLE `tb_notifikasi` DISABLE KEYS */;
+REPLACE INTO `tb_notifikasi` (`notif_id`, `notif_tipe`, `notif_pengirim`, `notif_penerima`, `notif_judul`, `notif_href`, `notif_baru`, `notif_waktu`) VALUES
+	(1, 1, 'pendekar', 2, 'Tes notifikasi', 'username/soekarno/#inbox', 1, '2015-06-02 21:26:58'),
+	(2, 1, 'fachrulch', 12, 'Tes ke2', 'username/soekarno/#inbox', 1, '2015-06-02 22:14:48'),
+	(3, 2, 'pendekar', 12, 'tes tipe 2', NULL, 1, '2015-06-02 22:17:33'),
+	(4, 1, 'Loremipsum', 2, 'tes user 13', NULL, 1, '2015-06-02 22:18:12');
+/*!40000 ALTER TABLE `tb_notifikasi` ENABLE KEYS */;
+
+
 -- Dumping structure for table db_temanbackpacker.tb_param
 DROP TABLE IF EXISTS `tb_param`;
 CREATE TABLE IF NOT EXISTS `tb_param` (
@@ -156,9 +181,9 @@ CREATE TABLE IF NOT EXISTS `tb_param` (
   KEY `idx_param` (`param_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_param: ~30 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_param: ~27 rows (approximately)
 /*!40000 ALTER TABLE `tb_param` DISABLE KEYS */;
-INSERT INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) VALUES
+REPLACE INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) VALUES
 	(1, 0, 2, 'Lain-lain'),
 	(2, 0, 2, 'Wisata Kota'),
 	(3, 0, 2, 'Wisata Alam'),
@@ -204,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `tb_parameter` (
 
 -- Dumping data for table db_temanbackpacker.tb_parameter: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tb_parameter` DISABLE KEYS */;
-INSERT INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
+REPLACE INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
 	(1, 'status_trip', '{"status_trip":[\n{"id":"1", "name":"Wisata Kota"}, \n{"id":"2", "name":"Wisata Alam"}, \n{"id":"3", "name":"Wisata Kuliner"},\n{"id":"4", "name":"Wisata Sejarah"},\n{"id":"5", "name":"Backpacking"}\n]}'),
 	(2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
 /*!40000 ALTER TABLE `tb_parameter` ENABLE KEYS */;
@@ -236,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `tb_pengalaman` (
 
 -- Dumping data for table db_temanbackpacker.tb_pengalaman: ~27 rows (approximately)
 /*!40000 ALTER TABLE `tb_pengalaman` DISABLE KEYS */;
-INSERT INTO `tb_pengalaman` (`pengalaman_id`, `pengalaman_user_id`, `pengalaman_judul`, `pengalaman_isi`, `pengalaman_lokasi`, `pengalaman_lat`, `pengalaman_lot`, `pengalaman_date`, `pengalaman_kategori`, `pengalaman_flag_komen`, `pengalaman_stats`, `pengalaman_created`, `pengalaman_budget`) VALUES
+REPLACE INTO `tb_pengalaman` (`pengalaman_id`, `pengalaman_user_id`, `pengalaman_judul`, `pengalaman_isi`, `pengalaman_lokasi`, `pengalaman_lat`, `pengalaman_lot`, `pengalaman_date`, `pengalaman_kategori`, `pengalaman_flag_komen`, `pengalaman_stats`, `pengalaman_created`, `pengalaman_budget`) VALUES
 	(45, 2, 'pertamax coy', 'iasjfhkjashfkalfalsfjklsjdf', '-6.23827,106.975573', -6.23827, 106.975573, '2015-05-01', 8, 1, 2, '2015-05-01 20:04:19', NULL),
 	(412, 1, 'Taman Impian Jaya Ancol', '<dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Pantai dan Taman</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Taman dan pantai merupakan wahana hiburan yang menawarkan kesegaran suasana pantai bagi semua kalangan dan usia. Pantai dan Taman memiliki 5 pantai (Pantai Festival, Indah, Elok, Ria dan Carnival Beach Club) dan Danau Impian, sepanjang kurang lebih 5Â km, dengan promenade sepanjang 4Â km.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Dunia Fantasi ( Dufan )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Dunia Fantasi yang dibuka untuk umum pada 29 Agustus 1986, dan popular dengan sebutanÂ <b>Dufan</b>, merupakan theme park pertama yang dikembangkan oleh Ancol. Dufan merupakan pusat hiburan outdoor terbesar di Indonesia yang memanjakan pengunjung dengan Fantasi Keliling Dunia, melalui berbagai content wahana permainan berteknologi tinggi, yang terbagi dalam 8 kawasan, yaitu: Indonesia, Jakarta, Asia, Eropa, Amerika, Yunani, Hikayat dan Balada Kera. Perseroan juga menjadikan Dufan sebagai salah satu pusat edutainment yang ada di Ancol yakni dengan dibukanya Fisika Dunia Fantasi (Fidufa) dan Pentas Prestasi. Dufan telah memiliki sertifikat ISO 9001:2008 sejak 2009.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Atlantis Water Adventure ( Atlantis )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Atlantis Water Adventure (AWA) merupakan theme park kedua yang dikembangkan oleh Ancol dan berdiri diatas lahan seluas 5 hektare. AWA merupakan hasil revitalisasi Taman Rekreasi Air Gelanggang Renang Ancol yang akan memberi pengunjung petualangan wisata air dengan 8 kolam utama, yaitu: Poseidon, Antila, Plaza Atlas, Aquarius, Octopus, Atlantean, dan Kiddy Pool.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Gelanggang Samudra ( Samudra )</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Gelanggang Samudra Ancol ("Samudra") merupakan theme park ketiga yang dikembangkan oleh Ancol. Samudra merupakan edutainment theme park bernuansa konservasi alam yang memberikan pengalaman kepada pengunjung untuk mengenal lebih dekat dan menyayangi aneka satwa, antara lain lumba-lumba, paus putih, anjing laut, dan sinema 4D. Di Sinema 4D atau pertunjukan 4 dimensi, Anda harus mengantri untuk masuk ke dalam bangunan teater ini. Di dalam, petugas akan membagikan kacamata 3 dimensi. Setelah menunggu beberapa lama di depan pintu, penonton akan masuk ke dalam teater. Film yang disajikan berdurasi kurang lebih 15 menit. Dengan memakai kacamata 3 dimensi, Anda akan merasakan gambar ada di depan Anda dan seolah dapat disentuh, ditambah dengan kursi yang dapat bergoyang-goyang dan semburan air atau angin pada adegan tertentu sehingga Anda dapat mesakana suasana sesungguhnya. Ada 5 pilihan jadwal pada hari Senin sampai Sabtu dan 2 kali ekstra pertunjukan pada hari Minggu dan hari Libur. Tapi, Anda hanya dapat menontonnya satu kali karena untuk masuk ke dalam wahana ini harus menggunakan tiket yang terdapat pada tiket masuk.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Sea World</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Sea World adalah underwater aquarium pertama dan satu-satunya di Indonesia, dengan area seluas 2 Ha (dikelola dengan format BOT).</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Putri Duyung Cottages</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Penginapan tepi pantai bergaya unik berbentuk cottages dengan 133 kamar ini memiliki berbagai fasilitas khusus, sepertiÂ : ruang serba guna, ruang rapat dan lokasi pesta pantai. Putri Duyung juga menawarkan fasilitas olahraga, seperti kolam renang, tenis meja, sepeda, lapangan tenis, serta lapanan voli pantai. Arsitektur artistik Putri Duyung Ancol kental dengan perpaduan gaya posmo dan romantisme Indonesia Timur, ditata selaras dengan lingkungan pantai untuk menciptakan suasana yang berselera dan eksotik.</p><dl style="margin-top: 0.2em; margin-bottom: 0.5em; color: rgb(37, 37, 37); font-family: sans-serif; line-height: 22.3999996185303px; white-space: normal;"><dt style="margin-bottom: 0.1em;">Padang Golf Ancol</dt></dl><p style="margin-top: 0.5em; margin-bottom: 0.5em; line-height: 22.3999996185303px; color: rgb(37, 37, 37); font-family: sans-serif; font-size: 14px; white-space: normal;">Padang Golf bernuansa pantai di tengah-tengah kawasan wisata yang memiliki 18 hole dengan desain lapangan unik. Lokasinya strategis dan mudah dicapai dari seluruh penjuru Jakarta.</p>', 'Ancol, Pademangan, Kota Jakarta Utara, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, '2015-04-02', 11, 1, 20, '2015-05-03 21:04:19', NULL),
 	(423, 1, 'Pengalaman ke tiga', 'haha cikiwir', 'Pangandaran, Cinere, Kota Depok, Jawa Barat 16514, Indonesia', -6.318115, 106.78166, '2015-05-09', 12, 1, 1, '2015-04-12 21:04:19', NULL),
@@ -279,13 +304,13 @@ CREATE TABLE IF NOT EXISTS `tb_seq` (
   KEY `seq_name_2` (`seq_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_seq: ~4 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_seq: ~5 rows (approximately)
 /*!40000 ALTER TABLE `tb_seq` DISABLE KEYS */;
-INSERT INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
-	(1, 'sq_trip', 1, 238),
+REPLACE INTO `tb_seq` (`seq_id`, `seq_name`, `seq_prefix`, `seq_val`) VALUES
+	(1, 'sq_trip', 1, 240),
 	(2, 'seq_tanya', 2, 0),
 	(3, 'seq_diskusi', 3, 0),
-	(4, 'seq_exp', 4, 103);
+	(4, 'seq_exp', 4, 104);
 /*!40000 ALTER TABLE `tb_seq` ENABLE KEYS */;
 
 
@@ -315,23 +340,24 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
 
 -- Dumping data for table db_temanbackpacker.tb_trip: ~16 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip` DISABLE KEYS */;
-INSERT INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_asal`, `trip_asal_lat`, `trip_asal_lng`, `trip_jenis`, `trip_kategori`, `trip_date1`, `trip_date2`, `trip_detail`, `trip_flag_comm`, `trip_flag_join`, `trip_created_date`, `trip_stats`) VALUES
-	(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, '', 0, 0, NULL, '9', '2015-04-15', '2015-04-16', 'jalan jalan yook', '0', '0', '2015-04-01 23:04:21', 0),
-	(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', -6.258244, 106.977183, '', 0, 0, NULL, '8', '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '0', '0', '2015-04-02 23:04:21', 0),
+REPLACE INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_asal`, `trip_asal_lat`, `trip_asal_lng`, `trip_jenis`, `trip_kategori`, `trip_date1`, `trip_date2`, `trip_detail`, `trip_flag_comm`, `trip_flag_join`, `trip_created_date`, `trip_stats`) VALUES
+	(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, '', 0, 0, NULL, '9', '2015-04-15', '2015-04-16', 'jalan jalan yook', '0', '0', '2015-04-01 23:04:21', 1),
+	(110, 1, 'judulnya coy', 'Bekasi Selatan, Jawa Barat, Indonesia', -6.258244, 106.977183, '', 0, 0, NULL, '8', '2015-04-17', '2015-04-19', 'Ini adalah trip info dari database<br/>\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.\r\n', '0', '0', '2015-04-02 23:04:21', 3),
 	(193, 2, 'judul trip', 'Bekasi, Jawa Barat, Indonesia', 0, 6, '', 0, 0, NULL, '12', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-03 23:04:21', 0),
-	(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', 0, 6, '', 0, 0, NULL, '15', '2015-04-30', '2015-04-30', '', '0', '0', '2015-04-04 23:04:21', 0),
+	(194, 2, 'Lorem ipsum', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', 0, 6, '', 0, 0, NULL, '15', '2015-04-30', '2015-04-30', '', '0', '0', '2015-04-04 23:04:21', 2),
 	(195, 2, 'Ke tasik', 'Tasikmalaya, Jawa Barat, Indonesia', -7.333333, 108.2, '', 0, 0, NULL, '16', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-23 23:04:21', 0),
 	(1100, 2, 'Judul', 'Kabupaten Bandung Barat, Jawa Barat, Indonesia', -6.865221, 107.491977, 'Kabupaten Bandung Barat', 0, 0, NULL, '11', '2015-04-23', '2015-04-25', '', '0', '0', '2015-04-23 23:04:21', 0),
 	(1104, 2, 'Bambo Rafting Di Loksado', 'Kandangan, Kabupaten Hulu Sungai Selatan, Kalimantan Selatan, Indonesia', -2.721761, 115.200773, 'Kabupaten Hulu Sungai Selatan', 0, 0, NULL, '17', '2015-05-29', '2015-05-31', 'Bambo rafting adalah Sebuah alat tradisional arung jeram menggunakan bambu yang di satukan dengan tali di tengah2nya di sediakan tempat duduk untuk tiga orang, lama pengarungan bambo rafting di sungai amandit loksado sekitar 2,5 jam perjalanan dengan ditemani seorang joki handal, rasakan sensasi arung jeram menggunakan bambo rafting :)', '0', '0', '2015-04-25 01:34:36', 0),
 	(1108, 2, 'Trip Seru, Murah, Penuh Pelajaran Dan Pengalaman K', 'Banten, Indonesia', -6.405817, 106.064018, '', 0, 0, NULL, '14', '0000-00-00', '0000-00-00', '', '0', '0', '2015-04-25 01:43:45', 0),
 	(1109, 2, 'Ujungkulon 07-09 Agustus 2015 Naek Kano Nginap Di ', '', 0, 0, '', 0, 0, NULL, '9', '2015-06-19', '2015-06-30', 'Beberapa tempat yang akan kita kunjungi di UK:\r\na. Cidaon Grazing Ground (wildlife viewing)\r\nb. Karang Copong (sunset)\r\nc. Handeuleum Island\r\nd. Canoing (Habit of Rhino)\r\ne. Snorkeling at Peucang dan Citerjun', '0', '0', '2015-04-25 01:47:51', 0),
-	(1129, 2, 'Jalan jalan meruya', 'Jalan Meruya Utara, Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.197561, 106.765292, 'Kota Jakarta Barat', 0, 0, NULL, '7', '0000-00-00', '0000-00-00', 'kajflkajsldfjlas\r\n\r\nsfsdfsdfsd\r\n\r\n\r\nsdfsdfsafdsaf\r\n\r\nd\r\nsdfsdfsdfsfsdfs\r\n', '0', '0', '2015-04-25 18:32:45', 2),
+	(1129, 2, 'Jalan jalan meruya', 'Jalan Meruya Utara, Kebon Jeruk, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.197561, 106.765292, 'Kota Jakarta Barat', 0, 0, NULL, '7', '0000-00-00', '0000-00-00', 'kajflkajsldfjlas\r\n\r\nsfsdfsdfsd\r\n\r\n\r\nsdfsdfsafdsaf\r\n\r\nd\r\nsdfsdfsdfsfsdfs\r\n', '0', '0', '2015-04-25 18:32:45', 7),
 	(1231, 12, 'ini judul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '2015-05-30 05:37:58', 0),
 	(1232, 12, 'ini judul webnya roolback', 'Bandung, Jawa Barat, Indonesia', -6.917464, 107.619123, 'Bekasi Barat, Jawa Barat, Indonesia', -6.238203, 106.965376, '30', '11', '2015-05-30', '2015-06-30', 'pppppppppppppppPPPPPPPPPPP', '1', '1', '2015-05-30 06:20:43', 22),
-	(1233, 12, 'Hallo semua', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, 'Bekasi, Jawa Barat, Indonesia', -6.23827, 106.975573, '30', '11', '0000-00-00', '0000-00-00', 'dkfajflkajlkfjakljflkadfsafadfsfsf', '0', '0', '2015-05-30 06:24:00', 0),
-	(1234, 12, 'Pendakian Ceria Gunung Cikuray Garut 12-14 Juni 20', 'Cikuray, Sukamantri, Jawa Barat, Indonesia', -6.769244, 107.875143, 'Kampung Rambutan, Rambutan, Daerah Khusus Ibukota Jakarta, Indonesia', -6.309957, 106.882201, '27', '13', '2015-06-12', '2015-06-14', '<p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">ONLY IDR 350.000/PACKMeeting Point Terminal Kp. Rambutan</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">~~~~~~~~~~~~~`Fasilitas~~~~~~~~~~~~~`1. Transportasi dari Kp. Rambutan â€“ Garut PP2. Transportasi Term. guntur â€“ Pemancar PP3. Ijin Pendakian4. Tenda kapasitas 4 orang5. Guide & Tour Leader6. Makan 2x sebelum dan sesudah pendakian7. T-shirt Pendakian8. Sticker9. Sunrise top cikuray</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Info detail:<a href="https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(19, 93, 177);">https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/</a></p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Informasi dan PendaftaranCarica AdventureAgung: 08999330189 / pin 54228527Adimas: 087782107200 / pin 21E44283Enggo: 087790617227 / pin 79F41E08</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Follow Us OnFB: Carica Adventuretwitter: @CaricaAdvcaricaadventure.wordpress.com</p>', '1', '1', '2015-05-30 07:57:37', 1),
-	(1237, 12, 'Tes upload gambar', 'Ciputat, Banten, Indonesia', -6.307706, 106.717567, 'Jakarta Pusat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.186486, 106.834091, '30', '13', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '1', '1', '2015-05-30 08:35:25', 9),
-	(1238, 12, 'tes Upload galeri trip lagi', 'Puncak, Cisarua, Jawa Barat, Indonesia', -6.712548, 106.954242, 'Cikarang Selatan, Jawa Barat, Indonesia', -6.319337, 107.136637, 'Pi', 'Pi', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '0', '0', '2015-05-30 08:42:05', 1);
+	(1233, 12, 'Hallo semua', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, 'Bekasi, Jawa Barat, Indonesia', -6.23827, 106.975573, '30', '11', '0000-00-00', '0000-00-00', 'dkfajflkajlkfjakljflkadfsafadfsfsf', '0', '0', '2015-05-30 06:24:00', 3),
+	(1234, 12, 'Pendakian Ceria Gunung Cikuray Garut 12-14 Juni 20', 'Cikuray, Sukamantri, Jawa Barat, Indonesia', -6.769244, 107.875143, 'Kampung Rambutan, Rambutan, Daerah Khusus Ibukota Jakarta, Indonesia', -6.309957, 106.882201, '27', '13', '2015-06-12', '2015-06-14', '<p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">ONLY IDR 350.000/PACKMeeting Point Terminal Kp. Rambutan</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">~~~~~~~~~~~~~`Fasilitas~~~~~~~~~~~~~`1. Transportasi dari Kp. Rambutan â€“ Garut PP2. Transportasi Term. guntur â€“ Pemancar PP3. Ijin Pendakian4. Tenda kapasitas 4 orang5. Guide & Tour Leader6. Makan 2x sebelum dan sesudah pendakian7. T-shirt Pendakian8. Sticker9. Sunrise top cikuray</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Info detail:<a href="https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(19, 93, 177);">https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/</a></p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Informasi dan PendaftaranCarica AdventureAgung: 08999330189 / pin 54228527Adimas: 087782107200 / pin 21E44283Enggo: 087790617227 / pin 79F41E08</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Follow Us OnFB: Carica Adventuretwitter: @CaricaAdvcaricaadventure.wordpress.com</p>', '1', '1', '2015-05-30 07:57:37', 5),
+	(1237, 12, 'Tes upload gambar', 'Ciputat, Banten, Indonesia', -6.307706, 106.717567, 'Jakarta Pusat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.186486, 106.834091, '30', '13', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '1', '1', '2015-05-30 08:35:25', 12),
+	(1238, 12, 'tes Upload galeri trip lagi', 'Puncak, Cisarua, Jawa Barat, Indonesia', -6.712548, 106.954242, 'Cikarang Selatan, Jawa Barat, Indonesia', -6.319337, 107.136637, 'Pi', 'Pi', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '0', '0', '2015-05-30 08:42:05', 31),
+	(1240, 12, 'tes Ti tasik', 'Alun Alun Ciamis, Ciamis, Jawa Barat, Indonesia', -7.326706, 108.352742, 'Terminal Bekasi, Margahayu, Jawa Barat, Indonesia', -6.24924, 107.013554, '29', '9', '0000-00-00', '0000-00-00', '<p>a,fkjakldfjklajfljalsfjlasjl</p><p>sflkajfklajklfdjkla</p><p>dflkjakfjklaflkadf</p>', '1', '1', '2015-06-03 16:35:38', 44);
 /*!40000 ALTER TABLE `tb_trip` ENABLE KEYS */;
 
 
@@ -344,11 +370,11 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
   `member_status` char(1) DEFAULT NULL COMMENT 'A: host | B: ijin join | C: udah join |  D: cancel | E: kabur',
   PRIMARY KEY (`member_id`),
   UNIQUE KEY `unq_member_trip` (`member_trip_id`,`member_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_trip_member: ~16 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_trip_member: ~20 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip_member` DISABLE KEYS */;
-INSERT INTO `tb_trip_member` (`member_id`, `member_trip_id`, `member_user_id`, `member_status`) VALUES
+REPLACE INTO `tb_trip_member` (`member_id`, `member_trip_id`, `member_user_id`, `member_status`) VALUES
 	(1, 110, 1, 'A'),
 	(2, 110, 2, 'C'),
 	(3, 193, 2, 'A'),
@@ -364,7 +390,11 @@ INSERT INTO `tb_trip_member` (`member_id`, `member_trip_id`, `member_user_id`, `
 	(15, 1233, 12, 'A'),
 	(16, 1234, 12, 'A'),
 	(17, 1237, 12, 'A'),
-	(20, 1238, 12, 'A');
+	(20, 1238, 12, 'A'),
+	(21, 1240, 12, 'A'),
+	(23, 99, 2, 'C'),
+	(24, 1240, 2, 'B'),
+	(25, 1240, 11, 'B');
 /*!40000 ALTER TABLE `tb_trip_member` ENABLE KEYS */;
 
 
@@ -400,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
 
 -- Dumping data for table db_temanbackpacker.tb_user: ~12 rows (approximately)
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-INSERT INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_bio`, `user_sosmed`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_ip`, `user_exp`, `user_privacy`, `user_deleted`, `user_reputasi`) VALUES
+REPLACE INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_bio`, `user_sosmed`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_ip`, `user_exp`, `user_privacy`, `user_deleted`, `user_reputasi`) VALUES
 	(1, 'FachrulCH', 'Kurawal', 'fachrul.fch@gmail.com', '57917da98d1c3aaa5256cbb7aa7a15af', 'Jakarta', 'P', '1990-04-06', '1prambanan.jpg', 'Ini bio', 'fachrul.fch@gmail.com', '2015-04-06 03:07:29', 'Info si ALu', -6.2087634, 106.84559899999999, NULL, '', 0, 0, 0),
 	(2, 'Karta', 'Pendekar', 'karta@email.com', '63954d2707c13cf25472551ea783ae1f', 'Bekasi Barat, Jawa Barat, Indonesia', 'P', '1989-04-19', '1prambanan.jpg', 'INi bio gw coy jhkjh kjh kjhjkhjkhjkh kj jkhkjhjk ', 'karta@email.com', '2013-02-19 00:00:00', 'gw adalah anak bekasi', -6.238203, 106.965376, NULL, 'Ke gunung gan', 0, 0, 0),
 	(3, 'bahur', '', 'bahur@email.com', 'bahur', 'padang', 'L', '2015-04-19', '1.jpg', NULL, NULL, NULL, 'ini bahur', NULL, NULL, NULL, '', 0, 0, 0),
@@ -455,6 +485,10 @@ CREATE TABLE `v_trip_list` (
 	`trip_created_date` TIMESTAMP NOT NULL,
 	`trip_date1` DATE NULL,
 	`trip_date2` DATE NULL,
+	`trip_stats` INT(11) NOT NULL,
+	`trip_tujuan_geolat` DOUBLE NULL,
+	`trip_tujuan_geolng` DOUBLE NULL,
+	`trip_kategori` CHAR(2) NULL COLLATE 'latin1_swedish_ci',
 	`trip_gambar` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci',
 	`user_username` VARCHAR(25) NULL COLLATE 'latin1_swedish_ci'
 ) ENGINE=MyISAM;
@@ -492,7 +526,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_param_parent` AS s
 DROP VIEW IF EXISTS `v_trip_list`;
 -- Menghapus tabel sementara dan menciptakan struktur VIEW terakhir
 DROP TABLE IF EXISTS `v_trip_list`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_trip_list` AS SELECT a.trip_user_id,a.trip_id, a.trip_judul, a.trip_tujuan, a.trip_created_date, a.trip_date1, a.trip_date2, 
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `v_trip_list` AS SELECT a.trip_user_id,a.trip_id, a.trip_judul, a.trip_tujuan, a.trip_created_date, a.trip_date1, a.trip_date2, a.trip_stats,a.trip_tujuan_geolat, a.trip_tujuan_geolng, a.trip_kategori,
 (
 SELECT c.galeri_foto_url
 FROM tb_galeri c

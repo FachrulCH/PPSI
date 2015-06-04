@@ -37,7 +37,7 @@ if ($page > $JmlHalaman) {
 //*** LOad hot trip
 
 
-$hot_trip = Trip_load_hot(1, 10);
+$hot_trip = Trip_load_hot();
 $new_trip = Trip_load_new($page, $batas);
 
 //Navigasi ke sebelumnya
@@ -125,18 +125,7 @@ if (isLogin()){
                 </div>
                 <hr/>
                 <div data-role="navbar">
-                    <ul>
-<!--                        <li><a href="?m=new" data-transition="flip" <?php
-//                            if (!isset($_GET['m']) OR $_GET['m'] == 'new') {
-//                                echo 'class="ui-btn-active"';
-//                            }
-//                            ?> >New Trip</a></li>
-                        <li><a href="?m=hot" data-transition="fade" //<?php
-//                            if (@$_GET['m'] == 'hot') {
-//                                echo 'class="ui-btn-active"';
-//                            }
-                            ?>>Hot Trip</a></li>-->
-                            
+                    <ul>                           
                         <li><a href="#new" data-transition="flip" class="ui-btn-active">New Trip</a></li>
                         <li><a href="#hot" data-transition="fade">Hot Trip</a></li>
                         <li><a href="#browse" data-transition="pop">Cari Trip</a></li>
@@ -215,7 +204,7 @@ if (isLogin()){
             get_footer();
             ?>
         </section><!-- /page -->
-        
+<!-- =================================================================================== -->        
         <section data-role="page" id="browse">
             <?php
             // Memanggil fungsi untuk generate panel samping
@@ -260,8 +249,8 @@ if (isLogin()){
                     </li>
                     <div id="cari_detail" style="display: none;">
                         
-                        <label for="select-choice-a" class="select">Kategori</label>
-                        <select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+                        <label for="s_kategori" class="select">Kategori</label>
+                        <select name="s_kategori" id="s_kategori" data-native-menu="false">
                                 <option value="1">Apapun</option>
                             <?php
                             // Semua data kategori dari parameter di munculkan
@@ -273,16 +262,16 @@ if (isLogin()){
 ?>
                         </select>                     
                         <li class="ui-field-contain">
-                            <label for="t_tujuan">Dari:</label>
-                            <input type="date" name="t_tujuan" id="t_tujuan" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" data-clear-btn="true" required="required">
+                            <label for="t_dari">Dari:</label>
+                            <input type="date" name="t_dari" id="t_dari" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" data-clear-btn="true" required="required">
 
-                            <label for="t_tujuan">Sampai:</label>
-                            <input type="date" name="t_tujuan" id="t_tujuan" value="<?php echo date('Y-m-d'); ?>" data-clear-btn="true" required="required">
+                            <label for="t_sampai">Sampai:</label>
+                            <input type="date" name="t_sampai" id="t_sampai" value="<?php echo date('Y-m-d'); ?>" data-clear-btn="true" required="required">
 
-                            <label for="l_impian"></label>
-                            <fieldset data-role="controlgroup" data-mini="true" id="l_impian">
-                                <label for="checkbox-6">Termasuk Perjalanan Impian</label>
-                                <input type="checkbox" name="checkbox-6" id="checkbox-6" checked="">
+                            <label for="l_impian2"></label>
+                            <fieldset data-role="controlgroup" data-mini="true" id="l_impian2">
+                                <label for="l_impian">Termasuk Perjalanan Impian</label>
+                                <input type="checkbox" name="l_impian" id="l_impian" checked="">
                             </fieldset>
                         </li>
                     </div>
@@ -291,8 +280,12 @@ if (isLogin()){
                     </li>
 
                     <button id="b_detail" class="ui-btn ui-btn-icon-left ui-icon-arrow-d">Lebih rinci</button>
+                    <input type="hidden" name="t_def" id="t_def" value="1">
                 </form>
-
+                
+                <ul data-role="listview" data-inset="true" data-divider-theme="a" id="listSearch">
+                </ul>
+                
             </article><!-- /content -->
 <?php
 get_footer();
@@ -314,14 +307,34 @@ get_footer();
                     
                     if ($('#cari_detail').is(":visible")){
                         $('#cari_detail').hide(500);
+                        $('#t_def').val('1');
                     }else{
                         $('#cari_detail').show(500);
+                        $('#t_def').val('0');
                     }
                     return false;
                 });
                 
                 $('#b_cari').on('click',function(){
-                    alert($('#f_pencarian').serialize());
+                    var data = $('#f_pencarian').serialize();
+                    console.log(data);
+                    customAjax('<?= URLSITUS ?>api/tripsearch/', data, function (data) {
+                            console.log(data);
+                            $('#listSearch').empty();
+                            if (data.length > 0) {
+                                for (i = 0; i < data.length; i++) {
+                                    //alert(obj.tagName);
+                                    var html = '<li><a href="'+ data[i].href +'" data-ajax="false"><img src="'+ URLSITUS +'_gambar/galeri/thumb2/default.gif" class="ui-li-thumb"><p class="normalin"><b>'+ data[i].trip_judul +'</b></p><p class="hrfKecilBgt">'+ data[i].label +'</p><p class="hrfKecilBgt normalin">'+ data[i].trip_date +'</p><p class="ui-li-aside garisKotak">'+ data[i].distance +' Km</p></a></li>';
+                                    $('#listSearch').append(html);
+                                }
+                                ;
+                                $('#listSearch').listview('refresh');
+                            } else {
+                                var html = "Hmm.. sepertinya belum ada rencana temanbackpacker disekitar sini (>_<)";
+                                dialogin(html);
+                                $('#listSearch').append(html);
+                            }
+                        });
                     return false;
                 });
             });

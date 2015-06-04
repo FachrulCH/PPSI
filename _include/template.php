@@ -22,6 +22,7 @@ echo '
 echo "  <link href='http://fonts.googleapis.com/css?family=Asap' rel='stylesheet' type='text/css'>";
 echo '<link rel="stylesheet" href="'.URLSITUS.'css/themes/tema-merah.min.css" />
         <link rel="stylesheet" href="'.URLSITUS.'css/tb.css" />';
+echo "<script>var URLSITUS='".URLSITUS."'</script>";
 }
 
 function get_panel()
@@ -29,16 +30,17 @@ function get_panel()
     //*** Kalau user sudah login
     if (isLogin()){
         require_once dirname(__FILE__).DIRECTORY_SEPARATOR."user.php";;
-        $user_id = $_SESSION['user_id'];
-        $user = User_get_by_id($user_id);
-        $tripnya_user = User_member_trip($user_id); //==> ambil data user's trip
+        $user_id        = $_SESSION['user_id'];
+        $user           = User_get_by_id($user_id);
+        $tripnya_user   = User_member_trip($user_id); //==> ambil data user's trip
+        $notif          = User_notifikasi();
 
         echo '
 	<div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="push">
 		<div class="ketengah">
 			<a href="#">';
         if (empty($user['user_foto'])){                
-            echo '<img src="'.URLSITUS.'css/images/profile.jpg" width="80">';
+            echo '<img src="'.URLSITUS.'_gambar/user/userpic.gif" width="80">';
         }else{
             echo '<img src="'.URLSITUS.'_gambar/user/'.$user['user_foto'].'" width="100">';
         }
@@ -50,21 +52,32 @@ function get_panel()
 	<li><a href="'.URLSITUS.'" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
         <li><a href="'.URLSITUS.'username/'.make_seo_name($user['user_username']).'/" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">Profil</a></li>
         <li><a href="'.URLSITUS.'trip/" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
-        <li><a href="'.URLSITUS.'pengalaman/" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Pengalaman</a></li>
-	<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>';
+        <li><a href="'.URLSITUS.'pengalaman/" class="ui-icon-star hrfKecil" data-ajax="false" data-transition="flip">Pengalaman</a></li>';
+	//<li><a href="#" class="ui-star hrfKecil" data-transition="pop">Notifikasi <span class="ui-li-count">11</span></a></li>';
         
-	/*
+        // *** notifikasi di panel
+        if (!empty($notif)){
+            echo '<div data-role="collapsible" data-mini="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" id="notifikasi">
+                <h5>Notifikasi <span class="ui-li-count">'.count($notif).'</span></h5>
+                <ul data-role="listview">';
+            foreach ($notif as $n) {
+                echo '<li><a href="'.URLSITUS . $n['notif_href'].'" class="notifikasiList normalin hrfKecilBgt" data-ajax="false" target="_blank" data-value="'.$n['notif_id'].'">'.$n['notif_pengirim'].$n['notif_label'].'</a></li>';
+            }
+            echo '</ul></div>';
+        }
+        
+        /*
          * Cek apakah user memiliki trip aktif, kalo ada tampilkan trip link nya
          */
         if (!empty($tripnya_user)){
-        echo'
-        <li data-role="list-divider" class="hrfKecil" >Perjalanan</li>';
-        foreach ($tripnya_user as $t) {
             echo'
-                <li><a href="'.URLSITUS ."trip/lihat/". make_seo_name($t['trip_judul']) ."/".$t['trip_id'].'/" class="ui-icon-location hrfKecil" data-transition="slidefade" data-ajax="false">'.$t['trip_judul'].'</a></li>';
-        }
-        echo'
-            <li data-role="list-divider"></li>';
+            <li data-role="list-divider" class="hrfKecil" >Perjalanan</li>';
+            foreach ($tripnya_user as $t) {
+                echo'
+                    <li><a href="'.URLSITUS ."trip/lihat/". make_seo_name($t['trip_judul']) ."/".$t['trip_id'].'/" class="ui-icon-location hrfKecil" data-transition="slidefade" data-ajax="false">'.$t['trip_judul'].'</a></li>';
+            }
+            echo'
+                <li data-role="list-divider"></li>';
         }
 	echo'
         <li><a href="#" class="ui-icon-search hrfKecil" data-transition="slidefade">Cari</a></li>
@@ -82,7 +95,7 @@ function get_panel()
                 Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu,'.tautan('user/registrasi/', 'Ayo gabung!').'</a>
             </p>
             <p class="ketengah">Ada 100 Travelers yang berbagi'. tautan('trip/', '1.000 ulasan perjalanan') .' , dan '.tautan('galeri.php', '2.000 foto') .' loh</p>
-
+                <a href = "#popupLogin" data-rel = "popup" data-position-to = "window" class = "ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition = "pop">Login | Pendaftaran</a>
                 </div>
             ';
     }
@@ -124,7 +137,7 @@ function get_header_index($title=null)
 function get_footer()
 {
     //tambah popup
-    if (isset($_SESSION['user_id']) == false){
+    if (isLogin() == false){
         // kalo user belum login, muncul tomobl pop up
         $tombolLogin = '<li><a href = "#popupLogin" data-rel = "popup" data-position-to = "window" class = "ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition = "pop">Login | Pendaftaran</a></li>';
         echo '
@@ -159,26 +172,41 @@ function Tmplt_button_user($user_status)
 	if ($user_status == 'A'){
 		// Klo user nya adalah host
 		echo '
-			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
 			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
 			<a href="#" class="ui-btn ui-mini ui-icon-gear ui-btn-icon-right">Manage member</a>';
 	}elseif ($user_status == 'B'){
 		// Status B => Ijin join
 		echo '
-			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Tanya</a>
-			<a href="#" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" id="ijinGabung">Ijin Gabung</a>';
+			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right" onClick="func_go_tanya()">Tanya</a>
+			<a href="#batalJoin" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" data-rel="popup" data-position-to="window" data-transition="flip">Menunggu Approval</a>';
 	}elseif ($user_status == 'C'){
 		// Status user C => udah join
 		echo '
-			<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
+			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
 			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
-			<a href="#" class="ui-btn ui-mini ui-icon-minus ui-btn-icon-right">Batal Gabung</a>';
+			<a href="#batalJoin" class="ui-btn ui-mini ui-icon-minus ui-btn-icon-right" data-rel="popup" data-position-to="window" data-transition="pop">Batal Gabung</a>';
 	}else{
 		// Selain semuanya, alias member umum
-		echo '<a href="#btn_tanya" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Tanya</a>
-			<a href="#" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" id="ijinGabung">Ijin Gabung</a>';
+		echo '<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right" onClick="func_go_tanya()">Tanya</a>
+		      <a href="#ijinJoin" id="btn_gabung" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" data-rel="popup" data-position-to="window" data-transition="pop">Ijin Gabung</a>';
 	}
 		
+}
+
+function Tmplt_generate_dialog($dialog_id, $dialog_judul, $dialog_isi,$dialog_p,$dialog_func)
+{
+    echo '<div data-role="popup" id="'.$dialog_id.'" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+<div data-role="header" data-theme="a">
+<h1>'.$dialog_judul.'</h1>
+</div>
+<div role="main" class="ui-content">
+<h3 class="ui-title">'.$dialog_isi.'</h3>
+<p>'.$dialog_p.'</p>
+<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Tidak</a>
+<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-transition="flow" onClick="'.$dialog_func.'">Ya</a>
+</div>
+</div>    ';
 }
 
 function Tmplt_comment_trip1($trip_id)

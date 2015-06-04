@@ -114,18 +114,26 @@ function Trip_get_by_id($trip_id){
 	// escape html and real escape
 	$trip_id = (int) amankan($trip_id);
 	
-	$sql = "SELECT a.*, (select u.user_username from tb_user u where u.user_id = a.trip_user_id) as username
-                FROM tb_trip a 
-		WHERE trip_id = '{$trip_id}' LIMIT 1";
+//	$sql = "SELECT a.*, (select u.user_username from tb_user u where u.user_id = a.trip_user_id) as username
+//                FROM tb_trip a 
+//		WHERE trip_id = '{$trip_id}' LIMIT 1";
+        $sql = "SELECT a.*, u.user_username AS username, IFNULL(u.user_foto,'userpic.gif') AS user_foto
+                FROM tb_trip a
+                INNER JOIN tb_user u ON a.trip_user_id = u.user_id
+                WHERE trip_id = '{$trip_id}'
+                LIMIT 1";
+                
 	$data = good_query_assoc($sql);
 	return $data;
 }
 
-function Trip_cek_status_user($id){
+function Trip_cek_status_user($id, $trip_id){
 	$id = (int) $id;
 	$sql = "SELECT B.member_status
-			FROM tb_trip A, tb_trip_member B
-			WHERE A.trip_id = B.member_trip_id  AND B.member_user_id = '{$id}' limit 1";
+                FROM tb_trip A, tb_trip_member B
+                WHERE A.trip_id = B.member_trip_id  
+                AND A.trip_id = '{$trip_id}'
+                AND B.member_user_id = '{$id}' limit 1";
 	$sqlStatus = good_query_assoc($sql);
 	if ($sqlStatus){
 		return $sqlStatus['member_status'];
@@ -191,6 +199,7 @@ function Trip_total()
 function Tripnya ($sql)
 {
     $result = good_query($sql);
+    $arr = array();
     while ($row = mysqli_fetch_assoc($result)){
         $tujuan = "-";
         if (!empty($row['trip_tujuan'])) {
@@ -214,7 +223,22 @@ function Tripnya ($sql)
         
         $label = "<b>". $row['user_username'] ."</b>". $konjungsi ." ke ". $tujuan;
                 
-        $arr[] = array("trip_id"                => $row['trip_id'], 
+        
+        // untuk pencarian memerlukan keterangan jarak, jadi di tambahin array baru
+        if (!empty(@$row['distance'])){
+            $arr[] = array("trip_id"            => $row['trip_id'], 
+                        "trip_judul"            => $row['trip_judul'],
+                        "href"                  => URLSITUS . 'trip/lihat/' . make_seo_name($row['trip_judul']) . '/' . $row['trip_id'] .'/',
+                        "label"                 => $row['user_username'],
+                        "trip_created_date"     => $row['trip_created_date'],
+                        "chat"                  => @$row['chat'],
+                        "trip_gambar"           => $foto,
+                        "trip_date"             => $trip_date,
+                        "label"                 => $label,
+                        "distance"              => $row['distance']
+                        );
+        }else{
+            $arr[] = array("trip_id"            => $row['trip_id'], 
                         "trip_judul"            => $row['trip_judul'],
                         "label"                 => $row['user_username'],
                         "trip_created_date"     => $row['trip_created_date'],
@@ -223,6 +247,7 @@ function Tripnya ($sql)
                         "trip_date"             => $trip_date,
                         "label"                 => $label
                         );
+        }
     }
     return $arr;
 }
@@ -239,14 +264,22 @@ function Trip_load_new($page, $batas)
     return Tripnya($sql);
 }
 
-function Trip_load_hot($page, $batas)
+function Trip_load_hot()
 {
-    $posisi = (int) $batas * ( (int) $page-1);    // menentukan offset mulai liat data
+    //$posisi = (int) $batas * ( (int) $page-1);    // menentukan offset mulai liat data
     // mengambil data HOT trip dari view
-    $sql = "select a.*, (select count(1) from tb_chat b where b.chat_trip_id = a.trip_id) as chat 
-            from v_trip_list a 
-            where a.trip_created_date between date_sub(now(),INTERVAL 11 WEEK) and now() 
-            order by chat desc limit {$posisi}, {$batas};";
+//    $sql = "select a.*, (select count(1) from tb_chat b where b.chat_trip_id = a.trip_id) as chat 
+//            from v_trip_list a 
+//            where a.trip_created_date between date_sub(now(),INTERVAL 4 WEEK) and now() 
+//            order by chat desc limit {$posisi}, {$batas};";
+//         
+    //**** Perbaikan algoritma hot trip dengan persentase
+$sql ="select ( ((a.trip_stats)*0.3) + ((select count(1) from tb_chat b where b.chat_trip_id = a.trip_id)*0.7) ) as point, 
+        a.*
+        from v_trip_list a 
+        where a.trip_created_date between date_sub(now(),INTERVAL 4 WEEK) and now()
+        and (a.trip_date2 > now() OR a.trip_date2 = '0000-00-00')
+        order by point desc limit 0, 10";            
     //return good_query_all($sql);
     //return good_query($sql);
     return Tripnya($sql);
@@ -281,5 +314,68 @@ function Trip_galeri($trip_id)
 {
     $sql = "select g.galeri_trip_id,g.galeri_foto_id,g.galeri_foto_url,g.galeri_foto_judul,g.galeri_date from tb_galeri g where g.galeri_trip_id = '{$trip_id}' ";
     return good_query_allrow($sql);
+}
+
+function Trip_save_member($trip_id, $user_id, $status)
+{
+    $sql = "replace into tb_trip_member(member_trip_id, member_user_id, member_status) values ('{$trip_id}','{$user_id}','{$status}');";
+    return good_query($sql);
+}
+
+function Trip_delete_member($trip_id, $user_id)
+{
+    $sql = "DELETE tb_trip_member WHERE member_trip_id = '{$trip_id}' AND member_user_id = '{$user_id}'";
+    return good_query($sql);
+}
+
+function Trip_cari_default($lat, $lng) 
+{
+    $jarak = 10; //(KM)
+    
+    // Kalo ga dapet 
+    // jarak di FLOOR ke bawah
+    $sql = "SELECT FLOOR((6371 * ACOS(COS(RADIANS(". $lat .")) * COS(RADIANS(t.trip_tujuan_geolat)) * COS(RADIANS(t.trip_tujuan_geolng) - RADIANS(". $lng .")) + SIN(RADIANS(". $lat .")) * SIN(RADIANS(t.trip_tujuan_geolat))))) AS distance,
+            t.trip_id, t.trip_judul, t.trip_date1, t.trip_date2, t.trip_gambar, t.user_username, t.trip_tujuan,t.trip_created_date
+            FROM v_trip_list t
+            HAVING distance < ".$jarak."
+            ORDER BY distance ASC;";
+    //return good_query_allrow($sql);
+    return Tripnya($sql);
+}
+function Trip_cari_detail($lat, $lng, $s_kategori, $t_dari, $t_sampai, $l_impian) 
+{
+    $jarak = 10; //(KM)
+    
+    $conditions = '';
+    $tglan = '';
+    $tglanImpian = '';
+    if ($s_kategori != '1'){
+        $conditions = " AND v.parent_id = '". $s_kategori ."'";
+    }
+    if (!empty($t_dari)){
+        $tglan .= " AND trip_date1 >= '". $t_dari ."'";
+    }
+    if (!empty($t_sampai)){
+        $tglan .= " AND trip_date2 <= '". $t_sampai ."'";
+    }
+    if ($l_impian == 'on'){
+        $tglanImpian .= " OR trip_date1 = '0000-00-00'";
+    }else{
+        $tglanImpian .= " AND trip_date1 != '0000-00-00'";
+    }
+    $conditions = $conditions ." AND (1=1 ". $tglan . $tglanImpian .")";
+    // Kalo ga dapet 
+    // jarak di FLOOR ke bawah
+    $sql = "SELECT FLOOR((6371 * ACOS(COS(RADIANS(". $lat .")) * COS(RADIANS(t.trip_tujuan_geolat)) * COS(RADIANS(t.trip_tujuan_geolng) - RADIANS(". $lng .")) + SIN(RADIANS(". $lat .")) * SIN(RADIANS(t.trip_tujuan_geolat))))) AS distance,
+            t.*
+            FROM v_trip_list t, v_param_parent v
+            WHERE 1=1 
+            AND trip_kategori = v.param_id
+            ".$conditions."
+            HAVING distance < ".$jarak."
+            ORDER BY distance ASC;";
+    //return good_query_allrow($sql);
+    return Tripnya($sql);
+    //return $sql;
 }
 ?>

@@ -9,8 +9,8 @@ $u = User_get_profil_by_name($username);
 $user_idnya = enkripsi($u['user_id']);
 
 if (empty($u['user_foto'])){                
-    $foto = URLSITUS.'css/images/profile.jpg';
-    $foto_o = URLSITUS.'css/images/profile.jpg';
+    $foto = URLSITUS.'_gambar/user/userpic.gif';
+    $foto_o = URLSITUS.'_gambar/user/userpic.gif';
 }else{
     $foto = URLSITUS.'_gambar/user/'.$u['user_foto'];
     $foto_o = URLSITUS.'_gambar/user/o/'.$u['user_foto'];

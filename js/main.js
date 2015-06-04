@@ -59,19 +59,19 @@ function customAjax(u, d, callback) {
             $.mobile.loading("hide");
             if (result.status == 1) {
                 // kalo status nya true
-                if (result.pesan != null){
+                if (result.pesan != null) {
                     // jika pesannya tidak kosong isinya maka tampil alert
                     dialogin(result.pesan);
                 }
-                
+
                 if (typeof callback == 'function') {
                     callback(result.data);
                 }
             } else {
                 dialogin(result.pesan);
-                if (result.status == 3){
+                if (result.status == 3) {
                     //reset capcay kalo status 3
-                    grecaptcha.reset(); 
+                    grecaptcha.reset();
                 }
             }
         },
@@ -82,11 +82,35 @@ function customAjax(u, d, callback) {
             //grecaptcha.reset(); //reset capcay
             console.log(error);
             console.log(request);
-                                    
+
         }
     });
 }
 
+function simpleAjax(u, d){
+    $.ajax({
+        type: "post",
+        url: u,
+        data: d,
+        async: true,
+        dataType: 'json',
+        success: function (result) {
+            if (result.status == true) {
+                console.log(result.status+" berhasil");
+            } else {
+                alert(result.pesan);
+            }
+        },
+        error: function (request, error) {
+            // This callback function will trigger on unsuccessful action                
+            dialogin('Network bermasalah, silahkan coba lagi!');
+            //grecaptcha.reset(); //reset capcay
+            console.log(error);
+            console.log(request);
+
+        }
+    });
+}
 $(document).on("swipeleft", "#home", function (e) {
 // We check if there is no open panel on the page because otherwise
 // a swipe to close the left panel would also open the right panel (and v.v.).
@@ -94,6 +118,76 @@ $(document).on("swipeleft", "#home", function (e) {
     if ($(".ui-page-active").jqmData("panel") !== "open") {
         if (e.type === "swipeleft") {
             $("#menuPanel").panel("open");
-        } 
+        }
     }
 });
+
+function func_notif_readed()
+{
+    // Ambil id notif
+    var notif_id = "&notif_id="+$.map($('#home .notifikasiList'), function (el) {
+        return $(el).data('value')
+    });
+    //alert("Proses update notif untuk "+notif_id);
+    simpleAjax(URLSITUS+'api/notifreaded/', notif_id);
+//    $.ajax({
+//        type: "post",
+//        url: URLSITUS + 'api/notifreaded/',
+//        data: notif_id,
+//        async: true,
+//        dataType: 'json',
+//        success: function (result) {
+//            if (result == true) {
+//                console.log(result.status+" notif telah dilihat");
+//            } else {
+//                console.log(result.status+" Error notif")
+//            }
+//        },
+//        error: function (request, error) {
+//            // This callback function will trigger on unsuccessful action                
+//            dialogin('Network bermasalah, silahkan coba lagi!');
+//            //grecaptcha.reset(); //reset capcay
+//            console.log(error);
+//            console.log(request);
+//
+//        }
+//    });
+
+}
+
+$("#notifikasi").on("collapsibleexpand", function () {
+    func_notif_readed();
+});
+
+function func_go_tanya(){
+    if ($('#btn_tanya').length){
+        $('#Ttanya').focus().select();
+    }else{
+        dialogin("Kolom pertanyaan di non-aktifkan oleh pembuat trip");
+    }
+}
+
+function func_addme() 
+{
+    // Proses menambahkan user ke dalam trip
+    $("#ijinJoin" ).popup( "close" );
+    //Disable button yg di klik
+    $("#btn_gabung").addClass('ui-state-disabled');
+    //console.log("Proses Adding");
+    simpleAjax(URLSITUS+'api/tripaddme/', null);
+}
+
+function func_eraseme()
+{
+    // Proses cancel ijin join dari Trip
+    $("#batalJoin" ).popup( "close" );
+    simpleAjax(URLSITUS+'api/triperaseme/', null);
+    location.reload();
+}
+
+function func_leaveme()
+{
+    // Proses keluar dari rencana Trip
+    $("#batalJoin" ).popup( "close" );
+    simpleAjax(URLSITUS+'api/tripleaveme/', null);
+}

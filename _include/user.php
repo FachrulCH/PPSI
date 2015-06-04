@@ -149,7 +149,8 @@ function User_member_trip($user_id)
     $sql = "select a.trip_id, a.trip_judul from tb_trip a, tb_trip_member b
             where a.trip_id = b.member_trip_id
             and a.trip_date1 >= CURRENT_DATE
-            and b.member_status in ('A','C')";
+            and b.member_status in ('A','C')
+            ANd trip_user_id = '{$user_id}'";
     return good_query_allrow($sql);
 }
 
@@ -221,5 +222,34 @@ function User_sekitar($lat, $lng)
             and u.user_deleted = 0
             Order by distance ASC;";
     return good_query_allrow($sql);
+}
+
+function User_notifikasi()
+{
+    $user_id = (int) $_SESSION['user_id'];
+    
+    $sql = "SELECT tb.notif_id,tb.notif_pengirim, tb.notif_penerima, tb.notif_judul, tb.notif_href, 
+            CASE tb.notif_tipe 
+            WHEN 1 THEN ' mengirim pesan pribadi'
+            WHEN 2 THEN ' membalas obrolan'
+            WHEN 3 THEN ' mengomentari Trip'
+            WHEN 4 THEN ' mengomentari Pengalaman'
+            ELSE ' menuliskan sesuatu' END AS notif_label
+            FROM tb_notifikasi tb
+            WHERE tb.notif_baru = '0' AND tb.notif_waktu BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND NOW() AND tb.notif_penerima = '{$user_id}'";
+            
+    return good_query_allrow($sql);
+}
+
+function User_notifikasi_terbaca($notif_id)
+{
+    $user_id = (int) $_SESSION['user_id'];
+    $sql = "UPDATE tb_notifikasi SET notif_baru = '1' "
+            . "WHERE notif_baru = '0' "
+            . "AND notif_waktu BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) "
+            . "AND NOW() AND notif_penerima = '{$user_id}'"
+            . "AND notif_id IN ({$notif_id})";
+            
+    return good_query($sql);
 }
 ?>

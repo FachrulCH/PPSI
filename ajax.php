@@ -140,6 +140,55 @@ elseif ($do == 'trip_save') {
 
 // =========================================================================== //
 }
+elseif($do == 'tripaddme'){
+    //A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
+    $user_id = @$_SESSION['user_id'];
+    $trip_id = @$_SESSION['lihatTrip'];
+    if (empty($user_id)){
+        echo json_encode(array('status' => FALSE, 'pesan' => "Anda harus Login dulu"));
+    }  else {
+        echo json_encode(array('status' => Trip_save_member($trip_id, $user_id, 'B'), 'pesan' => "Anda Belum Login"));  // data detail kategori
+    }
+    
+// =========================================================================== //
+}
+elseif($do == 'tripsearch'){
+    $location   = sanitize($_POST['location']); 
+    $s_kategori = sanitize(@$_POST['s_kategori']);
+    $t_dari     = sanitize(@$_POST['t_dari']);
+    $t_sampai   = sanitize(@$_POST['t_sampai']);
+    $l_impian   = sanitize(@$_POST['l_impian']);
+    $t_def      = sanitize(@$_POST['t_def']);
+    $latlng     = isset($location)? explode(',', $location): array(0,0);
+    
+    if ($t_def == '1'){
+        // 1 => pencarian default
+        $data = Trip_cari_default($latlng[0], $latlng[1]);
+    }else{
+        // 0 => pencarian detail
+        $data = Trip_cari_detail($latlng[0], $latlng[1], $s_kategori,$t_dari,$t_sampai,$l_impian);
+    }
+
+    $result = array('status' => TRUE, 'pesan' => NULL, 'data' => $data);
+    echo json_encode($result);
+// =========================================================================== //
+}
+elseif($do == 'func_eraseme'){
+    // Proses cancel ijin join dari Trip
+    $user_id = $_SESSION['user_id'];
+    $trip_id = $_SESSION['lihatTrip'];
+    echo json_encode(Trip_delete_member($trip_id, $user_id));  // data detail kategori
+
+// =========================================================================== //
+}
+elseif($do == 'func_leaveme'){
+    // Proses keluar dari rencana Trip
+    $user_id = $_SESSION['user_id'];
+    $trip_id = $_SESSION['lihatTrip'];
+    echo json_encode(Trip_save_member($trip_id, $user_id, 'D'));  // data detail kategori
+
+// =========================================================================== //
+}
 elseif($do == 'kategori'){
     $id = $_POST['id'];
     $detailKategori = Tmplt_get_kategori2($id);
@@ -226,7 +275,7 @@ elseif($do == 'login'){
         //*** cek login dengan imel ***//
         $status = User_loginbyemail($username, $password);
             if ($status == 1){
-                $pesan = 'Login email berhasil';
+                $pesan = 'Login email berhasil, mohon tunggu sebentar';
             }elseif($status == 2){
                 $pesan = 'Email tidak ditemukan';
             }else{
@@ -237,7 +286,7 @@ elseif($do == 'login'){
         //*** cek login dengan username ***//
         $status = User_loginbyusername($username, $password);
             if ($status == 1){
-                $pesan = 'Login username berhasil';
+                $pesan = 'Login username berhasil, mohon tunggu sebentar';
             }elseif($status == 2){
                 $pesan = 'Username tidak ditemukan';
             }else{
@@ -409,6 +458,15 @@ elseif($do == 'usersekitar'){
     $hasil  = User_sekitar($lat, $lng);
     $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
     echo json_encode($result);
+}
+elseif($do == 'notifreaded'){
+    //*** inisiasi nilai
+    $status = FALSE;
+    $pesan  = NULL;
+    $notif_id = sanitize($_POST['notif_id']);
+    $hasil  = User_notifikasi_terbaca($notif_id);
+    //$result = array('status' => $status, 'pesan' => $_POST, 'data' => $hasil);
+    echo json_encode($hasil);
 }
 else{
     echo 'ada kesalahan';
