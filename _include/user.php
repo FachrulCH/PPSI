@@ -252,4 +252,9 @@ function User_notifikasi_terbaca($notif_id)
             
     return good_query($sql);
 }
+
+function User_count(){
+    $sql = "select count(1) as jumlah from tb_user u where u.user_deleted = '0' ";
+    return good_query_assoc($sql);
+}
 ?>

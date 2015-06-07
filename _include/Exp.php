@@ -121,3 +121,9 @@ function Exp_delete($exp_id)
     }
 }
 
+function Exp_count()
+{
+    $sql = "select count(1) as jumlah from tb_pengalaman";
+    return good_query_assoc($sql);
+}
+?>

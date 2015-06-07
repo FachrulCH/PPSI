@@ -373,4 +373,10 @@ function Trip_cari_detail($lat, $lng, $s_kategori, $t_dari, $t_sampai, $l_impian
     return Tripnya($sql);
     //return $sql;
 }
+
+function Trip_count()
+{
+    $sql = "select count(1) as jumlah from tb_trip";
+    return good_query_assoc($sql);
+}
 ?>

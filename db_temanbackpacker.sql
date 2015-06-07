@@ -10,12 +10,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping database structure for db_temanbackpacker
-DROP DATABASE IF EXISTS `db_temanbackpacker`;
-CREATE DATABASE IF NOT EXISTS `db_temanbackpacker` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `db_temanbackpacker`;
-
-
 -- Dumping structure for table db_temanbackpacker.tb_chat
 DROP TABLE IF EXISTS `tb_chat`;
 CREATE TABLE IF NOT EXISTS `tb_chat` (
@@ -31,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `tb_chat` (
   KEY `FK_chat_trip` (`chat_trip_id`),
   KEY `FK_chat_user` (`chat_sender`),
   CONSTRAINT `FK_chat_user` FOREIGN KEY (`chat_sender`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_chat: ~63 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_chat: ~68 rows (approximately)
 /*!40000 ALTER TABLE `tb_chat` DISABLE KEYS */;
 REPLACE INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `chat_date`, `chat_mesej`, `chat_deleted`, `chat_title`) VALUES
 	(1, 110, 1, '2', '2015-04-18 02:24:35', 'ini pertanyaan test', 0, NULL),
@@ -105,7 +99,12 @@ REPLACE INTO `tb_chat` (`chat_id`, `chat_trip_id`, `chat_sender`, `chat_type`, `
 	(81, 2, 12, '1', '2015-05-26 23:01:28', 'ajfkajlfasdf', 0, 'ini di coba lagi coy'),
 	(82, 2, 12, '1', '2015-05-26 23:04:30', 'akfhkjahfkjahkjfa', 0, 'alert nya muncul?'),
 	(83, 2, 12, '1', '2015-05-26 23:06:01', '123123123123131232e324249284792387baskjdhakjshdkjahsdkuay824871298371982379839871923713791379379kajhdkjahsdkjahdkjahkjdhakjhdkjahdkjhakjdhkahdkjhakdhakjhdkjahdkjahkjdhajkhdkjahdkjhkajhdkjhkjdhakjhdkahkjdhakjhdkjahdjkhakjhakjdhkjahdahdhajkhdjahjdhsjkh', 0, 'alertnya ada?'),
-	(84, 2, 12, '1', '2015-05-26 23:08:41', 'kjaelkfajflkjaljflkajldfsfsf', 0, 'alert masih ga munucl');
+	(84, 2, 12, '1', '2015-05-26 23:08:41', 'kjaelkfajflkjaljflkajldfsfsf', 0, 'alert masih ga munucl'),
+	(85, 1234, 2, '2', '2015-06-05 23:30:10', 'sdfffffffffffffffffffffffffffffffv sdfsdfsdfsdfsfs', 0, NULL),
+	(86, 1234, 2, '2', '2015-06-05 23:54:19', 'tanya lagi coy', 0, NULL),
+	(87, 1234, 2, '2', '2015-06-05 23:55:05', 'ah cius nih coy???', 0, NULL),
+	(88, 1234, 2, '2', '2015-06-06 00:05:24', 'ah cius nih coy??? bagian ke dua', 0, NULL),
+	(89, 1234, 2, '2', '2015-06-06 00:15:50', 'Perbaikan default tanya', 0, NULL);
 /*!40000 ALTER TABLE `tb_chat` ENABLE KEYS */;
 
 
@@ -156,7 +155,8 @@ CREATE TABLE IF NOT EXISTS `tb_notifikasi` (
   `notif_baru` int(11) NOT NULL DEFAULT '0' COMMENT '0=baru ; 1=sudah dibaca',
   `notif_waktu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`notif_id`),
-  KEY `notif_penerima` (`notif_penerima`)
+  KEY `notif_penerima` (`notif_penerima`),
+  KEY `tb_notifikasi_notif_baru_idx` (`notif_baru`,`notif_waktu`,`notif_penerima`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table db_temanbackpacker.tb_notifikasi: ~4 rows (approximately)
@@ -215,24 +215,6 @@ REPLACE INTO `tb_param` (`param_id`, `param_parent`, `param_key`, `param_name`) 
 	(30, 26, 4, 'Rencana Pribadi'),
 	(31, 26, 4, 'Travel');
 /*!40000 ALTER TABLE `tb_param` ENABLE KEYS */;
-
-
--- Dumping structure for table db_temanbackpacker.tb_parameter
-DROP TABLE IF EXISTS `tb_parameter`;
-CREATE TABLE IF NOT EXISTS `tb_parameter` (
-  `parameter_id` int(11) NOT NULL AUTO_INCREMENT,
-  `parameter_name` varchar(50) NOT NULL,
-  `parameter_desc` text NOT NULL,
-  PRIMARY KEY (`parameter_id`),
-  KEY `parameter_name` (`parameter_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- Dumping data for table db_temanbackpacker.tb_parameter: ~2 rows (approximately)
-/*!40000 ALTER TABLE `tb_parameter` DISABLE KEYS */;
-REPLACE INTO `tb_parameter` (`parameter_id`, `parameter_name`, `parameter_desc`) VALUES
-	(1, 'status_trip', '{"status_trip":[\n{"id":"1", "name":"Wisata Kota"}, \n{"id":"2", "name":"Wisata Alam"}, \n{"id":"3", "name":"Wisata Kuliner"},\n{"id":"4", "name":"Wisata Sejarah"},\n{"id":"5", "name":"Backpacking"}\n]}'),
-	(2, 'transportasi', '{"transportasi":[\r\n    {"id":"1", "name":"Mobil"}, \r\n    {"id":"2", "name":"Kereta"}, \r\n    {"id":"3", "name":"Sepeda"},\r\n    {"id":"4", "name":"Motor"},\r\n    {"id":"5", "name":"Kapal laut"},\r\n    {"id":"6", "name":"Pesawat"}\r\n]}');
-/*!40000 ALTER TABLE `tb_parameter` ENABLE KEYS */;
 
 
 -- Dumping structure for table db_temanbackpacker.tb_pengalaman
@@ -335,10 +317,11 @@ CREATE TABLE IF NOT EXISTS `tb_trip` (
   `trip_flag_join` char(1) DEFAULT '0' COMMENT '1: ijinkan join | 0: tidak diijinkan join',
   `trip_created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `trip_stats` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`trip_id`)
+  PRIMARY KEY (`trip_id`),
+  KEY `idx_cari_tgl` (`trip_date1`,`trip_date2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_trip: ~16 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_trip: ~15 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip` DISABLE KEYS */;
 REPLACE INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, `trip_tujuan_geolat`, `trip_tujuan_geolng`, `trip_asal`, `trip_asal_lat`, `trip_asal_lng`, `trip_jenis`, `trip_kategori`, `trip_date1`, `trip_date2`, `trip_detail`, `trip_flag_comm`, `trip_flag_join`, `trip_created_date`, `trip_stats`) VALUES
 	(0, 1, 'ini judul', 'ini tujuan', 892349328, 984010, '', 0, 0, NULL, '9', '2015-04-15', '2015-04-16', 'jalan jalan yook', '0', '0', '2015-04-01 23:04:21', 1),
@@ -354,10 +337,10 @@ REPLACE INTO `tb_trip` (`trip_id`, `trip_user_id`, `trip_judul`, `trip_tujuan`, 
 	(1231, 12, 'ini judul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '2015-05-30 05:37:58', 0),
 	(1232, 12, 'ini judul webnya roolback', 'Bandung, Jawa Barat, Indonesia', -6.917464, 107.619123, 'Bekasi Barat, Jawa Barat, Indonesia', -6.238203, 106.965376, '30', '11', '2015-05-30', '2015-06-30', 'pppppppppppppppPPPPPPPPPPP', '1', '1', '2015-05-30 06:20:43', 22),
 	(1233, 12, 'Hallo semua', 'Ancol, Daerah Khusus Ibukota Jakarta, Indonesia', -6.132975, 106.826687, 'Bekasi, Jawa Barat, Indonesia', -6.23827, 106.975573, '30', '11', '0000-00-00', '0000-00-00', 'dkfajflkajlkfjakljflkadfsafadfsfsf', '0', '0', '2015-05-30 06:24:00', 3),
-	(1234, 12, 'Pendakian Ceria Gunung Cikuray Garut 12-14 Juni 20', 'Cikuray, Sukamantri, Jawa Barat, Indonesia', -6.769244, 107.875143, 'Kampung Rambutan, Rambutan, Daerah Khusus Ibukota Jakarta, Indonesia', -6.309957, 106.882201, '27', '13', '2015-06-12', '2015-06-14', '<p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">ONLY IDR 350.000/PACKMeeting Point Terminal Kp. Rambutan</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">~~~~~~~~~~~~~`Fasilitas~~~~~~~~~~~~~`1. Transportasi dari Kp. Rambutan â€“ Garut PP2. Transportasi Term. guntur â€“ Pemancar PP3. Ijin Pendakian4. Tenda kapasitas 4 orang5. Guide & Tour Leader6. Makan 2x sebelum dan sesudah pendakian7. T-shirt Pendakian8. Sticker9. Sunrise top cikuray</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Info detail:<a href="https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(19, 93, 177);">https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/</a></p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Informasi dan PendaftaranCarica AdventureAgung: 08999330189 / pin 54228527Adimas: 087782107200 / pin 21E44283Enggo: 087790617227 / pin 79F41E08</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Follow Us OnFB: Carica Adventuretwitter: @CaricaAdvcaricaadventure.wordpress.com</p>', '1', '1', '2015-05-30 07:57:37', 5),
+	(1234, 12, 'Pendakian Ceria Gunung Cikuray Garut 12-14 Juni 20', 'Cikuray, Sukamantri, Jawa Barat, Indonesia', -6.769244, 107.875143, 'Kampung Rambutan, Rambutan, Daerah Khusus Ibukota Jakarta, Indonesia', -6.309957, 106.882201, '27', '13', '2015-06-12', '2015-06-14', '<p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">ONLY IDR 350.000/PACKMeeting Point Terminal Kp. Rambutan</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">~~~~~~~~~~~~~`Fasilitas~~~~~~~~~~~~~`1. Transportasi dari Kp. Rambutan â€“ Garut PP2. Transportasi Term. guntur â€“ Pemancar PP3. Ijin Pendakian4. Tenda kapasitas 4 orang5. Guide & Tour Leader6. Makan 2x sebelum dan sesudah pendakian7. T-shirt Pendakian8. Sticker9. Sunrise top cikuray</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Info detail:<a href="https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/" rel="nofollow" style="margin: 0px; padding: 0px; color: rgb(19, 93, 177);">https://caricaadventure.wordpress.com/portfolio/open-trip-mt-cikuray-2821-mdpl-with-carica-adventure/</a></p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Informasi dan PendaftaranCarica AdventureAgung: 08999330189 / pin 54228527Adimas: 087782107200 / pin 21E44283Enggo: 087790617227 / pin 79F41E08</p><p style="margin-top: 0.5em; margin-right: 10px; margin-bottom: 25px; padding: 0px; color: rgb(50, 50, 50); font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 13px; line-height: 18.2000007629395px; white-space: normal;">Follow Us OnFB: Carica Adventuretwitter: @CaricaAdvcaricaadventure.wordpress.com</p>', '1', '1', '2015-05-30 07:57:37', 35),
 	(1237, 12, 'Tes upload gambar', 'Ciputat, Banten, Indonesia', -6.307706, 106.717567, 'Jakarta Pusat, Daerah Khusus Ibukota Jakarta, Indonesia', -6.186486, 106.834091, '30', '13', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '1', '1', '2015-05-30 08:35:25', 12),
-	(1238, 12, 'tes Upload galeri trip lagi', 'Puncak, Cisarua, Jawa Barat, Indonesia', -6.712548, 106.954242, 'Cikarang Selatan, Jawa Barat, Indonesia', -6.319337, 107.136637, 'Pi', 'Pi', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '0', '0', '2015-05-30 08:42:05', 31),
-	(1240, 12, 'tes Ti tasik', 'Alun Alun Ciamis, Ciamis, Jawa Barat, Indonesia', -7.326706, 108.352742, 'Terminal Bekasi, Margahayu, Jawa Barat, Indonesia', -6.24924, 107.013554, '29', '9', '0000-00-00', '0000-00-00', '<p>a,fkjakldfjklajfljalsfjlasjl</p><p>sflkajfklajklfdjkla</p><p>dflkjakfjklaflkadf</p>', '1', '1', '2015-06-03 16:35:38', 44);
+	(1238, 12, 'tes Upload galeri trip lagi', 'Puncak, Cisarua, Jawa Barat, Indonesia', -6.712548, 106.954242, 'Cikarang Selatan, Jawa Barat, Indonesia', -6.319337, 107.136637, 'Pi', 'Pi', '0000-00-00', '0000-00-00', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '0', '0', '2015-05-30 08:42:05', 32),
+	(1240, 12, 'tes Ti tasik', 'Alun Alun Ciamis, Ciamis, Jawa Barat, Indonesia', -7.326706, 108.352742, 'Terminal Bekasi, Margahayu, Jawa Barat, Indonesia', -6.24924, 107.013554, '29', '9', '0000-00-00', '0000-00-00', '<p>a,fkjakldfjklajfljalsfjlasjl</p><p>sflkajfklajklfdjkla</p><p>dflkjakfjklaflkadf</p>', '1', '1', '2015-06-03 16:35:38', 49);
 /*!40000 ALTER TABLE `tb_trip` ENABLE KEYS */;
 
 
@@ -372,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `tb_trip_member` (
   UNIQUE KEY `unq_member_trip` (`member_trip_id`,`member_user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_trip_member: ~20 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_trip_member: ~18 rows (approximately)
 /*!40000 ALTER TABLE `tb_trip_member` DISABLE KEYS */;
 REPLACE INTO `tb_trip_member` (`member_id`, `member_trip_id`, `member_user_id`, `member_status`) VALUES
 	(1, 110, 1, 'A'),
@@ -419,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
   `user_ip` varchar(50) DEFAULT NULL,
   `user_exp` text,
   `user_privacy` int(11) NOT NULL DEFAULT '0' COMMENT '0=public || 1=member',
-  `user_deleted` int(11) NOT NULL DEFAULT '0' COMMENT '0=aktif || 1=deleted',
+  `user_deleted` char(1) NOT NULL DEFAULT '0' COMMENT '0=aktif || 1=deleted',
   `user_reputasi` int(11) DEFAULT '0',
   PRIMARY KEY (`user_id`),
   KEY `idx_email_paswd` (`user_email`,`user_password`),
@@ -428,21 +411,21 @@ CREATE TABLE IF NOT EXISTS `tb_user` (
   KEY `idx_search_email` (`user_email`,`user_password`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_temanbackpacker.tb_user: ~12 rows (approximately)
+-- Dumping data for table db_temanbackpacker.tb_user: ~3 rows (approximately)
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
 REPLACE INTO `tb_user` (`user_id`, `user_name`, `user_username`, `user_email`, `user_password`, `user_lokasi`, `user_gender`, `user_ttl`, `user_foto`, `user_bio`, `user_sosmed`, `user_reg_date`, `user_info`, `user_geolat`, `user_geolng`, `user_ip`, `user_exp`, `user_privacy`, `user_deleted`, `user_reputasi`) VALUES
-	(1, 'FachrulCH', 'Kurawal', 'fachrul.fch@gmail.com', '57917da98d1c3aaa5256cbb7aa7a15af', 'Jakarta', 'P', '1990-04-06', '1prambanan.jpg', 'Ini bio', 'fachrul.fch@gmail.com', '2015-04-06 03:07:29', 'Info si ALu', -6.2087634, 106.84559899999999, NULL, '', 0, 0, 0),
-	(2, 'Karta', 'Pendekar', 'karta@email.com', '63954d2707c13cf25472551ea783ae1f', 'Bekasi Barat, Jawa Barat, Indonesia', 'P', '1989-04-19', '1prambanan.jpg', 'INi bio gw coy jhkjh kjh kjhjkhjkhjkh kj jkhkjhjk ', 'karta@email.com', '2013-02-19 00:00:00', 'gw adalah anak bekasi', -6.238203, 106.965376, NULL, 'Ke gunung gan', 0, 0, 0),
-	(3, 'bahur', '', 'bahur@email.com', 'bahur', 'padang', 'L', '2015-04-19', '1.jpg', NULL, NULL, NULL, 'ini bahur', NULL, NULL, NULL, '', 0, 0, 0),
-	(4, 'asoy geboy', 'asoygeboy', 'asoy@geboy.com', 'f9ab2a14de7f36ec1bf7ac3f66498dfa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
-	(5, 'haci kiwir', 'papatong', 'imel@imel.com', '74ee55083a714aa3791f8d594fea00c9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0),
-	(6, 'Fachrul Choliluddin', 'alul', 'fachrul.fch@gmail.come', '9c50ce0a788d7bf35a39cc25ab8cba22', 'Cikini, Daerah Khusus Ibukota Jakarta, Indonesia', 'L', '1991-11-01', NULL, 'aselole', '@twitter.com', NULL, NULL, -6.192515, 106.839962, '::1', 'ke gunung, pantai', 0, 0, 0),
-	(7, 'Karta Wijaya', 'karta', 'karta@imel.com', '25b3968e7434ac9cea4a57b40f7a4956', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
-	(8, 'error', 'erorin', 'eror@gmail.com', '25d55ad283aa400af464c76d713c07ad', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
-	(9, 'haiiish', 'hasiiih', 'hasi@imel.com', 'bf1d68ac3efaf911714436c9f2b36cdb', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
-	(10, 'aselole joss', 'aselole', 'ase@gmail.com', 'aedd8ca1ae4ca83a06f9631a323756d1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, 0, 0),
-	(11, 'Fauzan', 'FauzanFR', 'fauzan@gmail.com', '146aacc4a5e1ffaff3ef09e562f8b1b1', 'Tasikmalaya, Jawa Barat, Indonesia', 'P', '1990-04-02', NULL, '', 'fauzan@gmail.com', '2015-05-24 16:49:54', NULL, 0, 0, '::1', 'Pantai', 0, 0, 0),
-	(12, 'Soekarno', 'Soekarno', 'Soekarno@gmail.com', '2363776cb8d3e2a63c77ff3281314e7b', 'Blitar, Jalan Mastrip, Kepanjen Kidul, Jawa Timur, Indonesia', 'P', '1901-06-01', NULL, 'Presiden pertama coy', 'Soekarno@gmail.com', '2015-05-24 22:52:06', NULL, -8.101281, 112.162814, '::1', 'Ende', 0, 0, 0);
+	(1, 'FachrulCH', 'Kurawal', 'fachrul.fch@gmail.com', '57917da98d1c3aaa5256cbb7aa7a15af', 'Jakarta', 'P', '1990-04-06', '1prambanan.jpg', 'Ini bio', 'fachrul.fch@gmail.com', '2015-04-06 03:07:29', 'Info si ALu', -6.2087634, 106.84559899999999, NULL, '', 0, '0', 0),
+	(2, 'Karta', 'Pendekar', 'karta@email.com', '63954d2707c13cf25472551ea783ae1f', 'Bekasi Barat, Jawa Barat, Indonesia', 'P', '1989-04-19', '1prambanan.jpg', 'INi bio gw coy jhkjh kjh kjhjkhjkhjkh kj jkhkjhjk ', 'karta@email.com', '2013-02-19 00:00:00', 'gw adalah anak bekasi', -6.238203, 106.965376, NULL, 'Ke gunung gan', 0, '0', 0),
+	(3, 'bahur', '', 'bahur@email.com', 'bahur', 'padang', 'L', '2015-04-19', '1.jpg', NULL, NULL, NULL, 'ini bahur', NULL, NULL, NULL, '', 0, '0', 0),
+	(4, 'asoy geboy', 'asoygeboy', 'asoy@geboy.com', 'f9ab2a14de7f36ec1bf7ac3f66498dfa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '0', 0),
+	(5, 'haci kiwir', 'papatong', 'imel@imel.com', '74ee55083a714aa3791f8d594fea00c9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '0', 0),
+	(6, 'Fachrul Choliluddin', 'alul', 'fachrul.fch@gmail.come', '9c50ce0a788d7bf35a39cc25ab8cba22', 'Cikini, Daerah Khusus Ibukota Jakarta, Indonesia', 'L', '1991-11-01', NULL, 'aselole', '@twitter.com', NULL, NULL, -6.192515, 106.839962, '::1', 'ke gunung, pantai', 0, '0', 0),
+	(7, 'Karta Wijaya', 'karta', 'karta@imel.com', '25b3968e7434ac9cea4a57b40f7a4956', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, '0', 0),
+	(8, 'error', 'erorin', 'eror@gmail.com', '25d55ad283aa400af464c76d713c07ad', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, '0', 0),
+	(9, 'haiiish', 'hasiiih', 'hasi@imel.com', 'bf1d68ac3efaf911714436c9f2b36cdb', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, '0', 0),
+	(10, 'aselole joss', 'aselole', 'ase@gmail.com', 'aedd8ca1ae4ca83a06f9631a323756d1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '::1', NULL, 0, '0', 0),
+	(11, 'Fauzan', 'FauzanFR', 'fauzan@gmail.com', '146aacc4a5e1ffaff3ef09e562f8b1b1', 'Tasikmalaya, Jawa Barat, Indonesia', 'P', '1990-04-02', NULL, '', 'fauzan@gmail.com', '2015-05-24 16:49:54', NULL, 0, 0, '::1', 'Pantai', 0, '0', 0),
+	(12, 'Soekarno', 'Soekarno', 'Soekarno@gmail.com', '2363776cb8d3e2a63c77ff3281314e7b', 'Blitar, Jalan Mastrip, Kepanjen Kidul, Jawa Timur, Indonesia', 'P', '1901-06-01', NULL, 'Presiden pertama coy', 'Soekarno@gmail.com', '2015-05-24 22:52:06', NULL, -8.101281, 112.162814, '::1', 'Ende', 0, '0', 0);
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 
 

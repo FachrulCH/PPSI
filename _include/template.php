@@ -128,7 +128,7 @@ function get_header_index($title=null)
 {
 	echo '
 	<header data-role="header" id="header">
-		<h1>'.$title.'</h1>
+		<div class="ketengah"><img src="css/images/logo.gif"></div>
         <a href="#panelSearch" class="ui-btn ui-icon-search ui-btn-icon-notext ui-corner-all ui-btn-right">Pencarian</a>
 	</header><!-- /header -->';
 }
@@ -157,7 +157,6 @@ echo '
 		<div data-role="navbar">
 			<ul>
 				<li><a href="#header" data-ajax="false">Back to top</a></li>
-				<li><a href="#">Report bug</a></li>
                                 '.@$tombolLogin.'
 			</ul>
 		</div><!-- /navbar -->
