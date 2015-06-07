@@ -145,7 +145,7 @@ function get_footer()
             <div style = "padding:10px 20px;">
             <h3>Hai kamu, selamat datang :)</h3>
             <label for = "lg" class = "ui-hidden-accessible">Sudah terdaftar?</label>
-            <a href="'. URLSITUS .'user/login/" class="ui-btn ui-icon-action ui-btn-icon-left" id="lg">Login</a>
+            <a href="'. URLSITUS .'user/login/?red=y" class="ui-btn ui-icon-action ui-btn-icon-left" id="lg">Login</a>
             <label for = "pw" class = "ui-hidden-accessible">Mau bergabung?</label>
             <a href="'. URLSITUS .'user/registrasi/" class="ui-btn ui-icon-user ui-btn-icon-left">Daftar</a>
             </div>
@@ -215,55 +215,21 @@ function Tmplt_comment_trip1($trip_id)
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	// return mysql query
 	$data = Trip_get_tanya($trip_id);
-	
-//	while ($d = mysqli_fetch_array($data)){
-//	/* echo'<li>
-//			<img src="_gambar/user/3.jpg">
-//			<strong>'.$d['user_name'].'</strong>
-//			<hr/>
-//			<p>'.$d['chat_mesej'].'</p>
-//			<p class="ui-li-aside">'.$d['chat_date'].'</p>
-//		</li>'; */
-//	// Looping data tanya 
-//	echo '
-//	<div class="dataPertanyaan">
-//	<hr/>
-//		<img class="thumb" src="_gambar/user/'.$d['user_foto'].'">
-//	<div class="usr">'.$d['user_name'].'</div>
-//	<div>
-//		<span class="usrHdr"><abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
-//	// klo user login yg punya post, user itu bisa edit
-//	if ($d['chat_sender'] == @$_SESSION['user_id']){
-//	echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
-//	}
-//	echo '</div>
-//	<hr/>
-//		<div class="usrDtl">
-//		<p>'.$d['chat_mesej'].'</p>
-//	</div>
-//	</div>';
-//	}
-
-//        //REMARK GANTI JADI FETCH ASSOC
-//        if (count(array_filter($data)) == 0 )
-//        {
-//        	echo "";
-//        	$kosong = true;
-//        }else{
-        //foreach ($data as $d) {
+	$flag = 0;
         while ($d = mysqli_fetch_assoc($data) ) {
-        	$kosong = false;
             echo '
-            <div class="dataPertanyaan">
-                <hr/>
-                <img class="thumb" src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'">
-                <div class="usr">'.$d['user_name'].'</div>
-                <div><span class="usrHdr">
-                    <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
+            <div class="author">
+                <span>
+                <a href="'. URLSITUS .'username/'. make_seo_name($d['user_name']) .'/" class="noStyle"> 
+                    <img src="'. URLSITUS .'_gambar/user/'. $d['user_foto'] .'" class="miniFoto">
+                    <span>'. $d['user_name'] .'</a></span>
+                </span>
+                <div>
+                    <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr>';
 
                 // klo user login yg punya post, user itu bisa edit
                 if ($d['chat_sender'] == @$_SESSION['user_id']){
-                    echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
+                    echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya" data-value="'. $d['chat_id'] .'">[edit]</a> | <a href="#" class="deleteTanya" data-value="'. $d['chat_id'] .'">[delete]</a></span>';
                 }
                 
                 echo '
@@ -273,6 +239,11 @@ function Tmplt_comment_trip1($trip_id)
                     <p>'.$d['chat_mesej'].'</p>
                 </div>
             </div>';
+                $flag++;
+        }
+        if ($flag > 0){
+            echo '<div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
+                    <a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>';
         }
     }
 
@@ -288,9 +259,9 @@ function Tmplt_comment_trip2($trip_id)
         //foreach ($data as $d) {
         while ($d = mysqli_fetch_assoc($data) ) {
             $listTanya .= '
-            <div class="dataPertanyaan">
+            <div class="author">
                 <hr/>
-                <img class="thumb" src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'">
+                <img src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'" class="miniFoto">
                 <div class="usr">'.$d['user_name'].'</div>
                 <div><span class="usrHdr">
                     <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';

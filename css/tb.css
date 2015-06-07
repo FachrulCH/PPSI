@@ -21,6 +21,9 @@
     -ms-filter: blur(2px);
     filter: blur(2px);
 }
+.noStyle{
+    text-decoration: none;
+}
 .ditengah{
     margin-left: auto;
     margin-right: auto;

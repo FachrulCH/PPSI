@@ -114,8 +114,8 @@ if (@$_SESSION['user_id'] == $trip['trip_user_id']){
 
                 <div class="author">
                     <span> 
-                        <img src="<?= URLSITUS . "_gambar/user/" . $trip['user_foto'] ?>" class="miniFoto">
-                        <span><?= tautan('username/' . make_seo_name($trip['username']) . '/', $trip['username']) ?></span>
+                        <a href="<?= URLSITUS .'username/' . make_seo_name($trip['username']) . '/'?>" class="noStyle"> <img src="<?= URLSITUS . "_gambar/user/" . $trip['user_foto'] ?>" class="miniFoto">
+                        <span><?= $trip['username'] ?></a></span>
                     </span>
                     <div>Dibuat: <abbr class="timeago" title="<?= $trip['trip_created_date'] ?>"><?= $trip['trip_created_date'] ?></abbr></div>
                 </div>
@@ -210,11 +210,13 @@ if ($trip['trip_flag_comm'] == 1) {
                         <div style="clear: both;"></div>
                         <div id="listTanya">
 
-                        </div>
+                        
 
-                        <div class="ketengah">Pertanyaan yg ditampilkan adalah 10 pertanyaan teratas, klik link di bawah</div>
-                        <a href="#" class="ui-btn ui-mini">Lihat semua pertanyaan</a>
-
+<?php
+                    $kosong = true;                 // list tanya default nya kosong
+                    $kosong = Tmplt_comment_trip1($trip_id);  // tampilan list pertanyaan
+?>
+                    </div>
                     </div>
     <?php
 }
@@ -287,15 +289,15 @@ if ($statusUser == 'B'){
                         dialogin("Klik captcha dahulu");
                         return false;
                     }
-
-                    //var kirim = $("#tanyajawab").serialize();
+                    var pertanyaan = $('#Ttanya').val();
+                    var kirim = $("#tanyajawab").serialize();
                     console.log(kirim);
                     if (pertanyaan.length > 0) {
 
-        //                                Menggunakan fungsi sendiri untuk memanggil ajax
-        //                                format argumen adalah (URL,DATA,Callcack function)
+        // Menggunakan fungsi sendiri untuk memanggil ajax
+        // format argumen adalah (URL,DATA,Callcack function)
 
-                        customAjax('<?= URLSITUS ?>ajax.php?do=tanya', kirim, function (data) {
+                        customAjax('<?= URLSITUS ?>api/komen/', kirim, function (data) {
                             $("#listTanya").html(data);         // refrest list
                             $("#Ttanya").val(''); 		// kotak pertanyaan di kosongin
                             jQuery("abbr.timeago").timeago();   // refrest keterangan waktu
@@ -307,43 +309,18 @@ if ($statusUser == 'B'){
                     return false; // cancel original event to prevent form submitting
                 });
 
-                $('#ijinGabung').on('click', function () {
-                    //console.log("button di klik");
-                    $.ajax({
-                        type: 'post',
-                        url: '<?= URLSITUS ?>ajax.php?do=ijingabung',
-                        data: "maugabung", // data yg dikirimkan
-                        async: 'true',
-                        dataType: 'json',
-                        beforeSend: function () {
-                            // menampilkan loading spiner sebelum data dikirim
-                            $.mobile.loading("show", {text: "Mohon tunggu", textVisible: true});
-                            console.log("data di kirim");
-                        },
-                        success: function (result) {
-                            $.mobile.loading("hide");
-                            if (result.status == true) {
-                                alert(result.pesan);
-                                console.log(result);
-                            } else {
-                                alert('error dikit');
-                            }
-                        },
-                        error: function (request, error) {
-                            alert('Network bermasalah, silahkan coba lagi!');
-                        }
-
-                    });
-                });
-                //$('.editTanya').click(function () {
                 $(document).on('click', '.editTanya', function () {
-                    //var pesan = $("div.dataPertanyaan div.usrDtl").text();
-
+                    $('#Ttanya').focus().select();
                     var pertanyaan = $(this).parent().parent().parent().find('.usrDtl').text();
                     pertanyaan = $.trim(pertanyaan);
                     //alert("edit coy "+pertanyaan); 
                     $("#Ttanya").val(pertanyaan);
                     $("#btn_tanya").text("Update");
+                    return false;
+                });
+                
+                $(document).on('click', '.deleteTanya', function () {
+                    alert("Proses delete");
                     return false;
                 });
 

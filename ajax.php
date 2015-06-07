@@ -71,6 +71,68 @@ if ($do == 'tanya'){
         
 // =========================================================================== //	
 }
+elseif ($do == 'komen'){
+    ///***** Validasi capcay****///
+    $captcha    = $_POST['g-recaptcha-response'];
+    $response   = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6LeO_QUTAAAAAHV1shZF4h2BnhS7QdrrzRDI5YaJ&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']), true);
+
+    if ($response['success'] == false) {
+       $pesan   = "User anda tidak lolos captcha";
+       $status  = false;
+       $hasil   = NULL;
+    } else {
+        // user valid
+    
+	$status 	= TRUE; 				// inisiasi value default
+        $hasil          = "";
+	$pesan		= "Error mengambil informasi dari database";	// inisiasi value default
+	//$user_id	= (int) dekripsi($_POST['id']);
+	$chat_trip_id 	= $_SESSION['lihatTrip'];
+	$chat_mesej 	= $_POST['t_tanya'];
+	$chat_sender	= @$_SESSION['user_id'];
+	
+	// validasi dlu
+	if (!isset($chat_trip_id)){
+		$pesan = "Kendala dalam membaca id ini";
+		$status = TRUE;
+	}elseif (!isset($chat_mesej)){
+		$pesan = "Kendala dalam pesan yg dikirim";
+		$status = TRUE;
+	}elseif ($chat_sender == ''){
+		$pesan = "Kamu harus login dulu";
+		$status = TRUE;
+	}else{
+		// return True kalo berhasil di save
+		$insertTanya = Chat_save_tanya($chat_trip_id, $chat_sender, $chat_mesej);
+		
+		if ($insertTanya == true){
+			$status = true;
+			$pesan  = "Pertanyaan anda berhasil diposting";
+		}else{
+                    $pesan  = "Kesalahan pada query insert chat";
+                }
+	}
+	
+	
+	//$hasil = array('status' => $status, 'pesan' => $pesan);
+	//echo json_encode($hasil);
+	
+	//diganti kembalian berupa file tanya yg udah di reload pake data baru
+	if ($status == true){
+            $hasil = Tmplt_comment_trip2($chat_trip_id);
+	}else{
+		//$hasil = array('status' => $status, 'pesan' => $pesan);
+		//echo json_encode($hasil);
+		//echo "<br/>".$pesan;
+            $hasil = "error terjadi";
+	}
+    }    
+        $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+        
+        echo json_encode($result);
+        
+// =========================================================================== //	
+}
 elseif ($do == 'chatpm'){
     $captcha   = $_POST['t_capcay'];
     $t_judul    = $_POST['t_judul'];

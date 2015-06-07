@@ -57,6 +57,9 @@ function customAjax(u, d, callback) {
         },
         success: function (result) {
             $.mobile.loading("hide");
+            // status = true    => muncul popup
+            // status = false   => ga muncul popup
+            // status = 3       => refresh capcay
             if (result.status == 1) {
                 // kalo status nya true
                 if (result.pesan != null) {
@@ -130,28 +133,6 @@ function func_notif_readed()
     });
     //alert("Proses update notif untuk "+notif_id);
     simpleAjax(URLSITUS+'api/notifreaded/', notif_id);
-//    $.ajax({
-//        type: "post",
-//        url: URLSITUS + 'api/notifreaded/',
-//        data: notif_id,
-//        async: true,
-//        dataType: 'json',
-//        success: function (result) {
-//            if (result == true) {
-//                console.log(result.status+" notif telah dilihat");
-//            } else {
-//                console.log(result.status+" Error notif")
-//            }
-//        },
-//        error: function (request, error) {
-//            // This callback function will trigger on unsuccessful action                
-//            dialogin('Network bermasalah, silahkan coba lagi!');
-//            //grecaptcha.reset(); //reset capcay
-//            console.log(error);
-//            console.log(request);
-//
-//        }
-//    });
 
 }
 

@@ -153,20 +153,15 @@ function Trip_count_member_joined($trip_id){
 	return $sqlCount['jumlah'];
 }
 
-function Trip_kategori_view($id){
-//	$json = get_db_param('status_trip');
-//	return $json->status_trip[$id]->name;	
-}
-
 function Trip_get_tanya($trip_id){
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	$trip_id = (int) $trip_id;
 	
-	$sql = "SELECT A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, B.user_foto
-			FROM tb_chat A, tb_user B
-			WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
-			ORDER BY A.chat_date DESC
-			LIMIT 0,10"; // 10 item pertanyaan
+	$sql = "SELECT A.chat_id, A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, B.user_foto
+                FROM tb_chat A, tb_user B
+                WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
+                ORDER BY A.chat_date DESC
+                LIMIT 0,10"; // 10 item pertanyaan
 	
 	$sqlSelect = good_query($sql);
 	//return $sqlSelect;

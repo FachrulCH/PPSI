@@ -37,7 +37,7 @@ $userList = User_seperjalanan();
                     <ul>
                         <li><a href="#" class="ui-btn-active">Rencana Teman</a></li>
                         <li><a href="#" class="sekitar">Teman sekitarmu</a></li>
-                        <li><a href="#cari" data-transition="flip">Cari detail</a></li>
+                        <li><a href="#cari" data-transition="flip">Cari Teman</a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <ul data-role="listview" data-inset="true" data-divider-theme="a">
@@ -81,7 +81,7 @@ $userList = User_seperjalanan();
                     <ul>
                         <li><a href="#home" data-transition="flip">Rencana Teman</a></li>
                         <li><a href="#" class="sekitar">Teman sekitarmu</a></li>
-                        <li><a href="#cari" class="ui-btn-active">Cari detail</a></li>
+                        <li><a href="#cari" class="ui-btn-active">Cari Teman</a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <ul data-role="listview" data-inset="true">
@@ -124,7 +124,7 @@ $userList = User_seperjalanan();
                     <ul>
                         <li><a href="#home" data-transition="flip">Rencana Teman</a></li>
                         <li><a href="#" class="sekitar ui-btn-active">Teman sekitarmu</a></li>
-                        <li><a href="#cari">Cari detail</a></li>
+                        <li><a href="#cari">Cari Teman</a></li>
                     </ul>
                 </div><!-- /navbar -->
                 <ul data-role="listview" data-inset="true" data-divider-theme="a" id="listUserSekitar">
