@@ -90,7 +90,7 @@ function get_panel()
 	</div><!-- /panel -->';
     }else{
         //*** Kalo user belum login
-        echo '  <div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="overlay">
+        echo '  <div data-role="panel" id="menuPanel" data-position="right" data-position-fixed="true" data-display="push">
                 <p class="ketengah" style="padding-top: 20px;">
                 Selamat Datang di TemanBackpacker, situs untuk menemukan rencana liburan dan teman baru mu,'.tautan('user/registrasi/', 'Ayo gabung!').'</a>
             </p>
@@ -100,18 +100,18 @@ function get_panel()
             ';
     }
 }
-function get_panel_search()
-{
-echo '
-	<div data-role="panel" id="panelSearch" data-position="right" data-position-fixed="true" data-display="push">
-            <form action="#" method="get">
-                <input type="search" placeholder="Mau jalan jalan kemana?" class="ui-btn-inline">
-                <button class="ui-btn ui-icon-search ui-btn-icon-left ui-mini">Cari</button>
-            </form>
-            <p>Atau coba masuk ke menu pencarian</p>
-            <a href="#" class="ui-btn">Pencarian detail</a>
-	</div><!-- /panel -->';
-}
+//function get_panel_search()
+//{
+//echo '
+//	<div data-role="panel" id="panelSearch" data-position="right" data-position-fixed="true" data-display="push">
+//            <form action="#" method="get">
+//                <input type="search" placeholder="Mau jalan jalan kemana?" class="ui-btn-inline">
+//                <button class="ui-btn ui-icon-search ui-btn-icon-left ui-mini">Cari</button>
+//            </form>
+//            <p>Atau coba masuk ke menu pencarian</p>
+//            <a href="#" class="ui-btn">Pencarian detail</a>
+//	</div><!-- /panel -->';
+//}
 
 function get_header($title=null)
 {
@@ -129,7 +129,7 @@ function get_header_index($title=null)
 	echo '
 	<header data-role="header" id="header">
 		<div class="ketengah"><img src="css/images/logo.gif"></div>
-        <a href="#panelSearch" class="ui-btn ui-icon-search ui-btn-icon-notext ui-corner-all ui-btn-right">Pencarian</a>
+                <a href="#menuPanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right">Default panel</a>
 	</header><!-- /header -->';
 }
 

@@ -226,6 +226,9 @@ elseif($do == 'tripsearch'){
     if ($t_def == '1'){
         // 1 => pencarian default
         $data = Trip_cari_default($latlng[0], $latlng[1]);
+    }elseif ($t_def == '8'){
+        // 1 => pencarian default
+        $data = Trip_cari_default_rand($latlng[0], $latlng[1]);
     }else{
         // 0 => pencarian detail
         $data = Trip_cari_detail($latlng[0], $latlng[1], $s_kategori,$t_dari,$t_sampai,$l_impian);

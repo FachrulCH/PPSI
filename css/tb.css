@@ -241,6 +241,10 @@ hr{
     text-shadow: 2px 2px #000;
 }
 
+.controlgroup-textinput{
+    padding-top:.22em;
+    padding-bottom:.22em;
+}
 
 .judulList{
     font-size: .9em !important;

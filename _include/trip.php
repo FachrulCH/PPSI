@@ -373,7 +373,25 @@ function Trip_cari_detail($lat, $lng, $s_kategori, $t_dari, $t_sampai, $l_impian
     return Tripnya($sql);
     //return $sql;
 }
-
+function Trip_cari_default_rand($lat, $lng) 
+{
+    $jarak = 10; //(KM)
+    
+    // Kalo ga dapet 
+    // jarak di FLOOR ke bawah
+    $sql = "SELECT * FROM (
+            SELECT FLOOR((6371 * ACOS(COS(RADIANS(". $lat .")) * COS(RADIANS(t.trip_tujuan_geolat)) * COS(RADIANS(t.trip_tujuan_geolng) - RADIANS(". $lng .")) + SIN(RADIANS(". $lat .")) * SIN(RADIANS(t.trip_tujuan_geolat))))) AS distance,
+            t.trip_id, t.trip_judul, t.trip_date1, t.trip_date2, t.trip_gambar, t.user_username, t.trip_tujuan,t.trip_created_date
+            FROM v_trip_list t
+            HAVING distance < ".$jarak."
+            ORDER BY distance ASC
+            ) as A
+            ORDER BY RAND()
+            LIMIT 0, 10
+            ;";
+    //return good_query_allrow($sql);
+    return Tripnya($sql);
+}
 function Trip_count()
 {
     $sql = "select count(1) as jumlah from tb_trip";

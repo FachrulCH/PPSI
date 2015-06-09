@@ -1,16 +1,4 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versi server:                 5.6.17 - MySQL Community Server (GPL)
--- OS Server:                    Win64
--- HeidiSQL Versi:               9.1.0.4938
--- --------------------------------------------------------
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping structure for table db_temanbackpacker.tb_chat
 DROP TABLE IF EXISTS `tb_chat`;
 CREATE TABLE IF NOT EXISTS `tb_chat` (
   `chat_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id chat',

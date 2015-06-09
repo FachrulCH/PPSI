@@ -324,7 +324,7 @@ get_footer();
                             if (data.length > 0) {
                                 for (i = 0; i < data.length; i++) {
                                     //alert(obj.tagName);
-                                    var html = '<li><a href="'+ data[i].href +'" data-ajax="false"><img src="'+ URLSITUS +'_gambar/galeri/thumb2/default.gif" class="ui-li-thumb"><p class="normalin"><b>'+ data[i].trip_judul +'</b></p><p class="hrfKecilBgt">'+ data[i].label +'</p><p class="hrfKecilBgt normalin">'+ data[i].trip_date +'</p><p class="ui-li-aside garisKotak">'+ data[i].distance +' Km</p></a></li>';
+                                    var html = '<li><a href="'+ data[i].href +'" data-ajax="false"><img src="'+ URLSITUS +'_gambar/galeri/thumb2/'+data[i].trip_gambar+'" class="ui-li-thumb"><p class="normalin"><b>'+ data[i].trip_judul +'</b></p><p class="hrfKecilBgt">'+ data[i].label +'</p><p class="hrfKecilBgt normalin">'+ data[i].trip_date +'</p><p class="ui-li-aside garisKotak">'+ data[i].distance +' Km</p></a></li>';
                                     $('#listSearch').append(html);
                                 }
                                 ;

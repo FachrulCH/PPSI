@@ -29,6 +29,7 @@ $exp_count  = Exp_count();
 <?php
             // Memanggil fungsi untuk generate panel samping
             //get_panel_search();
+            get_panel()
 ?>
 <?php
             // Membuat menu header, isinya tombol back dan panel
@@ -40,12 +41,14 @@ $exp_count  = Exp_count();
                 <div class="welcome"><p>TEMUKAN PETUALANGANMU!</p>
                     <p>Telusuri keindahan nusantara, cari teman seperjalanan, ataupun pengalaman berharga.</p>
                 </div>
-                <div style="width: 90%; margin-left: 5%;">
-                    <form method="get">
-                        <input type="search" placeholder="Nama Kota" class="ui-btn-inline" name="t_tujuan" id="t_tujuan" >
+                <div class="ketengah">
+                    <form method="get" action="<?= URLSITUS ?>pencarian/" id="pencarian" data-ajax="false">
+                        <div data-role="controlgroup" data-type="horizontal">
+                        <input type="text" size="20" placeholder="Nama Kota" name="t_tujuan" id="t_tujuan" data-wrapper-class="controlgroup-textinput ui-btn">
+                        <button type="submit" class="ui-btn ui-icon-search ui-btn-icon-left ui-btn-icon-notext" id="b_cari">Cari</button>
+                        </div>
                         <div id="hasil"> 
                             <input name="location" type="hidden" value="">
-                            <input name="formatted_address" type="hidden" value="" id="lokasi2">
                         </div>
                     </form>
                 </div>
@@ -69,10 +72,10 @@ $exp_count  = Exp_count();
             <br/>
             
             <div class="multiple-items">
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false" data-transition="flip"><img src="<?= URLSITUS ?>_gambar/galeri/fit/masjid-jawa-tengah.jpg"/><div class="caption"><h1>Bersama Lebih Baik</h1>Ayo gabung dengan rencana perjalanan TemanBackpacker, siapa tau kamu bisa ditraktir!</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false" data-transition="flip"><img src="<?= URLSITUS ?>_gambar/galeri/fit/air-terjun-gitgit-bal.jpg"/><div class="caption"><h1>Jelajahi Nusantara</h1>Temukan tempat liburan kamu, dari Sabang sampai Merauke, dari Miangas sampai Pulau Rote</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="<?= URLSITUS ?>_gambar/galeri/fit/anak-band.jpg"/><div class="caption"><h1>Berkenalan</h1>Tambah relasi kamu dengan menemukan teman di lokasi liburan</div></a></div>
-                <div><a href="<?= URLSITUS ?>trip_view.php?id=110" data-ajax="false"><img src="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg"/><div class="caption"><h1>Inspirasi</h1>Telusuri pengalaman liburan TemanBackpacker, temukan tempat baru, mari berpetualang!</div></a></div>
+                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/masjid-jawa-tengah.jpg"/><div class="caption"><h1>Bersama Lebih Baik</h1>Ayo gabung dengan rencana perjalanan TemanBackpacker, siapa tau kamu bisa ditraktir!</div></div>
+                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/air-terjun-gitgit-bal.jpg"/><div class="caption"><h1>Jelajahi Nusantara</h1>Temukan tempat liburan kamu, dari Sabang sampai Merauke, dari Miangas sampai Pulau Rote</div></div>
+                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/anak-band.jpg"/><div class="caption"><h1>Berkenalan</h1>Tambah relasi kamu dengan menemukan teman di lokasi liburan</div></div>
+                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg"/><div class="caption"><h1>Inspirasi</h1>Telusuri pengalaman liburan TemanBackpacker, temukan tempat baru, mari berpetualang!</div></div>
             </div>
 	</article><!-- /content -->
 <?php
@@ -89,6 +92,14 @@ $exp_count  = Exp_count();
         $("#t_tujuan").geocomplete({
             details: "#hasil"
         });
+        $('#t_tujuan').keypress(function (e) {
+            if (e.which == 13) {
+              setTimeout("$('#b_cari').click();",900);
+              //alert('Submit nih');
+              return false;    //<---- Add this line
+            }
+          });
+                  
     });
     
     $('.multiple-items').slick({

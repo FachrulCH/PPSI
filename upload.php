@@ -11,7 +11,7 @@ $tgl    = date("Y-m-d H:i:s");
 
 if ($do == 'profile'){
     // 1. Simpan dulu file original dari upload user, lokasi folder ori
-    $Thumb         = "_gambar/user/". basename($nama);;
+    $Thumb         = "_gambar/user/". basename($nama);
     $target_dir    = "_gambar/user/o/";
     $target_file   = $target_dir . basename($nama);
     // 2. Proses upload ke folder besar
