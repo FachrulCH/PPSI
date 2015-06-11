@@ -23,9 +23,14 @@ $exp_count  = Exp_count();
 
     <link rel="stylesheet" type="text/css" href="<?= URLSITUS ?>css/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="<?= URLSITUS ?>css/slick/slick-theme.css"/>
+    <style type="text/css">
+        .multiple-items{
+            max-width: 350px;
+        }
+    </style>
 </head>
 <body>
-<section data-role="page" id="home" class="ngegrid">
+<section data-role="page" id="home">
 <?php
             // Memanggil fungsi untuk generate panel samping
             //get_panel_search();
@@ -60,7 +65,7 @@ $exp_count  = Exp_count();
             </p>
             <p class="ketengah" style="font-size: .6em;">Ada <?= tautan('user/', $user_count['jumlah'] .' Travelers') ?> yang berbagi <?= tautan('trip/', $trip_count['jumlah'] .' rencana perjalanan') ?> , dan <?= tautan('pengalaman/', $exp_count['jumlah'] .' pengalaman perjalanan') ?> loh</p>
             <hr/>
-            <div class="ui-grid-b" style="font-family: cursive;">
+            <div class="ui-grid-b">
                 <div class="ui-block-a"><div class="ketengah" style=" background-color: rgb(23, 186, 173); min-height:140px;margin: 5px;">
                         <a href="<?= URLSITUS ?>trip/" data-ajax="false"><p class="judul">Rencanakan liburanmu</p><img src="<?= URLSITUS ?>css/images/calendar_64px.png"/></a></div></div>
                 <div class="ui-block-b"><div class="ketengah" style=" background-color: rgb(244, 185, 0); min-height:140px;margin: 5px;">
@@ -71,12 +76,13 @@ $exp_count  = Exp_count();
             <hr/>
             <br/>
             
-            <div class="multiple-items">
-                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/masjid-jawa-tengah.jpg"/><div class="caption"><h1>Bersama Lebih Baik</h1>Ayo gabung dengan rencana perjalanan TemanBackpacker, siapa tau kamu bisa ditraktir!</div></div>
-                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/air-terjun-gitgit-bal.jpg"/><div class="caption"><h1>Jelajahi Nusantara</h1>Temukan tempat liburan kamu, dari Sabang sampai Merauke, dari Miangas sampai Pulau Rote</div></div>
-                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/anak-band.jpg"/><div class="caption"><h1>Berkenalan</h1>Tambah relasi kamu dengan menemukan teman di lokasi liburan</div></div>
-                <div><img src="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg"/><div class="caption"><h1>Inspirasi</h1>Telusuri pengalaman liburan TemanBackpacker, temukan tempat baru, mari berpetualang!</div></div>
+            <div class="multiple-items ditengah">
+                <div><img data-lazy="<?= URLSITUS ?>_gambar/galeri/fit/masjid-jawa-tengah.jpg"/><div class="caption"><h1>Bersama Lebih Baik</h1>Ayo gabung dengan rencana perjalanan TemanBackpacker, siapa tau kamu bisa ditraktir!</div></div>
+                <div><img data-lazy="<?= URLSITUS ?>_gambar/galeri/fit/air-terjun-gitgit-bal.jpg"/><div class="caption"><h1>Jelajahi Nusantara</h1>Temukan tempat liburan kamu, dari Sabang sampai Merauke, dari Miangas sampai Pulau Rote</div></div>
+                <div><img data-lazy="<?= URLSITUS ?>_gambar/galeri/fit/anak-band.jpg"/><div class="caption"><h1>Berkenalan</h1>Tambah relasi kamu dengan menemukan teman di lokasi liburan</div></div>
+                <div><img data-lazy="<?= URLSITUS ?>_gambar/galeri/fit/badak.jpg"/><div class="caption"><h1>Inspirasi</h1>Telusuri pengalaman liburan TemanBackpacker, temukan tempat baru, mari berpetualang!</div></div>
             </div>
+            
 	</article><!-- /content -->
 <?php
 	get_footer();
@@ -99,10 +105,8 @@ $exp_count  = Exp_count();
               return false;    //<---- Add this line
             }
           });
-                  
-    });
-    
-    $('.multiple-items').slick({
+           
+           $('.multiple-items').slick({
         mobileFirst: true,
         //infinite: true,
         dots: true,
@@ -115,6 +119,9 @@ $exp_count  = Exp_count();
         autoplaySpeed: 3500,
         speed: 1000
       });
+    });
+    
+    
 </script>
 </body>
 </html>

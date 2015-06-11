@@ -15,7 +15,7 @@ $gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-t
 $breadcumb = array
                (array("link"=> URLSITUS, "text"=>"Home"),
                 array("link"=> URLSITUS."pengalaman/#home", "text"=>"Pengalaman"),
-                array("link"=> URLSITUS."pengalaman/". $exp_kategori['parent_name'] ."/", "text"=> $exp_kategori['parent_name']),
+                array("link"=> URLSITUS."". $exp_kategori['parent_name'] ."/", "text"=> $exp_kategori['parent_name']),
                 array("link"=> URLSITUS ."pengalaman/lihat/". make_seo_name($exp['pengalaman_judul']) ."/".$exp['pengalaman_id'] , "text"=>$exp['pengalaman_judul'])
                );
 

@@ -50,7 +50,7 @@
 .clear {clear:both}
 
 .profilFoto{
-    
+
 }
 .profilBio{
     position: absolute;
@@ -63,7 +63,7 @@
     position: relative;
     display: block;
     overflow: hidden;
-/*    clear: both;*/
+    /*    clear: both;*/
     font-size: .9em;
 }
 .breadcrumb li {
@@ -215,9 +215,9 @@ hr{
 }
 /*CSS buat upload */
 
-       
+
 .judul{
-    font-size: 1.1em; 
+    font-size: 1em; 
     font-weight: normal; 
     color: #FFFFFF;   
     text-shadow: 0 1px 0 #101010;
@@ -273,3 +273,52 @@ hr{
     text-align: center;
 }
 /***** end responsive style grid*/
+
+// dari trip view
+.picture {
+    width: 100%;
+    float: left;
+}
+.picture img {
+    width: 100%;
+    height: auto;
+}
+.picture figure {
+    display: block;
+    float: left;
+    margin: 0 5px 5px 0;
+    width: 80px;
+}
+.picture figcaption {
+    display: none;
+}
+.author{
+    border-bottom: solid 1px #ddd;
+    margin-bottom: 1em;
+}
+.miniFoto{
+    max-height: 40px;
+    float: left;
+    display: block;
+    margin-right: 5px;
+}
+
+.circle {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 1em .3em;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-border-radius: 9em;
+    -moz-border-radius: 9em;
+    border-radius: 9em;
+    border: 3px solid #eee;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);  
+}
+
+.usrDtl{
+    white-space:pre-wrap;
+    text-align: justify;
+}

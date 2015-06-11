@@ -60,7 +60,7 @@ function User_loginbyusername($username, $password)
     $username   = strtolower(sanitize($username));  // bershihkan dan bikin jadi lowercase
     $password   = sanitize($password);              // bersihkan
     
-    $sql        = "SELECT count(1) as hitung, user_id FROM tb_user WHERE LOWER(user_username) = '{$username}' and user_password = '{$password}' ";
+    $sql        = "SELECT count(1) as hitung, user_id, user_username as username  FROM tb_user WHERE LOWER(user_username) = '{$username}' and user_password = '{$password}' ";
     $sqlSelect  = good_query_assoc($sql);
     if ($sqlSelect['hitung'] == 0){
         //*** User gagal login;
@@ -81,6 +81,7 @@ function User_loginbyusername($username, $password)
         //*** kalo user ada dan password cocok
         // generate session user
         $_SESSION['user_id'] = $sqlSelect['user_id'];
+        $_SESSION['username'] = $sqlSelect['username']; 
         return 1; // sukses login
     }
     
@@ -92,7 +93,7 @@ function User_loginbyemail($email, $password)
     $email = strtolower(sanitize($email));  // bershihkan dan bikin jadi lowercase
     $password = sanitize($password);              // bersihkan
 
-    $sql = "SELECT count(1) as hitung, user_id FROM tb_user WHERE LOWER(user_email) = '{$email}' AND user_password = '{$password}' ";
+    $sql = "SELECT count(1) as hitung, user_id, user_username as username FROM tb_user WHERE LOWER(user_email) = '{$email}' AND user_password = '{$password}' ";
     $sqlSelect = good_query_assoc($sql);
     if ($sqlSelect['hitung'] == 0) {
         //*** User gagal login;
@@ -111,6 +112,7 @@ function User_loginbyemail($email, $password)
         //*** kalo user ada dan password cocok
         // generate session
         $_SESSION['user_id'] = $sqlSelect['user_id'];
+        $_SESSION['username'] = $sqlSelect['username']; 
         return 1; // sukses login
     }
 }
@@ -228,16 +230,18 @@ function User_notifikasi()
 {
     $user_id = (int) $_SESSION['user_id'];
     
-    $sql = "SELECT tb.notif_id,tb.notif_pengirim, tb.notif_penerima, tb.notif_judul, tb.notif_href, 
-            CASE tb.notif_tipe 
-            WHEN 1 THEN ' mengirim pesan pribadi'
-            WHEN 2 THEN ' membalas obrolan'
-            WHEN 3 THEN ' mengomentari Trip'
-            WHEN 4 THEN ' mengomentari Pengalaman'
-            ELSE ' menuliskan sesuatu' END AS notif_label
-            FROM tb_notifikasi tb
-            WHERE tb.notif_baru = '0' AND tb.notif_waktu BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND NOW() AND tb.notif_penerima = '{$user_id}'";
-            
+//    $sql = "SELECT tb.notif_id,tb.notif_pengirim, tb.notif_penerima, tb.notif_judul, tb.notif_href, 
+//            CASE tb.notif_tipe 
+//            WHEN 1 THEN ' mengirim pesan pribadi'
+//            WHEN 2 THEN ' membalas obrolan'
+//            WHEN 3 THEN ' mengomentari Trip'
+//            WHEN 4 THEN ' mengomentari Pengalaman'
+//            ELSE ' menuliskan sesuatu' END AS notif_label
+//            FROM tb_notifikasi tb
+//            WHERE tb.notif_baru = '0' AND tb.notif_waktu BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND NOW() AND tb.notif_penerima = '{$user_id}'";
+    $sql = "SELECT tb.notif_id,tb.notif_pengirim, tb.notif_penerima, tb.notif_judul AS notif_label, tb.notif_href
+    FROM tb_notifikasi tb
+    WHERE tb.notif_baru = '0' AND tb.notif_waktu BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK) AND NOW() AND tb.notif_penerima = '{$user_id}'";
     return good_query_allrow($sql);
 }
 

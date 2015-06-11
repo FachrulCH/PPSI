@@ -7,7 +7,8 @@ include_once "_include/trip.php";
 $trip_id = (int) $_GET['id'];
 $trip = Trip_get_by_id($trip_id);
 // catat di session buat kalo di edit
-$_SESSION['lihatTrip'] = $trip_id;
+$_SESSION['lihatTrip']      = $trip_id;
+$_SESSION['lihatTripHref']  = "trip/lihat/" . make_seo_name($trip['trip_judul']) . "/" . $trip['trip_id']. "/";
 
 Trip_viewed($trip_id); //==>> update statistik experienced
 $statusUser = Trip_cek_status_user(@$_SESSION['user_id'],$trip_id);
@@ -16,14 +17,17 @@ $trip_kategori = Tmplt_getKategori($trip['trip_kategori']);
 $trip_jenis = Tmplt_getKategori($trip['trip_jenis']);
 $lokasi = implode(",", array_slice(explode(",", $trip['trip_tujuan']), 0, 2));
 
-//$gambar = array('galeri_foto_url' =>array("badak.jpg","bajak.jpg","masjid-jawa-tengah.jpg","kitchenadventurerdonut.jpg","air-terjun-gitgit-bal.jpg","anak-band.jpg","kitchenadventurercheesecakebrownie.jpg"));
 $gambar = Trip_galeri($trip_id);
 $breadcumb = array
     (array("link" => URLSITUS, "text" => "Home"),
     array("link" => URLSITUS . "trip/#home", "text" => "Trip"),
-    array("link" => URLSITUS . "trip/" . $trip_kategori['parent_name'] . "/", "text" => $trip_kategori['parent_name']),
-    array("link" => URLSITUS . "trip/lihat/" . make_seo_name($trip['trip_judul']) . "/" . $trip['trip_id'], "text" => $trip['trip_judul'])
+    array("link" => URLSITUS . "#", "text" => $trip_kategori['parent_name']),
+    array("link" => URLSITUS . "trip/lihat/" . make_seo_name($trip['trip_judul']) . "/" . $trip['trip_id']. "/" , "text" => $trip['trip_judul'])
 );
+
+$calon_member_trip  = Trip_member_mau_gabung($trip_id);
+$member_trip        = Trip_member_join($trip_id);
+
 ?>
 <!doctype html>
 <html>
@@ -48,35 +52,6 @@ $breadcumb = array
 
         <!-- UI JS file -->
         <script src="<?= URLSITUS ?>src/photoswipe/photoswipe-ui-default.min.js"></script>
-        <style type="text/css">
-            .picture {
-                width: 100%;
-                float: left;
-            }
-            .picture img {
-                width: 100%;
-                height: auto;
-            }
-            .picture figure {
-                display: block;
-                float: left;
-                margin: 0 5px 5px 0;
-                width: 80px;
-            }
-            .picture figcaption {
-                display: none;
-            }
-            .author{
-                border-bottom: solid 1px #ddd;
-                margin-bottom: 1em;
-            }
-            .miniFoto{
-                max-height: 40px;
-                float: left;
-                display: block;
-                margin-right: 5px;
-            }
-        </style> 
         <!--   end PHOTOSWIPE     -->
     </head>
     <body>
@@ -114,7 +89,8 @@ if (@$_SESSION['user_id'] == $trip['trip_user_id']){
 
                 <div class="author">
                     <span> 
-                        <a href="<?= URLSITUS .'username/' . make_seo_name($trip['username']) . '/'?>" class="noStyle"> <img src="<?= URLSITUS . "_gambar/user/" . $trip['user_foto'] ?>" class="miniFoto">
+                        <a href="<?= URLSITUS .'username/' . make_seo_name($trip['username']) . '/'?>" class="noStyle"> 
+                            <img src="<?= URLSITUS . "_gambar/user/" . $trip['user_foto'] ?>" class="miniFoto">
                         <span><?= $trip['username'] ?></a></span>
                     </span>
                     <div>Dibuat: <abbr class="timeago" title="<?= $trip['trip_created_date'] ?>"><?= $trip['trip_created_date'] ?></abbr></div>
@@ -219,6 +195,29 @@ if ($trip['trip_flag_comm'] == 1) {
                     </div>
                     </div>
     <?php
+} //*** END Kalo flag komentar aktif
+
+if (!empty($member_trip)){
+?>
+                    <div id="memberJoin">	
+                        <div class="ui-bar ui-bar-a">
+                            <h3>Member yang bergabung dengan rencana trip ini</h3>
+                        </div>
+
+                        <div class="ui-body ui-body-a">
+<?php
+                        //Tmplt_trip_member_join($trip_id)
+                        foreach ($member_trip as $d){
+                        echo "<a href='". URLSITUS ."username/". strtolower($d['user_username']) ."/" ."' target='_blank' title='".$d['user_username']."'>
+                            <div class='circle left' style=\"background-image: 
+                                url('".URLSITUS.'_gambar/user/'.$d['user_foto']."')\">
+                             </div>
+                             </a>";
+                        }
+?>
+                        </div>
+                    </div>
+<?php
 }
 ?>
                 <br/>
@@ -226,7 +225,7 @@ if ($trip['trip_flag_comm'] == 1) {
 <?php
 if ($statusUser == 'B'){
     // Status B => Ijin join
-    Tmplt_generate_dialog('batalJoin', 'Batal Join Trip', '', 'Apakah kamu yakin untuk membatalkan permintaan approval?', 'func_eraseme()');
+    Tmplt_generate_dialog('batalJoin', 'Batal Join Trip', '', 'Apakah kamu yakin untuk membatalkan permintaan gabung rencana trip?', 'func_eraseme()');
 }elseif ($statusUser == 'C'){
     // Status user C => udah join
     Tmplt_generate_dialog('batalJoin', 'Batal Join Trip', '', 'Apakah kamu yakin untuk keluar dari rencana trip ini?', 'func_leaveme()');
@@ -239,6 +238,92 @@ if ($statusUser == 'B'){
                 get_footer();
                 ?>
         </section><!-- /page -->
+<?php
+// Manage member khusus untuk Trip Host
+if (@$_SESSION['user_id'] == $trip['trip_user_id']){
+?>
+        <section data-role="page" id="manageMember">
+            <?php
+// Memanggil fungsi untuk generate panel samping
+            get_panel();
+
+// Membuat menu header, isinya tombol back dan panel
+// Memiliki argumen variabel jugul header
+            get_header('Rencana Perjalanan');
+            ?>
+            <article role="main" class="ui-content">
+                <div class="ui-body ui-body-b ui-corner-all">
+                    <p>Teman seperjalanan menawarkan peluang besar untuk petualangan lebih seru, tetapi tidak menutup kemungkinan teman seperjalanan juga memiliki gaya jalan-jalan yg berbeda dengan kamu.</p>
+                    <p>Kenali dulu teman seperjalanmu dengan mengunjungi profilnya dan berkirim pesan. Sehingga rencana perjalanan bisa menjadi petualangan yg lebih menarik</p>
+                    Selengkapnya klik <a href="<?= URLSITUS ?>nasehat/">Nasehat temanbackpacker</a>
+                </div>
+                <?php
+                            //print_r($member_trip);
+                ?>
+<?php
+                    if (!empty($calon_member_trip)){
+?>
+                <ul data-role="listview" data-split-icon="gear" data-split-theme="a" data-inset="true">
+                    <li data-role="list-divider">Persetujuan Teman Seperjalanan</li>
+                    
+<?php
+                        foreach ($calon_member_trip as $mb) {
+?>
+                        <li><a href="<?= URLSITUS."username/". $mb['user_username'] ."/"?>" data-ajax="false" target="_blank">
+                                <img src="<?= URLSITUS."_gambar/user/".$mb['user_foto'] ?>">
+                                <h2><?= $mb['user_username'] ?></h2>
+                                <p><?= $mb['user_gender'] ." | ". umur($mb['user_ttl'])." th | ". formatLokasi($mb['user_lokasi']) ?></p></a>
+                            <a href="#opsiUser" class="memberOpsi" id="<?= $mb['member_user_id'] ?>">Opsi</a>
+                        </li>
+<?php
+                    }
+?>   
+                </ul>
+<?php
+}
+?>
+
+<?php
+                    if (!empty($member_trip)){
+?>
+                 <ul data-role="listview" data-split-icon="gear" data-split-theme="a" data-inset="true">
+                     <li data-role="list-divider" id="tmnSeperjalanan">Teman Seperjalanan kamu</li>
+                    
+<?php
+                        foreach ($member_trip as $mb) {
+?>
+                        <li><a href="<?= URLSITUS."username/". $mb['user_username'] ."/"?>" data-ajax="false" target="_blank">
+                                <img src="<?= URLSITUS."_gambar/user/".$mb['user_foto'] ?>">
+                                <h2><?= $mb['user_username'] ?></h2>
+                                <p><?= $mb['user_gender'] ." | ". umur($mb['user_ttl'])." th | ". formatLokasi($mb['user_lokasi']) ?></p></a>
+                            <a href="#opsiUser2" class="memberOpsi2" id="<?= $mb['member_user_id'] ?>">Opsi</a>
+                        </li>
+<?php
+                    }
+?>
+                 </ul>
+<?php
+}
+?>                        
+                    
+                </ul>
+                <div data-role="popup" id="opsiUser" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                    <h3>Opsi</h3>
+                    <p>Apakah <span id="user_id"></span> kamu ijinkan bergabung dengan rencana perjalanan ini?</p>
+                    <a href="#" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-icon-check ui-btn-icon-left ui-btn-inline ui-mini opsiAksi" data-uid="" id="btn_terima">Terima</a>
+                    <a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini opsiAksi" data-uid="" id="btn_tolak">Tolak</a>
+                </div>
+                <div data-role="popup" id="opsiUser2" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+                    <h3>Opsi</h3>
+                    <p>Apakah yang akan kamu lakukan untuk teman <span id="user_id2"></span> ini?</p>
+                    <a href="#" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-icon-user ui-btn-icon-left ui-btn-inline ui-mini opsiAksi" data-uid="" id="btn_profil">Lihat Profil</a>
+                    <a href="#" class="ui-shadow ui-btn ui-corner-all ui-icon-forbidden ui-btn-icon-left ui-btn-inline ui-mini opsiAksi" data-uid="" id="btn_tolak2">Keluarkan dari member</a>
+                </div>
+            </article>
+        </section>
+<?php
+} // END IF Manage member khusus untuk Trip Host
+?>
         <!--     PHOTOSWIPE     -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="pswp__bg"></div>
@@ -283,6 +368,84 @@ if ($statusUser == 'B'){
         <script type="text/javascript">
             $(document).ready(function () {
                 jQuery("abbr.timeago").timeago(); 	/*konversi ke waktu relative*/
+                
+                $('.memberOpsi').on('click', function (event) {
+                    event.preventDefault();
+                    var thisRowId = $(this).attr('id');                     // ambil ID user yg di klik
+                    var userName = $(this).closest('li').find('h2').text(); // ambil username yg di klik
+                    $('#user_id').text(userName);                       // taruh username di popup
+                    $('.opsiAksi').attr('data-uid', thisRowId);         // taruh id di popup
+                    $("#opsiUser").popup("open");                       // munculkan popup
+                });
+                
+                $('.memberOpsi2').on('click', function (event) {
+                    event.preventDefault();
+                    var thisRowId = $(this).attr('id');                     // ambil ID user yg di klik
+                    var userName = $(this).closest('li').find('h2').text(); // ambil username yg di klik
+                    $('#user_id2').text(userName);                       // taruh username di popup
+                    $('.opsiAksi').attr('data-uid', thisRowId);         // taruh id di popup
+                    $("#opsiUser2").popup("open");                       // munculkan popup
+                });
+                
+                $('#btn_tolak').on('click', function () {
+                    $("#opsiUser").popup("close");
+                    var uid = $(this).attr('data-uid');
+                    var listUser = $("[id="+uid+"]").closest('li');
+                    $(listUser).slideUp(500, function() {
+                        $(listUser).remove();
+                    });
+                    //alert(username +" berhasil di hapus");
+                    
+                }); 
+                
+                $('#btn_tolak2').on('click', function () {
+                    $("#opsiUser2").popup("close");
+                    var uid = $(this).attr('data-uid');
+                    var listUser = $("[id="+uid+"]").closest('li');
+                    
+                    customAjax('<?= URLSITUS ?>api/trikickmember/', "uid="+uid, function (data) {
+                           if (data === true){
+                               var listUser = $("[id="+uid+"]").closest('li');
+                                $(listUser).slideUp(500, function() {
+                                    $(listUser).remove();
+                                }); // hapus element
+                           }else{
+                               alert("kesalahan fungsi kick member");
+                               console.log("data:"+data);
+                            }
+                        });
+                }); 
+                
+                $('#btn_terima').on('click', function () {
+                    $("#opsiUser").popup("close");
+                    var uid = $(this).attr('data-uid');
+                    customAjax('<?= URLSITUS ?>api/tripapprovemember/', "uid="+uid, function (data) {
+                           if (data === true){
+                               var listUser = $("[id="+uid+"]").closest('li');
+                               var dupListUser = listUser.clone(); // duplikatin
+                               
+                                $(listUser).slideUp(500, function() {
+                                    $(listUser).remove();
+                                }); // hapus element
+                                
+                                $( "#tmnSeperjalanan" ).delay( 800 ).after(dupListUser);
+                           }else{
+                               alert("kesalahan fungsi tripapprove member");
+                               console.log("data:"+data);
+                            }
+                            return false;
+                        });
+                        return false;
+                });
+                
+                 $('#btn_profil').on('click', function () {
+                    $("#opsiUser2").popup("close");
+                    var uid = $(this).attr('data-uid');
+                    var username = $('#opsiUser2').find('#user_id2').text().toLowerCase();;
+                    var URL = URLSITUS + "username/"+username+"/";
+                    window.open(URL, '_blank');
+                    return false;
+                }); 
                 
                 $('#btn_tanya').on('click', function () {
                     if (grecaptcha.getResponse() == "") {

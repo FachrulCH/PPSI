@@ -137,6 +137,7 @@ function func_notif_readed()
 }
 
 $("#notifikasi").on("collapsibleexpand", function () {
+    console.log("notifikasi read");
     func_notif_readed();
 });
 
@@ -162,6 +163,7 @@ function func_eraseme()
 {
     // Proses cancel ijin join dari Trip
     $("#batalJoin" ).popup( "close" );
+    console.log("Proses func_eraseme");
     simpleAjax(URLSITUS+'api/triperaseme/', null);
     location.reload();
 }

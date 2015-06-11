@@ -45,4 +45,19 @@ function Chat_save_pm($chat_for_id, $chat_sender, $chat_mesej, $chat_title){
     }
 }
 
+function Chat_save_diskusi($chat_trip_id, $chat_sender, $chat_mesej, $chat_id = 0){
+        date_default_timezone_set('asia/jakarta');
+        $waktu          = date("Y-m-d H:i:s", time());
+	// sanitize inputan
+	$chat_trip_id 	= (int) $chat_trip_id;
+	$chat_sender 	= sanitize($chat_sender);
+	$chat_mesej 	= potong(sanitize($chat_mesej),250);
+	
+        if ($chat_id == 0){
+            $sql = "REPLACE INTO tb_chat(chat_trip_id, chat_sender, chat_type, chat_mesej, chat_date)
+                    VALUES ('{$chat_trip_id}', '{$chat_sender}', '3', '{$chat_mesej}','{$waktu}')";
+        }
+	return good_query($sql);
+
+}
 ?>

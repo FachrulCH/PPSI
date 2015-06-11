@@ -39,7 +39,7 @@ include_once "_include/template.php";
                     </li>
                 </ul>
             </form>
-            <p class="ketengah"><a href="#formReset" data-rel="popup" data-position-to="window" data-transition="pop">Lupa Password</a></p>
+<!--            <p class="ketengah"><a href="#formReset" data-rel="popup" data-position-to="window" data-transition="pop">Lupa Password</a></p>-->
             <p class="ketengah"><?= tautan('user/registrasi/', 'Belum punya akun')?></p>
 
 <!--            <div data-role="popup" id="formReset" data-theme="a" class="ui-corner-all">

@@ -48,7 +48,7 @@ function get_panel()
 			<p><b>'.$user['user_username'].'</b></p>
 			<p class="hrfKecil">"'.$user['user_bio'].'"</p>
 		</div>
-	<ul data-role="listview" data-inset="true">
+	<ul data-role="listview" data-inset="true" id="panelsamping">
 	<li><a href="'.URLSITUS.'" class="ui-icon-home hrfKecil" data-ajax="false" data-transition="flip">Beranda</a></li>
         <li><a href="'.URLSITUS.'username/'.make_seo_name($user['user_username']).'/" class="ui-icon-user hrfKecil" data-ajax="false" data-transition="flip">Profil</a></li>
         <li><a href="'.URLSITUS.'trip/" class="ui-icon-location hrfKecil" data-ajax="false" data-transition="flip">Trip</a></li>
@@ -61,7 +61,7 @@ function get_panel()
                 <h5>Notifikasi <span class="ui-li-count">'.count($notif).'</span></h5>
                 <ul data-role="listview">';
             foreach ($notif as $n) {
-                echo '<li><a href="'.URLSITUS . $n['notif_href'].'" class="notifikasiList normalin hrfKecilBgt" data-ajax="false" target="_blank" data-value="'.$n['notif_id'].'">'.$n['notif_pengirim'].$n['notif_label'].'</a></li>';
+                echo '<li><a href="'.URLSITUS . $n['notif_href'].'" class="notifikasiList normalin hrfKecilBgt" data-ajax="false" target="_blank" data-value="'.$n['notif_id'].'">'.$n['notif_pengirim']." ".$n['notif_label'].'</a></li>';
             }
             echo '</ul></div>';
         }
@@ -171,9 +171,8 @@ function Tmplt_button_user($user_status)
 	if ($user_status == 'A'){
 		// Klo user nya adalah host
 		echo '
-			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
 			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
-			<a href="#" class="ui-btn ui-mini ui-icon-gear ui-btn-icon-right">Manage member</a>';
+			<a href="#manageMember" class="ui-btn ui-mini ui-icon-gear ui-btn-icon-right">Manage member</a>';
 	}elseif ($user_status == 'B'){
 		// Status B => Ijin join
 		echo '
@@ -182,11 +181,13 @@ function Tmplt_button_user($user_status)
 	}elseif ($user_status == 'C'){
 		// Status user C => udah join
 		echo '
-			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right">Pertanyaan</a>
-			<a href="#" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
+			<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right" onClick="func_go_tanya()">Pertanyaan</a>
+			<a href="'. URLSITUS .'chat/trip/diskusi/'.$_SESSION['lihatTrip'].'/" class="ui-btn ui-mini ui-icon-user ui-btn-icon-right">Diskusi</a>
 			<a href="#batalJoin" class="ui-btn ui-mini ui-icon-minus ui-btn-icon-right" data-rel="popup" data-position-to="window" data-transition="pop">Batal Gabung</a>';
 	}else{
 		// Selain semuanya, alias member umum
+                // Ijin gabung akan mentriger popup konfirmasi
+                // ada di     Tmplt_generate_dialog('ijinJoin', 'Join Trip', 'Apakah kamu mau ikut rencana trip ini?', 'Kamu akan menunggu approval penyelenggara trip ini untuk bisa bergabung', 'func_addme()');
 		echo '<a href="" data-ajax="false" class="ui-btn ui-mini ui-icon-comment ui-btn-icon-right" onClick="func_go_tanya()">Tanya</a>
 		      <a href="#ijinJoin" id="btn_gabung" class="ui-btn ui-mini ui-icon-plus ui-btn-icon-right" data-rel="popup" data-position-to="window" data-transition="pop">Ijin Gabung</a>';
 	}
@@ -208,6 +209,26 @@ function Tmplt_generate_dialog($dialog_id, $dialog_judul, $dialog_isi,$dialog_p,
 </div>    ';
 }
 
+function Tmplt_listing($data)
+{
+    $listTanya="";
+    foreach($data as $d){
+            $listTanya .= '
+            <div class="author">
+                <hr/>
+                <img src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'" class="miniFoto">
+                <div class="usr">'.$d['user_name'].'</div>
+                <div><span class="usrHdr">
+                    <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>
+                </div>
+                <div class="usrDtl">
+                    <p>'.$d['chat_mesej'].'</p>
+                </div>
+            </div>';
+    }
+    return $listTanya;
+}
+
 function Tmplt_comment_trip1($trip_id)
 {
 	// Muncul default setelah trip di load
@@ -227,13 +248,13 @@ function Tmplt_comment_trip1($trip_id)
                     <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr>';
 
                 // klo user login yg punya post, user itu bisa edit
-                if ($d['chat_sender'] == @$_SESSION['user_id']){
-                    echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya" data-value="'. $d['chat_id'] .'">[edit]</a> | <a href="#" class="deleteTanya" data-value="'. $d['chat_id'] .'">[delete]</a></span>';
-                }
+//                if ($d['chat_sender'] == @$_SESSION['user_id']){
+//                    echo '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya" data-value="'. $d['chat_id'] .'">[edit]</a> | <a href="#" class="deleteTanya" data-value="'. $d['chat_id'] .'">[delete]</a></span>';
+//                }
                 
                 echo '
                 </div>
-                <hr/>
+                
                 <div class="usrDtl">
                     <p>'.$d['chat_mesej'].'</p>
                 </div>
@@ -266,13 +287,13 @@ function Tmplt_comment_trip2($trip_id)
                     <abbr class="timeago" title="'.$d['chat_date'].'">'.$d['chat_date'].'</abbr></span>';
 
                 // klo user login yg punya post, user itu bisa edit
-                if ($d['chat_sender'] == @$_SESSION['user_id']){
-                    $listTanya .= '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
-                }
+//                if ($d['chat_sender'] == @$_SESSION['user_id']){
+//                    $listTanya .= '<span class="usrHdr" style="float: right;"><a href="#" class="editTanya">edit</a> | <a href="#" class="deleteTanya">delete</a></span>';
+//                }
                 
                 $listTanya .= '
                 </div>
-                <hr/>
+                
                 <div class="usrDtl">
                     <p>'.$d['chat_mesej'].'</p>
                 </div>
@@ -284,10 +305,16 @@ function Tmplt_comment_trip2($trip_id)
 
 function Tmplt_trip_member_join($trip_id){
     $data = Trip_member_join($trip_id);
-	while ($d = mysqli_fetch_array($data)){
-		echo'
-			<img src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'" width="80px"> 	
-			';
+	//while ($d = mysqli_fetch_array($data)){
+        foreach ($data as $d){
+//		echo'
+//			<img src="'.URLSITUS.'_gambar/user/'.$d['user_foto'].'" width="80px"> 	
+//			';
+        echo "<a href='". URLSITUS ."username/". strtolower($d['user_username']) ."/" ."' target='_blank'>
+            <div class='circle left' style=\"background-image: 
+                url('".URLSITUS.'_gambar/user/'.$d['user_foto']."')\">
+             </div>
+             </a>";
 	}
         
 //    foreach ($data as $d) {

@@ -157,6 +157,74 @@ elseif ($do == 'chatpm'){
 	echo json_encode($hasil);
 // =========================================================================== //
 }
+elseif ($do == 'chating'){
+    $tipe = sanitize($_POST['tipe']);
+    
+    if ($tipe == 'pm'){
+        $t_judul    = $_POST['t_judul'];
+        $t_pm_pesan = $_POST['t_pm_pesan'];
+        $chat_for_id = (int) dekripsi($_POST['u']);
+        $chat_sender = @$_SESSION['user_id'];
+
+            // user valid
+            $result = Chat_save_pm($chat_for_id, $chat_sender, $t_pm_pesan, $t_judul);
+            if ($result){$status = 1;}
+            $pesan	= "Pertanyaanmu berhasil di kirimkan";
+            $hasil 	= array('status' => $status, 'pesan' => $pesan);
+            echo json_encode($hasil);
+            
+    }elseif($tipe == 'tanya'){
+        $chat_trip_id 	= sanitize($_SESSION['lihatTrip']);
+        $chat_mesej 	= potong(amankan($_POST['t_tanya']),250);
+	$chat_sender	= @$_SESSION['user_id'];
+        
+        if ($chat_sender == ''){
+		$pesan = "Kamu harus login dulu";
+		$status = TRUE;
+	}else{
+		// return True kalo berhasil di save
+		$insertTanya = Chat_save_tanya($chat_trip_id, $chat_sender, $chat_mesej);
+		
+		if ($insertTanya == true){
+                    $status = true;
+                    $pesan  = "Pertanyaan anda berhasil diposting";
+		}else{
+                    $pesan  = "Kesalahan pada query insert chat";
+                }
+	}
+        
+        if ($status == true){
+            $hasil = Tmplt_comment_trip2($chat_trip_id);
+	}else{
+            $hasil = "error terjadi";
+        }
+
+           
+    }elseif($tipe == 'diskusi'){
+        $chat_trip_id 	= sanitize($_SESSION['lihatTrip']);
+	$chat_mesej 	= potong(amankan($_POST['t_tanya']),250);
+	$chat_sender	= @$_SESSION['user_id'];
+        $status         = TRUE;
+        if ($chat_sender == ''){
+		$pesan = "Kamu harus login dulu";
+	}else{
+		// return True kalo berhasil di save
+		$insertTanya = Chat_save_diskusi($chat_trip_id, $chat_sender, $chat_mesej);
+		
+		if ($insertTanya == true){
+                    $pesan  = "Pertanyaan anda berhasil diposting";
+		}else{
+                    $pesan  = "Kesalahan pada query insert chat";
+                }
+	}
+            //$hasil = Tmplt_comment_trip2($chat_trip_id);
+            $hasil = Tmplt_listing(Trip_get_diskusi_all($chat_trip_id));
+    }
+    
+    $result = array('status' => $status, 'pesan' => $pesan, 'data' => $hasil);
+    echo json_encode($result);
+// =========================================================================== //
+}
 elseif ($do == 'ijingabung'){
 	$status = true;
 	$pesan	= "Permintaan gabung berhasil. Tunggu approval penyelenggara trip ya";
@@ -209,9 +277,17 @@ elseif($do == 'tripaddme'){
     if (empty($user_id)){
         echo json_encode(array('status' => FALSE, 'pesan' => "Anda harus Login dulu"));
     }  else {
-        echo json_encode(array('status' => Trip_save_member($trip_id, $user_id, 'B'), 'pesan' => "Anda Belum Login"));  // data detail kategori
+        echo json_encode(array('status' => Trip_save_member($trip_id, $user_id, 'B'), 'pesan' => NULL));  // data detail kategori
     }
     
+// =========================================================================== //
+}
+elseif($do == 'triperaseme'){
+    // Proses cancel ijin join dari Trip
+    $user_id = $_SESSION['user_id'];
+    $trip_id = $_SESSION['lihatTrip'];
+    echo json_encode(array('status' => Trip_delete_member($trip_id, $user_id)));  // data detail kategori
+
 // =========================================================================== //
 }
 elseif($do == 'tripsearch'){
@@ -238,15 +314,27 @@ elseif($do == 'tripsearch'){
     echo json_encode($result);
 // =========================================================================== //
 }
-elseif($do == 'func_eraseme'){
-    // Proses cancel ijin join dari Trip
-    $user_id = $_SESSION['user_id'];
+elseif($do == 'tripapprovemember'){
+    // A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
+    $member_id = $_POST['uid'];
     $trip_id = $_SESSION['lihatTrip'];
-    echo json_encode(Trip_delete_member($trip_id, $user_id));  // data detail kategori
-
+    $hasil = Trip_save_member($trip_id, $member_id, 'C');
+    $result = array('status' => TRUE, 'pesan' => NULL, 'data' => $hasil);
+    echo json_encode($result);
 // =========================================================================== //
 }
-elseif($do == 'func_leaveme'){
+
+elseif($do == 'trikickmember'){
+    // A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
+    $member_id = $_POST['uid'];
+    $trip_id = $_SESSION['lihatTrip'];
+    $hasil = Trip_save_member($trip_id, $member_id, 'F');
+    $result = array('status' => TRUE, 'pesan' => NULL, 'data' => $hasil);
+    echo json_encode($result);
+// =========================================================================== //
+}
+
+elseif($do == 'tripleaveme'){
     // Proses keluar dari rencana Trip
     $user_id = $_SESSION['user_id'];
     $trip_id = $_SESSION['lihatTrip'];

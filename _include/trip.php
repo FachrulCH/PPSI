@@ -3,6 +3,7 @@
 if(@$statuskoneksi != 'connected'){
 	require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'db_function.php';
 }
+include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Notifikasi.php';
 
 function trip_save($trip_user_id, $trip_judul, $trip_tujuan,$trip_tuj_provinsi,$trip_tuj_kota, $trip_tujuan_geolat, $trip_tujuan_geolng, 
 					$trip_kategori, $trip_quota, $trip_date1, $trip_date2, $trip_info, $trip_transport, $trip_meeting_point)
@@ -157,7 +158,7 @@ function Trip_get_tanya($trip_id){
 	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
 	$trip_id = (int) $trip_id;
 	
-	$sql = "SELECT A.chat_id, A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, B.user_foto
+	$sql = "SELECT A.chat_id, A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, IFNULL(B.user_foto, 'userpic.gif') as user_foto
                 FROM tb_chat A, tb_user B
                 WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
                 ORDER BY A.chat_date DESC
@@ -166,22 +167,32 @@ function Trip_get_tanya($trip_id){
 	$sqlSelect = good_query($sql);
 	//return $sqlSelect;
         //return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
-        return good_query($sql);
-}
-function Trip_member_join($trip_id){
-	$trip_id = (int) $trip_id;
-	$sql = "SELECT A.member_user_id, B.user_name, B.user_foto
-  		FROM tb_trip_member A, tb_user B
- 		WHERE A.member_user_id = B.user_id
-       		AND A.member_status IN ('A', 'C')
-       		AND A.member_trip_id = '{$trip_id}' ;";
-	$sqlSelect = good_query($sql);
         return $sqlSelect;
-        
-        // Fetch all
-        //return mysqli_fetch_all($sqlSelect,MYSQLI_ASSOC);
-        //$sqlSelect = mysqli_fetch_assoc($sqlSelect);
+}
+
+function Trip_get_tanya_all($trip_id){
+	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
+	$trip_id = (int) $trip_id;
 	
+	$sql = "SELECT A.chat_id, A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, IFNULL(B.user_foto, 'userpic.gif') as user_foto
+                FROM tb_chat A, tb_user B
+                WHERE A.chat_sender = B.user_id AND A.chat_type = 2 and A.chat_deleted = 0 AND A.chat_trip_id ='{$trip_id}'
+                ORDER BY A.chat_date DESC"; // 10 item pertanyaan
+        return good_query_allrow($sql);
+}
+
+function Trip_get_diskusi_all($trip_id){
+	// Fungsi untuk mengambil semua pertanyaan dari suatu trip
+	$trip_id = (int) $trip_id;
+	
+	$sql = "SELECT A.chat_id, A.chat_sender, B.user_name, A.chat_mesej, A.chat_date, IFNULL(B.user_foto, 'userpic.gif') as user_foto
+                FROM tb_chat A, tb_user B
+                WHERE A.chat_sender = B.user_id 
+                AND A.chat_type = 3 
+                and A.chat_deleted = 0 
+                AND A.chat_trip_id ='{$trip_id}'
+                ORDER BY A.chat_date DESC"; // 10 item pertanyaan
+        return good_query_allrow($sql);
 }
 
 function Trip_total()
@@ -199,7 +210,8 @@ function Tripnya ($sql)
         $tujuan = "-";
         if (!empty($row['trip_tujuan'])) {
             // di ambil 2 lokasi terdepan
-            $tujuan = implode(",", array_slice(explode(",", $row['trip_tujuan']), 0, 1));
+            // remark pake fungsi sekarang $tujuan = implode(",", array_slice(explode(",", $row['trip_tujuan']), 0, 1));
+            $tujuan = formatLokasi($row['trip_tujuan']);
         }
         
        if (trim($row['trip_date1']) == '0000-00-00'){
@@ -311,16 +323,72 @@ function Trip_galeri($trip_id)
     return good_query_allrow($sql);
 }
 
+function Trip_get_host($trip_id){
+    $sql = "SELECT t.trip_user_id as user_id
+            FROM tb_trip t
+            WHERE t.trip_id = '{$trip_id}'";
+    return good_query_assoc($sql);
+            
+}
+
 function Trip_save_member($trip_id, $user_id, $status)
 {
+    // STATUS = A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
+    if ($status == 'B'){
+        $host   = Trip_get_host($trip_id);
+        $notif  = new Notifikasi(3, $host['user_id']);
+        $notif->setJudul("ingin bergabung dgn rencana kamu");
+        $notif->setHref($_SESSION['lihatTripHref']);
+        $notif->save();
+    }elseif ($status == 'C') {
+        $notif  = new Notifikasi(3, $user_id);
+        $notif->setJudul("menyetujui km sebagai teman seperjalanan trip");
+        $notif->setHref($_SESSION['lihatTripHref']);
+        $notif->save();
+    }elseif ($status == 'F') {
+        $notif  = new Notifikasi(3, $user_id);
+        $notif->setJudul("mengeluarkan km dari teman seperjalanan nya");
+        $notif->setHref($_SESSION['lihatTripHref']);
+        $notif->save();
+    }
+    
     $sql = "replace into tb_trip_member(member_trip_id, member_user_id, member_status) values ('{$trip_id}','{$user_id}','{$status}');";
     return good_query($sql);
+    //return $sql;
+    
 }
 
 function Trip_delete_member($trip_id, $user_id)
 {
-    $sql = "DELETE tb_trip_member WHERE member_trip_id = '{$trip_id}' AND member_user_id = '{$user_id}'";
+    $sql = "DELETE FROM tb_trip_member WHERE member_trip_id = '{$trip_id}' AND member_user_id = '{$user_id}'";
     return good_query($sql);
+}
+
+function Trip_member_mau_gabung($trip_id)
+{
+    $sql = "SELECT u.user_id, u.user_username, 
+            CASE u.user_gender 
+            WHEN 'P' THEN 'Laki-laki' 
+            ELSE 'Perempuan' END AS user_gender, 
+            IFNULL(u.user_foto, 'userpic.gif') as user_foto, 
+            u.user_reputasi, u.user_lokasi, u.user_ttl, m.member_user_id
+            FROM tb_trip_member m, tb_user u
+            WHERE m.member_trip_id = '{$trip_id}' AND m.member_user_id = u.user_id AND m.member_status = 'B';";
+    return good_query_allrow($sql);
+}
+
+function Trip_member_join($trip_id){
+	$trip_id = (int) $trip_id;
+	$sql = "SELECT u.user_id, u.user_username, 
+                CASE u.user_gender 
+                WHEN 'P' THEN 'Laki-laki' 
+                ELSE 'Perempuan' END AS user_gender, 
+                IFNULL(u.user_foto, 'userpic.gif') as user_foto, 
+                u.user_reputasi, u.user_lokasi, u.user_ttl, m.member_user_id
+                FROM tb_trip_member m, tb_user u
+                WHERE m.member_trip_id = '{$trip_id}' AND m.member_user_id = u.user_id AND m.member_status = 'C';";
+	$sqlSelect = good_query($sql);
+        return good_query_allrow($sql);	
 }
 
 function Trip_cari_default($lat, $lng) 

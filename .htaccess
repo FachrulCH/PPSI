@@ -48,4 +48,6 @@ RewriteRule ^pengalaman/baru/$ exp_new.php [NC,L]
 RewriteRule ^pengalaman/edit/(.*)/([0-9]+)/$ exp_edit.php?id=$2 [NC,L]
 RewriteRule ^pengalaman/lihat/(.*)/([0-9]+)/$ exp_view.php?id=$2 [NC,L]
 RewriteRule ^pencarian/ pencarian.php [NC,L]
+RewriteRule ^nasehat/$ nasehat.php [NC,L]
+RewriteRule ^chat/(.*)/(.*)/(.*)/$ chat.php?menu=$1&tipe=$2&id=$3 [NC,L]
 </IfModule>

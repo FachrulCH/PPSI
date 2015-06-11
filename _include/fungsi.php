@@ -106,4 +106,16 @@ function tanggalan($tgl)
     $date=date_create($tgl);
     return date_format($date,"d-M-y");
 }
+
+function formatLokasi($string)
+{
+    return implode(",", array_slice( explode(",", $string) , 0, -1));
+}
+
+function debuging($string)
+{
+    echo '<pre>';
+    print_r($string);
+    echo '</pre>';
+}
 ?>
