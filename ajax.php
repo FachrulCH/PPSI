@@ -323,7 +323,27 @@ elseif($do == 'tripapprovemember'){
     echo json_encode($result);
 // =========================================================================== //
 }
+elseif($do == 'expsearch'){
+    $location   = sanitize($_POST['location']); 
+    $s_kategori = sanitize(@$_POST['s_kategori']);
+    $t_def      = sanitize(@$_POST['t_def']);
+    $latlng     = isset($location)? explode(',', $location): array(0,0);
+    
+    if ($t_def == '1'){
+        // 1 => pencarian default
+        $data = Trip_cari_default($latlng[0], $latlng[1]);
+    }elseif ($t_def == '8'){
+        // 1 => pencarian default
+        $data = Trip_cari_default_rand($latlng[0], $latlng[1]);
+    }else{
+        // 0 => pencarian detail
+        $data = Trip_cari_detail($latlng[0], $latlng[1], $s_kategori,$t_dari,$t_sampai,$l_impian);
+    }
 
+    $result = array('status' => TRUE, 'pesan' => NULL, 'data' => $data);
+    echo json_encode($result);
+// =========================================================================== //
+}
 elseif($do == 'trikickmember'){
     // A: host | B: ijin join | C: udah join |  D: cancel | E: kabur
     $member_id = $_POST['uid'];

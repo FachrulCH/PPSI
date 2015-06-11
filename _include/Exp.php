@@ -42,12 +42,13 @@ function Exp_list_new($page, $batas)
 {
     $posisi = (int) $batas * ( (int) $page-1);   // menentukan offset mulai liat data
     // mengambil data new trip dari view
-    $sql = "SELECT *
+    $sql = "SELECT pengalaman_id, pengalaman_judul, pengalaman_lokasi, pengalaman_date, pengalaman_kategori,
+            foto, pengalaman_created, username, pengalaman_stats
             FROM v_exp_list
             ORDER BY pengalaman_created DESC
             limit {$posisi}, {$batas}" ;
     //return good_query_all($sql);
-    return good_query($sql);
+    return good_query_allrow($sql);
 }
 
 function Exp_list_hot($page = 1, $batas = 5)
@@ -56,10 +57,12 @@ function Exp_list_hot($page = 1, $batas = 5)
     // mengambil data trip dari view
     // yg paling banyak di lihat dan lebih baru
     // batasnya ditentukan hanya 5 teratas
-    $sql = "SELECT *
+    $sql = "SELECT pengalaman_id, pengalaman_judul, pengalaman_lokasi, pengalaman_date, pengalaman_kategori,
+            foto, pengalaman_created, username, pengalaman_stats,
+            ( ((a.pengalaman_stats)*0.3) + ((select count(1) from tb_chat b where b.chat_trip_id = a.pengalaman_id)*0.7) ) as point
             FROM v_exp_list a
             WHERE a.pengalaman_created BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND NOW()
-            ORDER BY pengalaman_stats DESC, pengalaman_created DESC
+            ORDER BY point DESC, pengalaman_created DESC
             limit {$posisi}, {$batas}" ;
     //return good_query_all($sql);
     return good_query_allrow($sql);
@@ -124,6 +127,24 @@ function Exp_delete($exp_id)
 function Exp_count()
 {
     $sql = "select count(1) as jumlah from tb_pengalaman";
-    return good_query_assoc($sql);
+    $hasil = good_query_assoc($sql);
+    return $hasil['jumlah'];
+}
+
+function Exp_list($data) {
+    if (empty($data)) {
+        echo 'Data Trip tidak ditemukan';
+    } else {
+        foreach ($data as $d) {
+            echo '<li>
+                    <a href="'. URLSITUS .'pengalaman/lihat/'. make_seo_name($d['pengalaman_judul']) .'/'.$d['pengalaman_id'] .'/" data-ajax="false">
+                        <img src="' . URLSITUS . '_gambar/galeri/thumb2/' . $d['foto'] . '" class="ui-li-thumb">
+                        <p class="normalin"><b>' . $d['pengalaman_judul'] .'</b></p>
+                        <p class="hrfKecilBgt">Wisata '. formatLokasi($d['pengalaman_lokasi']) .' yang diulas oleh <i>' . @$d['username'] . '</i></p>
+                        <p class="ui-li-aside garisKotak">' . $d['pengalaman_kategori'] . '</p>
+                    </a>
+                 </li>';
+        }
+    }
 }
 ?>

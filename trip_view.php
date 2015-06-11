@@ -230,7 +230,8 @@ if ($statusUser == 'B'){
     // Status user C => udah join
     Tmplt_generate_dialog('batalJoin', 'Batal Join Trip', '', 'Apakah kamu yakin untuk keluar dari rencana trip ini?', 'func_leaveme()');
 }else{
-    Tmplt_generate_dialog('ijinJoin', 'Join Trip', 'Apakah kamu mau ikut rencana trip ini?', 'Kamu akan menunggu approval penyelenggara trip ini untuk bisa bergabung', 'func_addme()');
+    Tmplt_generate_dialog('ijinJoin', 'Join Trip', 'Apakah kamu mau ikut rencana trip ini?', 'Kamu akan menunggu approval penyelenggara trip ini untuk bisa bergabung</p><p>Kenali dulu teman seperjalanmu dengan mengunjungi profilnya dan berkirim pesan. Sehingga rencana perjalanan bisa menjadi petualangan yg lebih menarik
+Selengkapnya klik <a href="'.URLSITUS .'nasehat/">Nasehat keamanan temanbackpacker</a>', 'func_addme()');
 }
 ?>
             </article><!-- /content -->
@@ -255,7 +256,7 @@ if (@$_SESSION['user_id'] == $trip['trip_user_id']){
                 <div class="ui-body ui-body-b ui-corner-all">
                     <p>Teman seperjalanan menawarkan peluang besar untuk petualangan lebih seru, tetapi tidak menutup kemungkinan teman seperjalanan juga memiliki gaya jalan-jalan yg berbeda dengan kamu.</p>
                     <p>Kenali dulu teman seperjalanmu dengan mengunjungi profilnya dan berkirim pesan. Sehingga rencana perjalanan bisa menjadi petualangan yg lebih menarik</p>
-                    Selengkapnya klik <a href="<?= URLSITUS ?>nasehat/">Nasehat temanbackpacker</a>
+                    Selengkapnya klik <a href="<?= URLSITUS ?>nasehat/">Nasehat keamanan temanbackpacker</a>
                 </div>
                 <?php
                             //print_r($member_trip);
